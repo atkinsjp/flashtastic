@@ -147,10 +147,10 @@ export default function Home() {
               <h3 className="text-lg font-semibold text-gray-800 mb-2">Guest Mode Features</h3>
               <p className="text-gray-600 mb-4">Sign up to unlock full features and track your progress!</p>
               <div className="grid grid-cols-2 gap-4 text-sm">
-                <div className="text-green-600">✓ All flash cards</div>
-                <div className="text-green-600">✓ Basic quizzes</div>
-                <div className="text-gray-400">✗ Progress tracking</div>
-                <div className="text-gray-400">✗ Achievements</div>
+                <div className="text-green-700 font-medium">✓ All flash cards</div>
+                <div className="text-green-700 font-medium">✓ Basic quizzes</div>
+                <div className="text-gray-600 font-medium">✗ Progress tracking</div>
+                <div className="text-gray-600 font-medium">✗ Achievements</div>
               </div>
             </div>
           ) : (
