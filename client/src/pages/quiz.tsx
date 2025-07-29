@@ -118,7 +118,7 @@ export default function Quiz() {
                   className={`cursor-pointer transform hover:scale-105 transition-all duration-300 bg-gradient-to-br ${mode.color} text-white shadow-lg hover:shadow-xl`}
                   onClick={() => setQuizMode(mode.id as QuizMode)}
                 >
-                  <CardContent className="p-8 text-center">
+                  <CardContent className="p-8 text-center text-[#000000] bg-[#4b60c9c2]">
                     <IconComponent className="h-12 w-12 mx-auto mb-4" />
                     <h3 className="text-xl font-bold mb-2">{mode.name}</h3>
                     <p className="text-sm opacity-90 mb-4">{mode.description}</p>
