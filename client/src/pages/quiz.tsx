@@ -150,7 +150,7 @@ export default function Quiz() {
                 <CardContent className="p-4 bg-[#41d14196] text-[#000000]">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="font-semibold text-white">Science Quiz</p>
+                      <p className="font-semibold text-[#000000]">Science Quiz</p>
                       <p className="text-sm text-white opacity-80">Grade 2</p>
                     </div>
                     <Badge className="bg-white bg-opacity-20 text-[#000000]">88%</Badge>
