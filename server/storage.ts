@@ -316,15 +316,15 @@ export class DatabaseStorage implements IStorage {
     }
     
     if (conditions.length > 0) {
-      query = query.where(and(...conditions));
+      query = query.where(and(...conditions)) as any;
     }
     
     if (filters.offset) {
-      query = query.offset(filters.offset);
+      query = query.offset(filters.offset) as any;
     }
     
     if (filters.limit) {
-      query = query.limit(filters.limit);
+      query = query.limit(filters.limit) as any;
     }
     
     return await query;
