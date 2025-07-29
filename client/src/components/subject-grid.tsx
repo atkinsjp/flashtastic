@@ -116,7 +116,7 @@ export default function SubjectGrid({ selectedGrade }: SubjectGridProps) {
                 <div className="mt-auto">
                   <Badge 
                     variant="secondary" 
-                    className="bg-white bg-opacity-20 text-white text-xs"
+                    className="bg-opacity-20 text-xs text-[#000000]"
                   >
                     {progress}% Complete
                   </Badge>
