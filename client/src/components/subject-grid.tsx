@@ -112,7 +112,7 @@ export default function SubjectGrid({ selectedGrade }: SubjectGridProps) {
               <CardContent className="p-6 text-center h-full flex flex-col">
                 <div className="text-4xl mb-3">{subject.icon}</div>
                 <h4 className="text-lg font-bold mb-2 text-[#000000]">{subject.name}</h4>
-                <p className="text-sm opacity-90 mb-4 flex-1 text-white">{subject.description}</p>
+                <p className="text-sm opacity-90 mb-4 flex-1 text-[#000000]">{subject.description}</p>
                 <div className="mt-auto">
                   <Badge 
                     variant="secondary" 
