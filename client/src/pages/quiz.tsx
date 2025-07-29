@@ -120,7 +120,7 @@ export default function Quiz() {
                 >
                   <CardContent className="p-8 text-center">
                     <IconComponent className="h-12 w-12 mx-auto mb-4" />
-                    <h3 className="text-xl font-bold mb-2">{mode.name}</h3>
+                    <h3 className="text-xl font-bold mb-2 text-[#000000]">{mode.name}</h3>
                     <p className="text-sm opacity-90 mb-4">{mode.description}</p>
                     <Badge variant="secondary" className="bg-white bg-opacity-20 text-white">
                       {mode.timeLimit}
