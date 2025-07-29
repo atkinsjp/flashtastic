@@ -122,7 +122,7 @@ export default function Quiz() {
                     <IconComponent className="h-12 w-12 mx-auto mb-4" />
                     <h3 className="text-xl font-bold mb-2 text-[#000000]">{mode.name}</h3>
                     <p className="text-sm opacity-90 mb-4 text-[#000000]">{mode.description}</p>
-                    <Badge variant="secondary" className="bg-white bg-opacity-20 text-[#000000]">
+                    <Badge variant="secondary" className="bg-opacity-20 text-[#000000]">
                       {mode.timeLimit}
                     </Badge>
                   </CardContent>
@@ -141,7 +141,7 @@ export default function Quiz() {
                       <p className="font-semibold text-[#000000]">Math Quiz</p>
                       <p className="text-sm opacity-80 text-[#000000]">Grade 2</p>
                     </div>
-                    <Badge className="bg-white bg-opacity-20 text-[#000000]">92%</Badge>
+                    <Badge className="bg-opacity-20 text-[#000000]">92%</Badge>
                   </div>
                 </CardContent>
               </Card>
@@ -153,7 +153,7 @@ export default function Quiz() {
                       <p className="font-semibold text-[#000000]">Science Quiz</p>
                       <p className="text-sm opacity-80 text-[#000000]">Grade 2</p>
                     </div>
-                    <Badge className="bg-white bg-opacity-20 text-[#000000]">88%</Badge>
+                    <Badge className="bg-opacity-20 text-[#000000]">88%</Badge>
                   </div>
                 </CardContent>
               </Card>
@@ -165,7 +165,7 @@ export default function Quiz() {
                       <p className="font-semibold text-[#000000]">Vocabulary</p>
                       <p className="text-sm opacity-80 text-[#000000]">Grade 2</p>
                     </div>
-                    <Badge className="bg-white bg-opacity-20 text-[#000000]">95%</Badge>
+                    <Badge className="bg-opacity-20 text-[#000000]">95%</Badge>
                   </div>
                 </CardContent>
               </Card>
