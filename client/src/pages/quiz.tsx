@@ -19,6 +19,7 @@ export default function Quiz() {
   const [score, setScore] = useState(0);
   const [timeLeft, setTimeLeft] = useState(300); // 5 minutes for timed quiz
   const [quizCompleted, setQuizCompleted] = useState(false);
+  const [quizStarted, setQuizStarted] = useState(false);
 
   const { data: flashCards = [] } = useQuery<FlashCard[]>({
     queryKey: ["/api/flashcards", selectedGrade, selectedSubject || "mixed"],
@@ -96,8 +97,23 @@ export default function Quiz() {
     setScore(0);
     setTimeLeft(300);
     setQuizCompleted(false);
+    setQuizStarted(false);
     setQuizMode(null);
     setSelectedSubject(null);
+  };
+
+  const startQuiz = () => {
+    setQuizStarted(true);
+    setCurrentQuestion(0);
+    setSelectedAnswer(null);
+    setScore(0);
+    setQuizCompleted(false);
+    // Set appropriate time limit based on quiz mode
+    if (quizMode === "timed") {
+      setTimeLeft(300); // 5 minutes
+    } else if (quizMode === "mixed") {
+      setTimeLeft(600); // 10 minutes
+    }
   };
 
   // Mode selection screen
@@ -224,6 +240,55 @@ export default function Quiz() {
     );
   }
 
+  // Quiz start screen (when cards are loaded but quiz hasn't started)
+  if ((selectedSubject || quizMode === "mixed") && flashCards.length > 0 && !quizStarted && !quizCompleted) {
+    return (
+      <div className="min-h-screen p-4 flex items-center justify-center">
+        <Card className="w-full max-w-md">
+          <CardHeader className="text-center">
+            <CardTitle className="text-2xl">Ready to Start Quiz! 🎯</CardTitle>
+          </CardHeader>
+          <CardContent className="text-center space-y-6">
+            <div className="space-y-4">
+              <div>
+                <h3 className="text-lg font-semibold text-gray-800">
+                  {quizModes.find(m => m.id === quizMode)?.name}
+                </h3>
+                <p className="text-gray-600">
+                  {quizMode === "mixed" ? "All subjects" : subjects.find(s => s.id === selectedSubject)?.name} • Grade {selectedGrade}
+                </p>
+              </div>
+              
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <p className="text-sm text-gray-700 mb-2">Quiz Details:</p>
+                <div className="space-y-1 text-sm">
+                  <p>📝 {flashCards.length} questions</p>
+                  <p>⏱️ {quizMode === "timed" ? "5 minutes" : quizMode === "mixed" ? "10 minutes" : "No time limit"}</p>
+                  <p>🎯 Get 80%+ for an excellent score!</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <Button onClick={startQuiz} className="w-full bg-coral hover:bg-coral/90 text-lg py-3">
+                Start Quiz 🚀
+              </Button>
+              <Button variant="outline" onClick={() => {
+                if (quizMode === "mixed") {
+                  setQuizMode(null);
+                } else {
+                  setSelectedSubject(null);
+                }
+              }} className="w-full">
+                ← Back to Selection
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
   // Quiz completed screen
   if (quizCompleted) {
     const percentage = flashCards.length > 0 ? Math.round((score / flashCards.length) * 100) : 0;
@@ -271,7 +336,11 @@ export default function Quiz() {
     );
   }
 
-  // Active quiz screen
+  // Active quiz screen (only show if quiz has started)
+  if (!quizStarted) {
+    return null; // This shouldn't happen but prevents showing quiz questions before start
+  }
+
   const currentCard = flashCards[currentQuestion] || null;
   const progress = flashCards.length > 0 ? ((currentQuestion + 1) / flashCards.length) * 100 : 0;
 
