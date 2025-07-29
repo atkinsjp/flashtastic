@@ -56,24 +56,37 @@ export interface IStorage {
   getUserQuizzes(userId: string, limit?: number): Promise<Quiz[]>;
 }
 
-export class MemStorage implements IStorage {
-  private users: Map<string, User> = new Map();
-  private flashCards: Map<string, FlashCard> = new Map();
-  private userProgress: Map<string, UserProgress> = new Map();
-  private achievements: Map<string, Achievement> = new Map();
-  private userAchievements: Map<string, UserAchievement> = new Map();
-  private studySessions: Map<string, StudySession> = new Map();
-  private quizzes: Map<string, Quiz> = new Map();
+import { db } from "./db";
+import { eq, and } from "drizzle-orm";
+import {
+  users,
+  flashCards,
+  userProgress,
+  achievements,
+  userAchievements,
+  studySessions,
+  quizzes
+} from "@shared/schema";
 
+export class DatabaseStorage implements IStorage {
   constructor() {
-    this.initializeData();
+    this.initializeData().catch(console.error);
   }
 
-  private initializeData() {
+  private async initializeData() {
+    try {
+      // Check if data already exists
+      const existingAchievements = await db.select().from(achievements).limit(1);
+      if (existingAchievements.length > 0) {
+        return; // Data already initialized
+      }
+    } catch (error) {
+      // Tables don't exist yet, continue with initialization
+    }
+
     // Initialize achievements
     const achievementsData = [
       {
-        id: "math-master",
         name: "Math Master",
         description: "Complete 50 math problems correctly",
         icon: "🔢",
@@ -83,7 +96,6 @@ export class MemStorage implements IStorage {
         rarity: "common"
       },
       {
-        id: "word-wizard",
         name: "Word Wizard",
         description: "Learn 100 vocabulary words",
         icon: "📚",
@@ -93,7 +105,6 @@ export class MemStorage implements IStorage {
         rarity: "rare"
       },
       {
-        id: "science-star",
         name: "Science Star",
         description: "Master 25 science facts",
         icon: "🔬",
@@ -103,7 +114,6 @@ export class MemStorage implements IStorage {
         rarity: "epic"
       },
       {
-        id: "geography-guru",
         name: "Geography Guru",
         description: "Know 30 geography facts",
         icon: "🌍",
@@ -114,15 +124,16 @@ export class MemStorage implements IStorage {
       }
     ];
 
-    achievementsData.forEach(achievement => {
-      this.achievements.set(achievement.id, achievement as Achievement);
-    });
-
-    // Initialize flash cards for each grade and subject
-    this.initializeFlashCards();
+    try {
+      await db.insert(achievements).values(achievementsData);
+      // Initialize flash cards for each grade and subject
+      await this.initializeFlashCards();
+    } catch (error) {
+      console.error('Error initializing data:', error);
+    }
   }
 
-  private initializeFlashCards() {
+  private async initializeFlashCards() {
     const cardData = [
       // Kindergarten - Vocabulary with images
       {
@@ -251,51 +262,39 @@ export class MemStorage implements IStorage {
       }
     ];
 
-    cardData.forEach(card => {
-      const id = randomUUID();
-      this.flashCards.set(id, {
-        id,
-        ...card,
-        createdAt: new Date()
-      } as FlashCard);
-    });
+    try {
+      await db.insert(flashCards).values(cardData);
+    } catch (error) {
+      console.error('Error initializing flash cards:', error);
+    }
   }
 
   // User methods
   async getUser(id: string): Promise<User | undefined> {
-    return this.users.get(id);
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user || undefined;
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username === username,
-    );
+    const [user] = await db.select().from(users).where(eq(users.username, username));
+    return user || undefined;
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
-    const id = randomUUID();
-    const user: User = {
-      id,
-      ...insertUser,
-      points: 0,
-      level: 1,
-      streak: 0,
-      avatar: "1",
-      settings: {},
-      lastStudyDate: null,
-      createdAt: new Date()
-    };
-    this.users.set(id, user);
+    const [user] = await db
+      .insert(users)
+      .values(insertUser)
+      .returning();
     return user;
   }
 
   async updateUser(id: string, updates: Partial<User>): Promise<User | undefined> {
-    const user = this.users.get(id);
-    if (!user) return undefined;
-    
-    const updatedUser = { ...user, ...updates };
-    this.users.set(id, updatedUser);
-    return updatedUser;
+    const [user] = await db
+      .update(users)
+      .set(updates)
+      .where(eq(users.id, id))
+      .returning();
+    return user || undefined;
   }
 
   // Flash card methods
@@ -305,175 +304,174 @@ export class MemStorage implements IStorage {
     limit?: number;
     offset?: number;
   }): Promise<FlashCard[]> {
-    let cards = Array.from(this.flashCards.values());
+    let query = db.select().from(flashCards);
     
+    // Apply filters
+    const conditions = [];
     if (filters.grade) {
-      cards = cards.filter(card => card.grade === filters.grade);
+      conditions.push(eq(flashCards.grade, filters.grade));
+    }
+    if (filters.subject) {
+      conditions.push(eq(flashCards.subject, filters.subject));
     }
     
-    if (filters.subject) {
-      cards = cards.filter(card => card.subject === filters.subject);
+    if (conditions.length > 0) {
+      query = query.where(and(...conditions));
     }
     
     if (filters.offset) {
-      cards = cards.slice(filters.offset);
+      query = query.offset(filters.offset);
     }
     
     if (filters.limit) {
-      cards = cards.slice(0, filters.limit);
+      query = query.limit(filters.limit);
     }
     
-    return cards;
+    return await query;
   }
 
   async getFlashCard(id: string): Promise<FlashCard | undefined> {
-    return this.flashCards.get(id);
+    const [card] = await db.select().from(flashCards).where(eq(flashCards.id, id));
+    return card || undefined;
   }
 
   async createFlashCard(card: InsertFlashCard): Promise<FlashCard> {
-    const id = randomUUID();
-    const flashCard: FlashCard = {
-      id,
-      ...card,
-      type: card.type || "text",
-      difficulty: card.difficulty || 1,
-      imageUrl: card.imageUrl || null,
-      audioUrl: card.audioUrl || null,
-      choices: card.choices || null,
-      tags: card.tags || null,
-      createdAt: new Date()
-    };
-    this.flashCards.set(id, flashCard);
+    const [flashCard] = await db
+      .insert(flashCards)
+      .values(card)
+      .returning();
     return flashCard;
   }
 
   // User progress methods
   async getUserProgress(userId: string, cardId: string): Promise<UserProgress | undefined> {
-    const key = `${userId}-${cardId}`;
-    return this.userProgress.get(key);
+    const [progress] = await db
+      .select()
+      .from(userProgress)
+      .where(and(eq(userProgress.userId, userId), eq(userProgress.cardId, cardId)));
+    return progress || undefined;
   }
 
   async updateUserProgress(progress: InsertUserProgress): Promise<UserProgress> {
-    const key = `${progress.userId}-${progress.cardId}`;
-    const existing = this.userProgress.get(key);
+    const existing = await this.getUserProgress(progress.userId, progress.cardId);
     
-    const id = existing?.id || randomUUID();
-    const updatedProgress: UserProgress = {
-      id,
-      ...progress,
-      correctCount: progress.correctCount || 0,
-      incorrectCount: progress.incorrectCount || 0,
-      easiness: progress.easiness || 250,
-      interval: progress.interval || 1,
-      repetitions: progress.repetitions || 0,
-      lastReviewed: new Date(),
-      nextReview: new Date(Date.now() + (progress.interval || 1) * 24 * 60 * 60 * 1000)
-    };
-    
-    this.userProgress.set(key, updatedProgress);
-    return updatedProgress;
+    if (existing) {
+      const [updated] = await db
+        .update(userProgress)
+        .set({
+          ...progress,
+          lastReviewed: new Date(),
+          nextReview: new Date(Date.now() + (progress.interval || 1) * 24 * 60 * 60 * 1000)
+        })
+        .where(eq(userProgress.id, existing.id))
+        .returning();
+      return updated;
+    } else {
+      const [created] = await db
+        .insert(userProgress)
+        .values({
+          ...progress,
+          lastReviewed: new Date(),
+          nextReview: new Date(Date.now() + (progress.interval || 1) * 24 * 60 * 60 * 1000)
+        })
+        .returning();
+      return created;
+    }
   }
 
   async getUserProgressBySubject(userId: string, subject: string, grade: string): Promise<UserProgress[]> {
     const cards = await this.getFlashCards({ subject, grade });
     const cardIds = cards.map(card => card.id);
     
-    return Array.from(this.userProgress.values()).filter(
-      progress => progress.userId === userId && cardIds.includes(progress.cardId)
-    );
+    return await db
+      .select()
+      .from(userProgress)
+      .where(and(eq(userProgress.userId, userId), eq(userProgress.cardId, cardIds[0])));
   }
 
   // Achievement methods
   async getAchievements(): Promise<Achievement[]> {
-    return Array.from(this.achievements.values());
+    return await db.select().from(achievements);
   }
 
   async getUserAchievements(userId: string): Promise<(UserAchievement & { achievement: Achievement })[]> {
-    const userAchievements = Array.from(this.userAchievements.values())
-      .filter(ua => ua.userId === userId);
-    
-    return userAchievements.map(ua => ({
-      ...ua,
-      achievement: this.achievements.get(ua.achievementId)!
-    }));
+    return await db
+      .select()
+      .from(userAchievements)
+      .leftJoin(achievements, eq(userAchievements.achievementId, achievements.id))
+      .where(eq(userAchievements.userId, userId))
+      .then(rows => rows.map(row => ({
+        ...row.user_achievements!,
+        achievement: row.achievements!
+      })));
   }
 
   async unlockAchievement(userId: string, achievementId: string): Promise<UserAchievement> {
-    const id = randomUUID();
-    const userAchievement: UserAchievement = {
-      id,
-      userId,
-      achievementId,
-      unlockedAt: new Date()
-    };
-    this.userAchievements.set(id, userAchievement);
+    const [userAchievement] = await db
+      .insert(userAchievements)
+      .values({
+        userId,
+        achievementId,
+        unlockedAt: new Date()
+      })
+      .returning();
     return userAchievement;
   }
 
   // Study session methods
   async createStudySession(session: InsertStudySession): Promise<StudySession> {
-    const id = randomUUID();
-    const studySession: StudySession = {
-      id,
-      ...session,
-      cardsStudied: session.cardsStudied || 0,
-      correctAnswers: session.correctAnswers || 0,
-      totalTime: session.totalTime || 0,
-      pointsEarned: session.pointsEarned || 0,
-      completedAt: new Date()
-    };
-    this.studySessions.set(id, studySession);
+    const [studySession] = await db
+      .insert(studySessions)
+      .values(session)
+      .returning();
     return studySession;
   }
 
   async getUserStudySessions(userId: string, limit = 10): Promise<StudySession[]> {
-    return Array.from(this.studySessions.values())
-      .filter(session => session.userId === userId)
-      .sort((a, b) => b.completedAt!.getTime() - a.completedAt!.getTime())
-      .slice(0, limit);
+    return await db
+      .select()
+      .from(studySessions)
+      .where(eq(studySessions.userId, userId))
+      .orderBy(studySessions.completedAt)
+      .limit(limit);
   }
 
   // Quiz methods
   async createQuiz(quiz: InsertQuiz): Promise<Quiz> {
-    const id = randomUUID();
-    const newQuiz: Quiz = {
-      id,
-      ...quiz,
-      answers: quiz.answers || null,
-      score: quiz.score || 0,
-      timeLimit: quiz.timeLimit || null,
-      timeSpent: quiz.timeSpent || 0,
-      isCompleted: quiz.isCompleted || false,
-      createdAt: new Date(),
-      completedAt: null
-    };
-    this.quizzes.set(id, newQuiz);
+    const [newQuiz] = await db
+      .insert(quizzes)
+      .values(quiz)
+      .returning();
     return newQuiz;
   }
 
   async getQuiz(id: string): Promise<Quiz | undefined> {
-    return this.quizzes.get(id);
+    const [quiz] = await db.select().from(quizzes).where(eq(quizzes.id, id));
+    return quiz || undefined;
   }
 
   async updateQuiz(id: string, updates: Partial<Quiz>): Promise<Quiz | undefined> {
-    const quiz = this.quizzes.get(id);
-    if (!quiz) return undefined;
-    
-    const updatedQuiz = { ...quiz, ...updates };
+    const updateData = { ...updates };
     if (updates.isCompleted) {
-      updatedQuiz.completedAt = new Date();
+      updateData.completedAt = new Date();
     }
     
-    this.quizzes.set(id, updatedQuiz);
-    return updatedQuiz;
+    const [quiz] = await db
+      .update(quizzes)
+      .set(updateData)
+      .where(eq(quizzes.id, id))
+      .returning();
+    return quiz || undefined;
   }
 
   async getUserQuizzes(userId: string, limit = 10): Promise<Quiz[]> {
-    return Array.from(this.quizzes.values())
-      .filter(quiz => quiz.userId === userId)
-      .sort((a, b) => (b.createdAt?.getTime() || 0) - (a.createdAt?.getTime() || 0))
-      .slice(0, limit);
+    return await db
+      .select()
+      .from(quizzes)
+      .where(eq(quizzes.userId, userId))
+      .orderBy(quizzes.createdAt)
+      .limit(limit);
   }
 }
 
-export const storage = new MemStorage();
+export const storage = new DatabaseStorage();

@@ -1,4 +1,4 @@
-import { sql } from "drizzle-orm";
+import { sql, relations } from "drizzle-orm";
 import { pgTable, text, varchar, integer, boolean, timestamp, jsonb } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
@@ -160,3 +160,55 @@ export const SUBJECTS = [
 
 export const QUIZ_MODES = ['timed', 'untimed', 'mixed'] as const;
 export const STUDY_MODES = ['flashcard', 'timed_quiz', 'practice_quiz', 'mixed'] as const;
+
+// Relations
+export const usersRelations = relations(users, ({ many }) => ({
+  progress: many(userProgress),
+  achievements: many(userAchievements),
+  studySessions: many(studySessions),
+  quizzes: many(quizzes),
+}));
+
+export const flashCardsRelations = relations(flashCards, ({ many }) => ({
+  progress: many(userProgress),
+}));
+
+export const userProgressRelations = relations(userProgress, ({ one }) => ({
+  user: one(users, {
+    fields: [userProgress.userId],
+    references: [users.id],
+  }),
+  flashCard: one(flashCards, {
+    fields: [userProgress.cardId],
+    references: [flashCards.id],
+  }),
+}));
+
+export const achievementsRelations = relations(achievements, ({ many }) => ({
+  userAchievements: many(userAchievements),
+}));
+
+export const userAchievementsRelations = relations(userAchievements, ({ one }) => ({
+  user: one(users, {
+    fields: [userAchievements.userId],
+    references: [users.id],
+  }),
+  achievement: one(achievements, {
+    fields: [userAchievements.achievementId],
+    references: [achievements.id],
+  }),
+}));
+
+export const studySessionsRelations = relations(studySessions, ({ one }) => ({
+  user: one(users, {
+    fields: [studySessions.userId],
+    references: [users.id],
+  }),
+}));
+
+export const quizzesRelations = relations(quizzes, ({ one }) => ({
+  user: one(users, {
+    fields: [quizzes.userId],
+    references: [users.id],
+  }),
+}));
