@@ -38,9 +38,9 @@ export default function FlashCard({ card, onComplete }: FlashCardProps) {
   return (
     <div className="w-full max-w-md mx-auto">
       <div className="mb-4 flex items-center justify-between">
-        <Badge variant="default" className="text-sm !bg-blue-600 !text-white !border-0 hover:!bg-blue-700">
+        <div className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold bg-blue-600 text-white border-0 hover:bg-blue-700 transition-colors">
           {card.subject} • Grade {card.grade}
-        </Badge>
+        </div>
         <Badge 
           variant="secondary" 
           className={`text-sm ${
