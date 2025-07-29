@@ -135,7 +135,7 @@ export default function Quiz() {
             <h3 className="text-xl font-bold text-gray-800 mb-4">Recent Quiz Scores</h3>
             <div className="grid md:grid-cols-3 gap-4">
               <Card className="bg-gradient-to-br from-turquoise to-mint text-white">
-                <CardContent className="p-4">
+                <CardContent className="p-4 bg-[#c52ad1a1] text-[#000000]">
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="font-semibold text-white">Math Quiz</p>
