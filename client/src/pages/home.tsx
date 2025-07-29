@@ -71,7 +71,7 @@ export default function Home() {
   }, [user, userMode]);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-[#3c24d49c]">
       {/* Header */}
       <header className="bg-white shadow-lg sticky top-0 z-40">
         <div className="container mx-auto px-4 py-3">
@@ -128,7 +128,6 @@ export default function Home() {
           </div>
         </div>
       </header>
-
       <main className="container mx-auto px-4 py-6">
         {/* Welcome Section */}
         <section className="mb-8">
@@ -221,7 +220,6 @@ export default function Home() {
           </div>
         </section>
       </main>
-
       {/* Floating Action Buttons */}
       <div className="fixed right-4 bottom-20 space-y-3 z-30">
         <Button 
@@ -240,13 +238,11 @@ export default function Home() {
           <span className="text-xl">⏱️</span>
         </Button>
       </div>
-
       {/* Modals */}
       <AuthGate 
         isOpen={showAuthGate}
         onClose={() => setShowAuthGate(false)}
       />
-
       {!isGuest && (
         <AvatarCustomizer 
           isOpen={showAvatarModal}
@@ -259,13 +255,11 @@ export default function Home() {
           }}
         />
       )}
-
       <QuizModal
         isOpen={showQuizModal}
         onClose={() => setShowQuizModal(false)}
         grade={selectedGrade}
       />
-
       {!isGuest && (
         <AchievementPopup
           isOpen={showAchievement}
