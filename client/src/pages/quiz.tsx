@@ -118,7 +118,7 @@ export default function Quiz() {
                   className={`cursor-pointer transform hover:scale-105 transition-all duration-300 bg-gradient-to-br ${mode.color} text-white shadow-lg hover:shadow-xl`}
                   onClick={() => setQuizMode(mode.id as QuizMode)}
                 >
-                  <CardContent className="p-8 text-center text-[#000000] bg-[#4b60c9c2]">
+                  <CardContent className="p-8 text-center">
                     <IconComponent className="h-12 w-12 mx-auto mb-4" />
                     <h3 className="text-xl font-bold mb-2">{mode.name}</h3>
                     <p className="text-sm opacity-90 mb-4">{mode.description}</p>
@@ -135,7 +135,7 @@ export default function Quiz() {
             <h3 className="text-xl font-bold text-gray-800 mb-4">Recent Quiz Scores</h3>
             <div className="grid md:grid-cols-3 gap-4">
               <Card className="bg-gradient-to-br from-turquoise to-mint text-white">
-                <CardContent className="p-4 bg-[#c52ad1a1] text-[#000000]">
+                <CardContent className="p-4">
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="font-semibold text-white">Math Quiz</p>
@@ -147,7 +147,7 @@ export default function Quiz() {
               </Card>
               
               <Card className="bg-gradient-to-br from-sky to-blue-500 text-white">
-                <CardContent className="p-4 text-[#000000] bg-[#3bab16b3]">
+                <CardContent className="p-4">
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="font-semibold text-white">Science Quiz</p>
@@ -159,7 +159,7 @@ export default function Quiz() {
               </Card>
               
               <Card className="bg-gradient-to-br from-coral to-pink text-white">
-                <CardContent className="p-4 bg-[#1e17ff6e]">
+                <CardContent className="p-4">
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="font-semibold text-white">Vocabulary</p>
