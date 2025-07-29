@@ -165,7 +165,7 @@ export default function Quiz() {
                       <p className="font-semibold text-[#000000]">Vocabulary</p>
                       <p className="text-sm opacity-80 text-[#000000]">Grade 2</p>
                     </div>
-                    <Badge className="bg-opacity-20 text-[#000000]">95%</Badge>
+                    <Badge className="text-[#000000] bg-[#ffa8a8c2]">95%</Badge>
                   </div>
                 </CardContent>
               </Card>
