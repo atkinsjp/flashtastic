@@ -336,13 +336,10 @@ export default function Quiz() {
     );
   }
 
-  // Active quiz screen (only show if quiz has started)
-  if (!quizStarted) {
-    return null; // This shouldn't happen but prevents showing quiz questions before start
-  }
-
-  const currentCard = flashCards[currentQuestion] || null;
-  const progress = flashCards.length > 0 ? ((currentQuestion + 1) / flashCards.length) * 100 : 0;
+  // Active quiz screen (only show if quiz has started and we have flashcards)
+  if (quizStarted && flashCards.length > 0) {
+    const currentCard = flashCards[currentQuestion] || null;
+    const progress = flashCards.length > 0 ? ((currentQuestion + 1) / flashCards.length) * 100 : 0;
 
   return (
     <div className="min-h-screen p-4">
@@ -426,5 +423,9 @@ export default function Quiz() {
         </Button>
       </div>
     </div>
-  );
+    );
+  }
+
+  // Default fallback - should not reach here
+  return null;
 }
