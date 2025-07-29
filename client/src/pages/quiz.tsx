@@ -134,38 +134,38 @@ export default function Quiz() {
           <div className="mt-8">
             <h3 className="text-xl font-bold text-gray-800 mb-4">Recent Quiz Scores</h3>
             <div className="grid md:grid-cols-3 gap-4">
-              <Card>
+              <Card className="bg-gradient-to-br from-turquoise to-mint text-white">
                 <CardContent className="p-4">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="font-semibold">Math Quiz</p>
-                      <p className="text-sm text-gray-600">Grade 2</p>
+                      <p className="font-semibold text-white">Math Quiz</p>
+                      <p className="text-sm text-white opacity-80">Grade 2</p>
                     </div>
-                    <Badge className="bg-green-500">92%</Badge>
+                    <Badge className="bg-white bg-opacity-20 text-white">92%</Badge>
                   </div>
                 </CardContent>
               </Card>
               
-              <Card>
+              <Card className="bg-gradient-to-br from-sky to-blue-500 text-white">
                 <CardContent className="p-4">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="font-semibold">Science Quiz</p>
-                      <p className="text-sm text-gray-600">Grade 2</p>
+                      <p className="font-semibold text-white">Science Quiz</p>
+                      <p className="text-sm text-white opacity-80">Grade 2</p>
                     </div>
-                    <Badge className="bg-blue-500">88%</Badge>
+                    <Badge className="bg-white bg-opacity-20 text-white">88%</Badge>
                   </div>
                 </CardContent>
               </Card>
               
-              <Card>
+              <Card className="bg-gradient-to-br from-coral to-pink text-white">
                 <CardContent className="p-4">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="font-semibold">Vocabulary</p>
-                      <p className="text-sm text-gray-600">Grade 2</p>
+                      <p className="font-semibold text-white">Vocabulary</p>
+                      <p className="text-sm text-white opacity-80">Grade 2</p>
                     </div>
-                    <Badge className="bg-purple-500">95%</Badge>
+                    <Badge className="bg-white bg-opacity-20 text-white">95%</Badge>
                   </div>
                 </CardContent>
               </Card>
