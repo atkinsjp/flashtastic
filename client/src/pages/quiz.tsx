@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Timer, Clock, Zap, Brain, RotateCcw } from "lucide-react";
 import GradeSelector from "@/components/grade-selector";
+import type { FlashCard } from "@shared/schema";
 
 type QuizMode = "timed" | "untimed" | "mixed" | null;
 
@@ -19,9 +20,9 @@ export default function Quiz() {
   const [timeLeft, setTimeLeft] = useState(300); // 5 minutes for timed quiz
   const [quizCompleted, setQuizCompleted] = useState(false);
 
-  const { data: flashCards } = useQuery({
-    queryKey: ["/api/flashcards", selectedGrade, selectedSubject],
-    enabled: !!selectedSubject,
+  const { data: flashCards = [] } = useQuery<FlashCard[]>({
+    queryKey: ["/api/flashcards", selectedGrade, selectedSubject || "mixed"],
+    enabled: !!selectedSubject || quizMode === "mixed",
   });
 
   const subjects = [
@@ -73,15 +74,15 @@ export default function Quiz() {
   };
 
   const handleNextQuestion = () => {
-    if (!flashCards) return;
+    if (!flashCards || flashCards.length === 0) return;
     
     // Check if answer is correct (simplified logic)
-    const currentCard = Array.isArray(flashCards) ? flashCards[currentQuestion] : null;
-    if (selectedAnswer === currentCard.answer) {
+    const currentCard = flashCards[currentQuestion];
+    if (selectedAnswer === currentCard?.answer) {
       setScore(score + 1);
     }
 
-    if (Array.isArray(flashCards) && currentQuestion < flashCards.length - 1) {
+    if (currentQuestion < flashCards.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
       setSelectedAnswer(null);
     } else {
@@ -177,7 +178,7 @@ export default function Quiz() {
   }
 
   // Subject selection for non-mixed quizzes
-  if (quizMode !== "mixed" && !selectedSubject) {
+  if (quizMode && quizMode !== "mixed" && !selectedSubject) {
     return (
       <div className="min-h-screen p-4">
         <div className="container mx-auto max-w-4xl">
@@ -225,7 +226,7 @@ export default function Quiz() {
 
   // Quiz completed screen
   if (quizCompleted) {
-    const percentage = Array.isArray(flashCards) ? Math.round((score / flashCards.length) * 100) : 0;
+    const percentage = flashCards.length > 0 ? Math.round((score / flashCards.length) * 100) : 0;
     const isGoodScore = percentage >= 80;
 
     return (
@@ -242,7 +243,7 @@ export default function Quiz() {
             <div className="space-y-2">
               <p className="text-lg">
                 You got <span className="font-bold text-green-600">{score}</span> out of{" "}
-                <span className="font-bold">{Array.isArray(flashCards) ? flashCards.length : 0}</span> correct!
+                <span className="font-bold">{flashCards.length}</span> correct!
               </p>
               
               {isGoodScore ? (
@@ -271,8 +272,8 @@ export default function Quiz() {
   }
 
   // Active quiz screen
-  const currentCard = Array.isArray(flashCards) ? flashCards[currentQuestion] : null;
-  const progress = Array.isArray(flashCards) ? ((currentQuestion + 1) / flashCards.length) * 100 : 0;
+  const currentCard = flashCards[currentQuestion] || null;
+  const progress = flashCards.length > 0 ? ((currentQuestion + 1) / flashCards.length) * 100 : 0;
 
   return (
     <div className="min-h-screen p-4">
@@ -281,7 +282,7 @@ export default function Quiz() {
         <div className="mb-6">
           <div className="flex items-center justify-between mb-4">
             <Badge variant="outline">
-              Question {currentQuestion + 1} of {Array.isArray(flashCards) ? flashCards.length : 0}
+              Question {currentQuestion + 1} of {flashCards.length}
             </Badge>
             
             {quizMode === "timed" && (
@@ -352,7 +353,7 @@ export default function Quiz() {
           disabled={!selectedAnswer}
           className="w-full bg-turquoise hover:bg-turquoise/90 text-lg py-3"
         >
-          {currentQuestion === (flashCards?.length || 1) - 1 ? "Finish Quiz" : "Next Question"} →
+          {currentQuestion === (flashCards.length || 1) - 1 ? "Finish Quiz" : "Next Question"} →
         </Button>
       </div>
     </div>

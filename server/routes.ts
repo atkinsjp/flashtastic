@@ -56,8 +56,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const { grade, subject, limit, offset } = req.query;
       const cards = await storage.getFlashCards({
         grade: grade as string,
-        subject: subject as string,
-        limit: limit ? parseInt(limit as string) : undefined,
+        subject: subject === "mixed" ? undefined : (subject as string),
+        limit: limit ? parseInt(limit as string) : 10, // Default limit for quizzes
         offset: offset ? parseInt(offset as string) : undefined,
       });
       res.json(cards);
