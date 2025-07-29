@@ -6,7 +6,7 @@
   --background: hsl(210, 40%, 98%);
   --foreground: hsl(222.2, 84%, 4.9%);
   --muted: hsl(210, 40%, 96%);
-  --muted-foreground: hsl(215.4, 16.3%, 46.9%);
+  --muted-foreground: hsl(215.4, 16.3%, 35%);
   --popover: hsl(0, 0%, 100%);
   --popover-foreground: hsl(222.2, 84%, 4.9%);
   --card: hsl(0, 0%, 100%);
@@ -24,16 +24,16 @@
   --ring: hsl(2, 85%, 69%);
   --radius: 0.75rem;
 
-  /* FlashKademy custom colors */
-  --coral: hsl(2, 85%, 69%);
-  --turquoise: hsl(174, 56%, 57%);
-  --sky: hsl(200, 68%, 59%);
-  --mint: hsl(139, 43%, 70%);
-  --golden: hsl(43, 96%, 66%);
-  --pink: hsl(300, 95%, 85%);
+  /* FlashKademy custom colors - High Contrast */
+  --coral: hsl(2, 85%, 55%);
+  --turquoise: hsl(174, 56%, 45%);
+  --sky: hsl(200, 68%, 45%);
+  --mint: hsl(139, 43%, 55%);
+  --golden: hsl(43, 96%, 50%);
+  --pink: hsl(300, 95%, 75%);
   --success: hsl(142, 76%, 36%);
-  --warning: hsl(38, 92%, 50%);
-  --error: hsl(0, 84%, 60%);
+  --warning: hsl(38, 92%, 45%);
+  --error: hsl(0, 84%, 50%);
 }
 
 .dark {
@@ -148,6 +148,12 @@
   .border-mint { border-color: var(--mint); }
   .border-golden { border-color: var(--golden); }
   .border-pink { border-color: var(--pink); }
+
+  /* High contrast text utilities */
+  .text-high-contrast { color: hsl(0, 0%, 10%); }
+  .text-high-contrast-white { color: hsl(0, 0%, 95%); text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3); }
+  .bg-high-contrast { background-color: hsl(0, 0%, 10%); }
+  .bg-high-contrast-light { background-color: hsl(0, 0%, 98%); }
 }
 
 @keyframes float {

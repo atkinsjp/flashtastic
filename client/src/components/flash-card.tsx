@@ -38,7 +38,7 @@ export default function FlashCard({ card, onComplete }: FlashCardProps) {
   return (
     <div className="w-full max-w-md mx-auto">
       <div className="mb-4 flex items-center justify-between">
-        <div className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold bg-blue-600 text-white border-0 hover:bg-blue-700 transition-colors">
+        <div className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold bg-gray-900 text-white border-0 transition-colors">
           {card.subject} • Grade {card.grade}
         </div>
         <Badge 
@@ -69,7 +69,7 @@ export default function FlashCard({ card, onComplete }: FlashCardProps) {
                 />
               )}
               
-              <h3 className="text-xl font-bold mb-4 leading-relaxed">
+              <h3 className="text-xl font-bold mb-4 leading-relaxed text-white drop-shadow-lg">
                 {card.question}
               </h3>
               
@@ -84,7 +84,7 @@ export default function FlashCard({ card, onComplete }: FlashCardProps) {
           {/* Back of card */}
           <Card className="flip-card-back bg-gradient-to-br from-turquoise to-mint text-white h-full">
             <CardContent className="h-full flex flex-col items-center justify-center p-6 text-center">
-              <div className="text-4xl font-bold mb-4">
+              <div className="text-4xl font-bold mb-4 text-white drop-shadow-lg">
                 {card.answer}
               </div>
               
@@ -127,8 +127,8 @@ export default function FlashCard({ card, onComplete }: FlashCardProps) {
       )}
 
       {!showButtons && (
-        <div className="text-center text-gray-500">
-          <p className="text-sm">Tap the card to see the answer</p>
+        <div className="text-center text-gray-700 dark:text-gray-300">
+          <p className="text-sm font-medium">Tap the card to see the answer</p>
         </div>
       )}
     </div>

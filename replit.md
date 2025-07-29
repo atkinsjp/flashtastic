@@ -18,6 +18,18 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+**July 29, 2025 - Application Fixes and Accessibility Improvements**
+- Fixed deprecated tsx loader flag causing app startup failures
+- App now running successfully with proper database integration
+- Implemented comprehensive high-contrast accessibility improvements:
+  - Improved text contrast ratios across all components
+  - Enhanced color scheme with darker text and better readability
+  - Added dark mode support for navigation and UI components
+  - Improved badge and button contrast for accessibility compliance
+  - Enhanced flash card text with drop shadows for better visibility
+- Restored all contrast improvements that had been reverted
+- Updated UI component styling for WCAG compliance
+
 **July 29, 2025 - Database Integration Completed**
 - Migrated from in-memory storage to PostgreSQL database
 - Implemented comprehensive database schema with relations

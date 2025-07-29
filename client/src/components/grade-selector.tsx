@@ -21,7 +21,7 @@ const gradeNames = {
 export default function GradeSelector({ selectedGrade, onGradeSelect }: GradeSelectorProps) {
   return (
     <section className="mb-8">
-      <h3 className="text-2xl font-bold text-gray-800 mb-4">Select Your Grade Level</h3>
+      <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">Select Your Grade Level</h3>
       <div className="grid grid-cols-3 md:grid-cols-5 gap-3">
         {GRADES.map((grade) => (
           <Button

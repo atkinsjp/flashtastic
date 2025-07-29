@@ -45,7 +45,7 @@ export default function BottomNav() {
   };
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg z-40">
+    <nav className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 shadow-lg z-40">
       <div className="flex justify-around py-2">
         {navItems.map((item) => {
           const IconComponent = item.icon;
@@ -56,7 +56,7 @@ export default function BottomNav() {
               key={item.path}
               variant="ghost"
               className={`flex flex-col items-center py-2 px-4 min-w-0 h-auto ${
-                active ? item.color : 'text-gray-500 hover:text-gray-700'
+                active ? item.color : 'text-gray-700 hover:text-gray-900'
               }`}
               onClick={() => setLocation(item.path)}
             >

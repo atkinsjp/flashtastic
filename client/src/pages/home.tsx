@@ -71,9 +71,9 @@ export default function Home() {
   }, [user, userMode]);
 
   return (
-    <div className="min-h-screen bg-[#3c24d49c]">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-900 dark:to-gray-800">
       {/* Header */}
-      <header className="bg-white shadow-lg sticky top-0 z-40">
+      <header className="bg-white dark:bg-gray-900 shadow-lg sticky top-0 z-40 border-b border-gray-200 dark:border-gray-700">
         <div className="container mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
