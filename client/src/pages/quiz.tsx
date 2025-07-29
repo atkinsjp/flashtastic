@@ -147,7 +147,7 @@ export default function Quiz() {
               </Card>
               
               <Card className="bg-gradient-to-br from-sky to-blue-500 text-white">
-                <CardContent className="p-4">
+                <CardContent className="p-4 text-[#000000] bg-[#3bab16b3]">
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="font-semibold text-white">Science Quiz</p>
