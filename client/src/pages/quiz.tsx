@@ -122,7 +122,7 @@ export default function Quiz() {
                     <IconComponent className="h-12 w-12 mx-auto mb-4" />
                     <h3 className="text-xl font-bold mb-2 text-[#000000]">{mode.name}</h3>
                     <p className="text-sm opacity-90 mb-4 text-[#000000]">{mode.description}</p>
-                    <Badge variant="secondary" className="text-[#000000] bg-[#90b7e8fa]">
+                    <Badge variant="secondary" className="text-[#000000] bg-[#f5d4ff9e]">
                       {mode.timeLimit}
                     </Badge>
                   </CardContent>
