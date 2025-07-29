@@ -151,7 +151,7 @@ export default function Quiz() {
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="font-semibold text-[#000000]">Science Quiz</p>
-                      <p className="text-sm text-white opacity-80">Grade 2</p>
+                      <p className="text-sm opacity-80 text-[#000000]">Grade 2</p>
                     </div>
                     <Badge className="bg-white bg-opacity-20 text-[#000000]">88%</Badge>
                   </div>
