@@ -42,7 +42,7 @@ export default function Progress() {
   const [selectedTimeframe, setSelectedTimeframe] = useState("week");
 
   return (
-    <div className="min-h-screen p-4">
+    <div className="min-h-screen p-4 bg-[#5b5dcf57]">
       <div className="container mx-auto max-w-6xl">
         <div className="mb-6">
           <h1 className="text-3xl font-bold text-gray-800 mb-2">Your Progress</h1>
