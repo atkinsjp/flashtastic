@@ -66,7 +66,7 @@ export default function Study() {
                 >
                   <CardContent className="p-6 text-center">
                     <div className="text-4xl mb-3">{subject.icon}</div>
-                    <h4 className="text-lg font-bold mb-2">{subject.name}</h4>
+                    <h4 className="text-lg font-bold mb-2 text-[#000000]">{subject.name}</h4>
                     <Badge variant="secondary" className="bg-white bg-opacity-20 text-white">
                       Grade {selectedGrade}
                     </Badge>
