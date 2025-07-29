@@ -159,7 +159,7 @@ export default function Quiz() {
               </Card>
               
               <Card className="bg-gradient-to-br from-coral to-pink text-white">
-                <CardContent className="p-4">
+                <CardContent className="p-4 bg-[#ff001d91]">
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="font-semibold text-[#000000]">Vocabulary</p>
