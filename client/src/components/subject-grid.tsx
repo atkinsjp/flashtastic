@@ -109,7 +109,7 @@ export default function SubjectGrid({ selectedGrade }: SubjectGridProps) {
               className={`subject-card bg-gradient-to-br ${subject.gradient} rounded-xl shadow-lg text-white cursor-pointer transform hover:scale-105 transition-all duration-300 hover:shadow-xl`}
               onClick={() => handleSubjectClick(subject.id)}
             >
-              <CardContent className="p-6 text-center h-full flex flex-col">
+              <CardContent className="p-6 text-center h-full flex flex-col text-[#000000]">
                 <div className="text-4xl mb-3">{subject.icon}</div>
                 <h4 className="text-lg font-bold mb-2">{subject.name}</h4>
                 <p className="text-sm opacity-90 mb-4 flex-1">{subject.description}</p>
