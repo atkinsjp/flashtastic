@@ -88,30 +88,18 @@ export default function Profile() {
             <Card>
               <CardContent className="p-6">
                 <div className="flex items-center space-x-6">
-                  {/* Learning Avatar */}
-                  <div className="flex space-x-4">
-                    <LearningAvatar
-                      points={mockUser.points}
-                      level={mockUser.level}
-                      streak={mockUser.streak}
-                      avatarGrowth={avatarGrowth}
-                      onGrowthUpdate={setAvatarGrowth}
-                      className="flex-shrink-0"
+                  {/* Traditional Avatar */}
+                  <div 
+                    className="relative cursor-pointer flex-shrink-0"
+                    onClick={() => setShowAvatarModal(true)}
+                  >
+                    <img 
+                      src="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?ixlib=rb-4.0.3&auto=format&fit=crop&w=120&h=120" 
+                      alt="Profile Avatar" 
+                      className="w-20 h-20 rounded-full border-4 border-coral"
                     />
-                    
-                    {/* Traditional Avatar */}
-                    <div 
-                      className="relative cursor-pointer"
-                      onClick={() => setShowAvatarModal(true)}
-                    >
-                      <img 
-                        src="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?ixlib=rb-4.0.3&auto=format&fit=crop&w=120&h=120" 
-                        alt="Profile Avatar" 
-                        className="w-20 h-20 rounded-full border-4 border-coral"
-                      />
-                      <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-white rounded-full flex items-center justify-center border-2 border-gray-200">
-                        <Edit3 className="h-3 w-3 text-gray-600" />
-                      </div>
+                    <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-white rounded-full flex items-center justify-center border-2 border-gray-200">
+                      <Edit3 className="h-3 w-3 text-gray-600" />
                     </div>
                   </div>
                   
@@ -140,6 +128,37 @@ export default function Profile() {
                   >
                     {isEditing ? "Cancel" : "Edit Profile"}
                   </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Learning Companion */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <span className="mr-2">🌱</span>
+                  Your Learning Companion
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="flex items-center space-x-6">
+                  <LearningAvatar
+                    points={mockUser.points}
+                    level={mockUser.level}
+                    streak={mockUser.streak}
+                    avatarGrowth={avatarGrowth}
+                    onGrowthUpdate={setAvatarGrowth}
+                    className="flex-shrink-0"
+                  />
+                  <div className="flex-1">
+                    <p className="text-gray-600 mb-2">
+                      Your learning companion grows as you study and earn achievements! 
+                      Keep learning to unlock new stages and accessories.
+                    </p>
+                    <div className="text-sm text-gray-500">
+                      Click your companion to customize its mood and accessories!
+                    </div>
+                  </div>
                 </div>
               </CardContent>
             </Card>
