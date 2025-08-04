@@ -70,6 +70,19 @@ export default function Quiz() {
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
+  const generateChoices = (correctAnswer: string, allCards: FlashCard[]) => {
+    // Get 3 random wrong answers from other cards
+    const wrongAnswers = allCards
+      .filter(card => card.answer !== correctAnswer)
+      .map(card => card.answer)
+      .sort(() => Math.random() - 0.5)
+      .slice(0, 3);
+    
+    // Combine correct and wrong answers, then shuffle
+    const allChoices = [correctAnswer, ...wrongAnswers];
+    return allChoices.sort(() => Math.random() - 0.5);
+  };
+
   const handleAnswerSelect = (answer: string) => {
     setSelectedAnswer(answer);
   };
@@ -77,7 +90,7 @@ export default function Quiz() {
   const handleNextQuestion = () => {
     if (!flashCards || flashCards.length === 0) return;
     
-    // Check if answer is correct (simplified logic)
+    // Check if answer is correct
     const currentCard = flashCards[currentQuestion];
     if (selectedAnswer === currentCard?.answer) {
       setScore(score + 1);
@@ -448,32 +461,18 @@ export default function Quiz() {
                 />
               )}
               
-              {/* Answer options (simplified - in real app would have multiple choice) */}
+              {/* Multiple choice options with randomized correct answer position */}
               <div className="space-y-3">
-                <Button
-                  variant={selectedAnswer === currentCard.answer ? "default" : "outline"}
-                  className="w-full text-left justify-start"
-                  onClick={() => handleAnswerSelect(currentCard.answer)}
-                >
-                  A) {currentCard.answer}
-                </Button>
-                
-                {/* Add more dummy options for multiple choice */}
-                <Button
-                  variant={selectedAnswer === "wrong1" ? "default" : "outline"}
-                  className="w-full text-left justify-start"
-                  onClick={() => handleAnswerSelect("wrong1")}
-                >
-                  B) Alternative answer
-                </Button>
-                
-                <Button
-                  variant={selectedAnswer === "wrong2" ? "default" : "outline"}
-                  className="w-full text-left justify-start"
-                  onClick={() => handleAnswerSelect("wrong2")}
-                >
-                  C) Another option
-                </Button>
+                {generateChoices(currentCard.answer, flashCards).map((choice, index) => (
+                  <Button
+                    key={`${currentQuestion}-${index}`}
+                    variant={selectedAnswer === choice ? "default" : "outline"}
+                    className="w-full text-left justify-start"
+                    onClick={() => handleAnswerSelect(choice)}
+                  >
+                    {String.fromCharCode(65 + index)}) {choice}
+                  </Button>
+                ))}
               </div>
             </CardContent>
           </Card>
