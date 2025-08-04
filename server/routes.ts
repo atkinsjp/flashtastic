@@ -64,6 +64,128 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Parent dashboard routes
+  app.get("/api/parent/:parentId/children", async (req, res) => {
+    try {
+      // Mock implementation - in real app would query parent-student relationships
+      const mockChildren = [
+        {
+          id: "student-1",
+          name: "Emma Johnson", 
+          avatar: "1",
+          grade: "2",
+          points: 1247,
+          level: 5,
+          streak: 7,
+          lastActive: new Date().toISOString(),
+          weeklyGoal: 300,
+          weeklyProgress: 245,
+          strongSubjects: ["Math", "Science"],
+          needsWork: ["Geography"],
+          recentAchievements: 3
+        },
+        {
+          id: "student-2",
+          name: "Alex Johnson",
+          avatar: "2", 
+          grade: "5",
+          points: 890,
+          level: 3,
+          streak: 4,
+          lastActive: new Date().toISOString(),
+          weeklyGoal: 240,
+          weeklyProgress: 180,
+          strongSubjects: ["Vocabulary", "History"],
+          needsWork: ["Math", "Science"],
+          recentAchievements: 1
+        }
+      ];
+      res.json(mockChildren);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to get children data" });
+    }
+  });
+
+  app.get("/api/parent/:parentId/analytics", async (req, res) => {
+    try {
+      const { timeRange = "week", childId } = req.query;
+      
+      // Mock analytics data - in real app would aggregate from database
+      const analyticsData = {
+        weeklyData: [
+          { day: "Mon", Emma: 45, Alex: 30, target: 40 },
+          { day: "Tue", Emma: 52, Alex: 25, target: 40 },
+          { day: "Wed", Emma: 38, Alex: 42, target: 40 },
+          { day: "Thu", Emma: 41, Alex: 35, target: 40 },
+          { day: "Fri", Emma: 55, Alex: 28, target: 40 },
+          { day: "Sat", Emma: 28, Alex: 20, target: 40 },
+          { day: "Sun", Emma: 35, Alex: 0, target: 40 }
+        ],
+        subjectProgress: [
+          { subject: "Math", Emma: 85, Alex: 62 },
+          { subject: "Science", Emma: 92, Alex: 58 },
+          { subject: "Vocabulary", Emma: 78, Alex: 88 },
+          { subject: "Geography", Emma: 65, Alex: 75 },
+          { subject: "History", Emma: 82, Alex: 91 }
+        ],
+        monthlyTrend: [
+          { month: "Oct", studyTime: 180, achievements: 8, accuracy: 78 },
+          { month: "Nov", studyTime: 220, achievements: 12, accuracy: 82 },
+          { month: "Dec", studyTime: 195, achievements: 15, accuracy: 85 },
+          { month: "Jan", studyTime: 245, achievements: 18, accuracy: 88 }
+        ]
+      };
+      
+      res.json(analyticsData);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to get analytics data" });
+    }
+  });
+
+  app.get("/api/parent/:parentId/insights", async (req, res) => {
+    try {
+      // Mock insights data - in real app would use ML/analytics
+      const insights = {
+        learningPatterns: [
+          {
+            type: "peak_hours",
+            title: "Peak Learning Hours",
+            description: "Emma learns best between 4-6 PM with 92% accuracy",
+            childId: "student-1",
+            confidence: 0.85
+          },
+          {
+            type: "consistency",
+            title: "Consistency Improvement", 
+            description: "Alex has maintained a 4-day streak, up from 2 days last week",
+            childId: "student-2",
+            confidence: 0.92
+          }
+        ],
+        recommendations: [
+          {
+            type: "subject_focus",
+            title: "Geography Practice",
+            description: "Focus on geography practice - consider visual learning tools and maps",
+            childId: "student-1",
+            priority: "high"
+          },
+          {
+            type: "math_improvement",
+            title: "Math Skills",
+            description: "Math improvement needed - try gamified math exercises and visual problems", 
+            childId: "student-2",
+            priority: "medium"
+          }
+        ]
+      };
+      
+      res.json(insights);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to get insights data" });
+    }
+  });
+
   // Flash cards routes
   app.get("/api/flashcards", async (req, res) => {
     try {

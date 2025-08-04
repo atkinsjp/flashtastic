@@ -10,6 +10,7 @@ import Study from "@/pages/study";
 import Quiz from "@/pages/quiz";
 import Progress from "@/pages/progress";
 import Profile from "@/pages/profile";
+import ParentDashboard from "@/pages/parent-dashboard";
 import BottomNav from "@/components/bottom-nav";
 import { usePWA } from "@/hooks/use-pwa";
 
@@ -21,6 +22,7 @@ function Router() {
         <Route path="/study" component={Study} />
         <Route path="/quiz" component={Quiz} />
         <Route path="/progress" component={Progress} />
+        <Route path="/parent-dashboard" component={ParentDashboard} />
         <Route path="/profile" component={Profile} />
         <Route component={NotFound} />
       </Switch>

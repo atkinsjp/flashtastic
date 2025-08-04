@@ -21,6 +21,17 @@ export const users = pgTable("users", {
     accessories: [],
     mood: "happy"
   }),
+  userType: varchar("user_type", { length: 10 }).default("student"), // student, parent
+  parentId: varchar("parent_id").references(() => users.id), // for linking students to parents
+  createdAt: timestamp("created_at").default(sql`now()`),
+});
+
+export const parentStudentLinks = pgTable("parent_student_links", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  parentId: varchar("parent_id").notNull().references(() => users.id),
+  studentId: varchar("student_id").notNull().references(() => users.id),
+  relationship: varchar("relationship", { length: 20 }).default("parent"), // parent, guardian, tutor
+  isActive: boolean("is_active").default(true),
   createdAt: timestamp("created_at").default(sql`now()`),
 });
 
