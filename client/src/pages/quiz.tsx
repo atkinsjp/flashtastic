@@ -22,7 +22,7 @@ export default function Quiz() {
   const [quizStarted, setQuizStarted] = useState(false);
 
   const { data: flashCards = [], isLoading, isError } = useQuery<FlashCard[]>({
-    queryKey: ["/api/flashcards", selectedGrade, selectedSubject || "mixed"],
+    queryKey: [`/api/flashcards?grade=${selectedGrade}&subject=${selectedSubject || "mixed"}`],
     enabled: !!selectedSubject || quizMode === "mixed",
   });
 
