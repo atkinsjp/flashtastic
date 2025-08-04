@@ -111,6 +111,70 @@ export const quizzes = pgTable("quizzes", {
   completedAt: timestamp("completed_at"),
 });
 
+// Sibling Competition Tables
+export const siblingChallenges = pgTable("sibling_challenges", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  challengerId: varchar("challenger_id").notNull().references(() => users.id),
+  challengedId: varchar("challenged_id").notNull().references(() => users.id),
+  challengeType: varchar("challenge_type", { length: 30 }).notNull(), // speed_round, accuracy_battle, streak_challenge, subject_mastery
+  subject: varchar("subject", { length: 50 }),
+  grade: varchar("grade", { length: 2 }),
+  targetScore: integer("target_score"),
+  duration: integer("duration"), // in minutes
+  status: varchar("status", { length: 20 }).default("pending"), // pending, active, completed, expired
+  winnerIds: jsonb("winner_ids").default([]), // array of user ids for ties
+  challengerScore: integer("challenger_score").default(0),
+  challengedScore: integer("challenged_score").default(0),
+  reward: jsonb("reward").default({}), // points, badge, etc
+  startedAt: timestamp("started_at"),
+  completedAt: timestamp("completed_at"),
+  expiresAt: timestamp("expires_at"),
+  createdAt: timestamp("created_at").default(sql`now()`),
+});
+
+export const familyLeaderboards = pgTable("family_leaderboards", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  familyId: varchar("family_id").notNull(), // parent ID or family identifier
+  leaderboardType: varchar("leaderboard_type", { length: 30 }).notNull(), // weekly_points, monthly_streak, subject_master, accuracy_king
+  subject: varchar("subject", { length: 50 }),
+  timeframe: varchar("timeframe", { length: 20 }).notNull(), // weekly, monthly, all_time
+  rankings: jsonb("rankings").notNull(), // [{userId, name, score, rank, change}]
+  startDate: timestamp("start_date").notNull(),
+  endDate: timestamp("end_date"),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").default(sql`now()`),
+});
+
+export const collaborativeGoals = pgTable("collaborative_goals", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  familyId: varchar("family_id").notNull(),
+  goalType: varchar("goal_type", { length: 30 }).notNull(), // combined_points, streak_sync, subject_completion, time_challenge
+  title: text("title").notNull(),
+  description: text("description"),
+  targetValue: integer("target_value").notNull(),
+  currentValue: integer("current_value").default(0),
+  participantIds: jsonb("participant_ids").notNull(), // array of user ids
+  reward: jsonb("reward").default({}),
+  status: varchar("status", { length: 20 }).default("active"), // active, completed, failed, paused
+  dueDate: timestamp("due_date"),
+  completedAt: timestamp("completed_at"),
+  createdAt: timestamp("created_at").default(sql`now()`),
+});
+
+export const competitiveAchievements = pgTable("competitive_achievements", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  name: text("name").notNull(),
+  description: text("description"),
+  icon: text("icon"),
+  category: varchar("category", { length: 30 }).notNull(), // rivalry, teamwork, leadership, consistency
+  requirementType: varchar("requirement_type", { length: 30 }).notNull(), // win_challenges, complete_goals, streak_battles
+  requirementValue: integer("requirement_value").notNull(),
+  pointsReward: integer("points_reward").default(0),
+  badgeColor: varchar("badge_color", { length: 20 }).default("gold"),
+  rarity: varchar("rarity", { length: 20 }).default("common"), // common, rare, epic, legendary
+  isActive: boolean("is_active").default(true),
+});
+
 // Insert schemas
 export const insertUserSchema = createInsertSchema(users).omit({
   id: true,
@@ -145,6 +209,25 @@ export const insertQuizSchema = createInsertSchema(quizzes).omit({
   completedAt: true,
 });
 
+export const insertSiblingChallengeSchema = createInsertSchema(siblingChallenges).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertFamilyLeaderboardSchema = createInsertSchema(familyLeaderboards).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertCollaborativeGoalSchema = createInsertSchema(collaborativeGoals).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertCompetitiveAchievementSchema = createInsertSchema(competitiveAchievements).omit({
+  id: true,
+});
+
 // Types
 export type User = typeof users.$inferSelect;
 export type InsertUser = z.infer<typeof insertUserSchema>;
@@ -160,6 +243,14 @@ export type StudySession = typeof studySessions.$inferSelect;
 export type InsertStudySession = z.infer<typeof insertStudySessionSchema>;
 export type Quiz = typeof quizzes.$inferSelect;
 export type InsertQuiz = z.infer<typeof insertQuizSchema>;
+export type SiblingChallenge = typeof siblingChallenges.$inferSelect;
+export type InsertSiblingChallenge = z.infer<typeof insertSiblingChallengeSchema>;
+export type FamilyLeaderboard = typeof familyLeaderboards.$inferSelect;
+export type InsertFamilyLeaderboard = z.infer<typeof insertFamilyLeaderboardSchema>;
+export type CollaborativeGoal = typeof collaborativeGoals.$inferSelect;
+export type InsertCollaborativeGoal = z.infer<typeof insertCollaborativeGoalSchema>;
+export type CompetitiveAchievement = typeof competitiveAchievements.$inferSelect;
+export type InsertCompetitiveAchievement = z.infer<typeof insertCompetitiveAchievementSchema>;
 
 // Enums and constants
 export const GRADES = ['K', '1', '2', '3', '4', '5', '6', '7', '8'] as const;

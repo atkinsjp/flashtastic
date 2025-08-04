@@ -1,6 +1,6 @@
 import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Home, BookOpen, Brain, TrendingUp, User, Users } from "lucide-react";
+import { Home, BookOpen, Brain, TrendingUp, User, Users, Trophy } from "lucide-react";
 
 const navItems = [
   {
@@ -26,6 +26,12 @@ const navItems = [
     icon: TrendingUp,
     label: "Progress",
     color: "text-mint"
+  },
+  {
+    path: "/competitions",
+    icon: Trophy,
+    label: "Compete",
+    color: "text-orange-500"
   },
   {
     path: "/parent-dashboard",

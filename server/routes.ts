@@ -186,6 +186,126 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Sibling Competition routes
+  app.get("/api/competitions/challenges/:userId", async (req, res) => {
+    try {
+      // Mock challenges data - in real app would query database
+      const mockChallenges = [
+        {
+          id: "challenge-1",
+          challengerId: "sibling-1",
+          challengedId: "sibling-2",
+          challengerName: "Emma",
+          challengedName: "Alex",
+          type: "speed_round",
+          subject: "math",
+          status: "active",
+          targetScore: 20,
+          challengerScore: 15,
+          challengedScore: 12,
+          timeRemaining: 3600,
+          reward: { points: 100, badge: "Speed Demon" },
+          createdAt: new Date().toISOString()
+        }
+      ];
+      res.json(mockChallenges);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to get challenges" });
+    }
+  });
+
+  app.post("/api/competitions/challenges", async (req, res) => {
+    try {
+      const challengeData = req.body;
+      // Mock creation - in real app would save to database
+      const newChallenge = {
+        id: `challenge-${Date.now()}`,
+        ...challengeData,
+        status: "pending",
+        challengerScore: 0,
+        challengedScore: 0,
+        createdAt: new Date().toISOString()
+      };
+      res.json(newChallenge);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to create challenge" });
+    }
+  });
+
+  app.patch("/api/competitions/challenges/:challengeId/accept", async (req, res) => {
+    try {
+      // Mock accept challenge - in real app would update database
+      const challengeId = req.params.challengeId;
+      res.json({ id: challengeId, status: "active", message: "Challenge accepted" });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to accept challenge" });
+    }
+  });
+
+  app.get("/api/competitions/leaderboards/:familyId", async (req, res) => {
+    try {
+      const mockLeaderboards = [
+        {
+          type: "weekly_points",
+          title: "Weekly Champions",
+          rankings: [
+            { id: "sibling-1", name: "Emma", score: 245, rank: 1, change: 0, avatar: "1" },
+            { id: "sibling-2", name: "Alex", score: 180, rank: 2, change: 0, avatar: "2" }
+          ]
+        },
+        {
+          type: "monthly_streak", 
+          title: "Streak Masters",
+          rankings: [
+            { id: "sibling-1", name: "Emma", score: 7, rank: 1, change: 1, avatar: "1" },
+            { id: "sibling-2", name: "Alex", score: 4, rank: 2, change: -1, avatar: "2" }
+          ]
+        }
+      ];
+      res.json(mockLeaderboards);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to get leaderboards" });
+    }
+  });
+
+  app.get("/api/competitions/goals/:familyId", async (req, res) => {
+    try {
+      const mockGoals = [
+        {
+          id: "goal-1",
+          title: "Family Math Masters",
+          description: "Together earn 1000 points in Math this month",
+          targetValue: 1000,
+          currentValue: 650,
+          participantIds: ["sibling-1", "sibling-2"],
+          participants: ["Emma", "Alex"],
+          status: "active",
+          reward: { points: 200, badge: "Team Player" },
+          dueDate: "2025-01-31T23:59:59Z"
+        }
+      ];
+      res.json(mockGoals);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to get collaborative goals" });
+    }
+  });
+
+  app.post("/api/competitions/goals", async (req, res) => {
+    try {
+      const goalData = req.body;
+      const newGoal = {
+        id: `goal-${Date.now()}`,
+        ...goalData,
+        currentValue: 0,
+        status: "active",
+        createdAt: new Date().toISOString()
+      };
+      res.json(newGoal);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to create goal" });
+    }
+  });
+
   // Flash cards routes
   app.get("/api/flashcards", async (req, res) => {
     try {
