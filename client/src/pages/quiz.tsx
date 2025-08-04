@@ -21,7 +21,7 @@ export default function Quiz() {
   const [quizCompleted, setQuizCompleted] = useState(false);
   const [quizStarted, setQuizStarted] = useState(false);
 
-  const { data: flashCards = [] } = useQuery<FlashCard[]>({
+  const { data: flashCards = [], isLoading, isError } = useQuery<FlashCard[]>({
     queryKey: ["/api/flashcards", selectedGrade, selectedSubject || "mixed"],
     enabled: !!selectedSubject || quizMode === "mixed",
   });
@@ -241,6 +241,67 @@ export default function Quiz() {
             </div>
           </div>
         </div>
+      </div>
+    );
+  }
+
+  // Loading state for mixed quiz or when fetching flashcards
+  if ((selectedSubject || quizMode === "mixed") && isLoading && !quizStarted && !quizCompleted) {
+    return (
+      <div className="min-h-screen p-4 flex items-center justify-center">
+        <Card className="w-full max-w-md">
+          <CardContent className="p-8 text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-coral mx-auto mb-4"></div>
+            <h3 className="text-lg font-semibold text-gray-800 mb-2">Loading Quiz...</h3>
+            <p className="text-gray-600">Preparing your {quizMode === "mixed" ? "mixed review" : "quiz"} questions</p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  // Error state 
+  if ((selectedSubject || quizMode === "mixed") && isError && !quizStarted && !quizCompleted) {
+    return (
+      <div className="min-h-screen p-4 flex items-center justify-center">
+        <Card className="w-full max-w-md">
+          <CardContent className="p-8 text-center">
+            <h3 className="text-lg font-semibold text-red-600 mb-2">Error Loading Quiz</h3>
+            <p className="text-gray-600 mb-4">Unable to load flashcards for this quiz.</p>
+            <Button onClick={() => {
+              setQuizMode(null);
+              setSelectedSubject(null);
+            }} className="w-full">
+              ← Back to Selection
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  // No flashcards available
+  if ((selectedSubject || quizMode === "mixed") && !isLoading && !isError && flashCards.length === 0 && !quizStarted && !quizCompleted) {
+    return (
+      <div className="min-h-screen p-4 flex items-center justify-center">
+        <Card className="w-full max-w-md">
+          <CardContent className="p-8 text-center">
+            <h3 className="text-lg font-semibold text-yellow-600 mb-2">No Questions Available</h3>
+            <p className="text-gray-600 mb-4">
+              No flashcards found for {quizMode === "mixed" ? "mixed review" : `${subjects.find(s => s.id === selectedSubject)?.name} in grade ${selectedGrade}`}.
+            </p>
+            <Button onClick={() => {
+              if (quizMode === "mixed") {
+                setQuizMode(null);
+                setSelectedSubject(null);
+              } else {
+                setSelectedSubject(null);
+              }
+            }} className="w-full">
+              ← Back to Selection
+            </Button>
+          </CardContent>
+        </Card>
       </div>
     );
   }
