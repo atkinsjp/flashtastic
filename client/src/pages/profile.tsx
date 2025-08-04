@@ -8,8 +8,9 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { User, Settings, Bell, Shield, Star, Award, Edit3 } from "lucide-react";
 import AvatarCustomizer from "@/components/avatar-customizer";
+import LearningAvatar from "@/components/learning-avatar";
 
-// Mock user data
+// Mock user data with avatar growth
 const mockUser = {
   id: "user-1",
   name: "Emma Johnson",
@@ -22,6 +23,13 @@ const mockUser = {
   badges: 12,
   joinedDate: "September 2024",
   favoriteSubjects: ["Math", "Science", "Vocabulary"],
+  avatarGrowth: {
+    stage: 3,
+    experience: 324,
+    unlocks: ["glasses", "hat"],
+    accessories: ["glasses"],
+    mood: "happy"
+  },
   achievements: [
     { id: "math-master", name: "Math Master", icon: "🔢", description: "Completed 50 math problems", rarity: "gold" },
     { id: "word-wizard", name: "Word Wizard", icon: "📚", description: "Learned 100 vocabulary words", rarity: "silver" },
@@ -47,6 +55,7 @@ export default function Profile() {
     name: mockUser.name,
     grade: mockUser.grade
   });
+  const [avatarGrowth, setAvatarGrowth] = useState(mockUser.avatarGrowth);
 
   const handleSettingChange = (key: string, value: boolean | string | number) => {
     setSettings(prev => ({ ...prev, [key]: value }));
@@ -79,20 +88,30 @@ export default function Profile() {
             <Card>
               <CardContent className="p-6">
                 <div className="flex items-center space-x-6">
-                  <div 
-                    className="relative cursor-pointer"
-                    onClick={() => setShowAvatarModal(true)}
-                  >
-                    <img 
-                      src="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?ixlib=rb-4.0.3&auto=format&fit=crop&w=120&h=120" 
-                      alt="Profile Avatar" 
-                      className="w-20 h-20 rounded-full border-4 border-coral"
+                  {/* Learning Avatar */}
+                  <div className="flex space-x-4">
+                    <LearningAvatar
+                      points={mockUser.points}
+                      level={mockUser.level}
+                      streak={mockUser.streak}
+                      avatarGrowth={avatarGrowth}
+                      onGrowthUpdate={setAvatarGrowth}
+                      className="flex-shrink-0"
                     />
-                    <div className="absolute -top-1 -right-1 w-8 h-8 bg-golden rounded-full flex items-center justify-center">
-                      <span className="text-sm font-bold text-white">{mockUser.level}</span>
-                    </div>
-                    <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-white rounded-full flex items-center justify-center border-2 border-gray-200">
-                      <Edit3 className="h-3 w-3 text-gray-600" />
+                    
+                    {/* Traditional Avatar */}
+                    <div 
+                      className="relative cursor-pointer"
+                      onClick={() => setShowAvatarModal(true)}
+                    >
+                      <img 
+                        src="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?ixlib=rb-4.0.3&auto=format&fit=crop&w=120&h=120" 
+                        alt="Profile Avatar" 
+                        className="w-20 h-20 rounded-full border-4 border-coral"
+                      />
+                      <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-white rounded-full flex items-center justify-center border-2 border-gray-200">
+                        <Edit3 className="h-3 w-3 text-gray-600" />
+                      </div>
                     </div>
                   </div>
                   

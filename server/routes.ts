@@ -50,6 +50,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Avatar growth routes
+  app.patch("/api/users/:id/avatar-growth", async (req, res) => {
+    try {
+      const { avatarGrowth } = req.body;
+      const user = await storage.updateUser(req.params.id, { avatarGrowth });
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      res.json({ avatarGrowth: user.avatarGrowth });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to update avatar growth" });
+    }
+  });
+
   // Flash cards routes
   app.get("/api/flashcards", async (req, res) => {
     try {

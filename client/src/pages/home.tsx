@@ -6,6 +6,7 @@ import AvatarCustomizer from "@/components/avatar-customizer";
 import AchievementPopup from "@/components/achievement-popup";
 import QuizModal from "@/components/quiz-modal";
 import AuthGate from "@/components/auth-gate";
+import LearningAvatar from "@/components/learning-avatar";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useAuth, createGuestUser } from "@/contexts/auth-context";
@@ -22,7 +23,14 @@ const mockUser = {
   streak: 7,
   badges: 12,
   cardsLearned: 234,
-  studyTime: "2.5h"
+  studyTime: "2.5h",
+  avatarGrowth: {
+    stage: 3,
+    experience: 324,
+    unlocks: ["glasses", "hat"],
+    accessories: ["glasses"],
+    mood: "happy"
+  }
 };
 
 const mockRecentAwards = [
@@ -59,6 +67,7 @@ export default function Home() {
   const [showQuizModal, setShowQuizModal] = useState(false);
   const [showAchievement, setShowAchievement] = useState(false);
   const [showAuthGate, setShowAuthGate] = useState(false);
+  const [avatarGrowth, setAvatarGrowth] = useState(mockUser.avatarGrowth);
 
   // Use guest user data for display if in guest mode
   const displayUser = user || createGuestUser(selectedGrade);
@@ -153,37 +162,67 @@ export default function Home() {
               </div>
             </div>
           ) : (
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-              <div className="bg-white rounded-xl p-4 shadow-md text-center">
-                <div className="w-12 h-12 bg-coral bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-2">
-                  <Flame className="h-6 w-6 text-coral" />
+            <div className="space-y-6 mb-6">
+              {/* Learning Avatar Section */}
+              <div className="bg-white rounded-xl p-6 shadow-md">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-semibold text-gray-800">Your Learning Companion</h3>
+                  <Badge variant="secondary" className="text-xs">Growing with you!</Badge>
                 </div>
-                <div className="text-2xl font-bold text-gray-800">{displayUser.streak}</div>
-                <div className="text-sm text-gray-600">Day Streak</div>
+                <div className="flex items-center space-x-6">
+                  <LearningAvatar
+                    points={displayUser.points}
+                    level={displayUser.level}
+                    streak={displayUser.streak}
+                    avatarGrowth={avatarGrowth}
+                    onGrowthUpdate={setAvatarGrowth}
+                    className="flex-shrink-0"
+                  />
+                  <div className="flex-1">
+                    <p className="text-gray-600 mb-2">
+                      Your learning companion grows as you study and earn achievements! 
+                      Keep learning to unlock new stages and accessories.
+                    </p>
+                    <div className="text-sm text-gray-500">
+                      Next unlock at Level {Math.ceil(displayUser.level / 5) * 5}
+                    </div>
+                  </div>
+                </div>
               </div>
+
+              {/* Stats Grid */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="bg-white rounded-xl p-4 shadow-md text-center">
+                  <div className="w-12 h-12 bg-coral bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-2">
+                    <Flame className="h-6 w-6 text-coral" />
+                  </div>
+                  <div className="text-2xl font-bold text-gray-800">{displayUser.streak}</div>
+                  <div className="text-sm text-gray-600">Day Streak</div>
+                </div>
+                
+                <div className="bg-white rounded-xl p-4 shadow-md text-center">
+                  <div className="w-12 h-12 bg-turquoise bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-2">
+                    <Trophy className="h-6 w-6 text-turquoise" />
+                  </div>
+                  <div className="text-2xl font-bold text-gray-800">{mockUser.badges}</div>
+                  <div className="text-sm text-gray-600">Badges</div>
+                </div>
+                
+                <div className="bg-white rounded-xl p-4 shadow-md text-center">
+                  <div className="w-12 h-12 bg-sky bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-2">
+                    <Brain className="h-6 w-6 text-sky" />
+                  </div>
+                  <div className="text-2xl font-bold text-gray-800">{mockUser.cardsLearned}</div>
+                  <div className="text-sm text-gray-600">Cards Learned</div>
+                </div>
               
-              <div className="bg-white rounded-xl p-4 shadow-md text-center">
-                <div className="w-12 h-12 bg-turquoise bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-2">
-                  <Trophy className="h-6 w-6 text-turquoise" />
+                <div className="bg-white rounded-xl p-4 shadow-md text-center">
+                  <div className="w-12 h-12 bg-mint bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-2">
+                    <Clock className="h-6 w-6 text-mint" />
+                  </div>
+                  <div className="text-2xl font-bold text-gray-800">{mockUser.studyTime}</div>
+                  <div className="text-sm text-gray-600">Study Time</div>
                 </div>
-                <div className="text-2xl font-bold text-gray-800">{mockUser.badges}</div>
-                <div className="text-sm text-gray-600">Badges</div>
-              </div>
-              
-              <div className="bg-white rounded-xl p-4 shadow-md text-center">
-                <div className="w-12 h-12 bg-sky bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-2">
-                  <Brain className="h-6 w-6 text-sky" />
-                </div>
-                <div className="text-2xl font-bold text-gray-800">{mockUser.cardsLearned}</div>
-                <div className="text-sm text-gray-600">Cards Learned</div>
-              </div>
-            
-              <div className="bg-white rounded-xl p-4 shadow-md text-center">
-                <div className="w-12 h-12 bg-mint bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-2">
-                  <Clock className="h-6 w-6 text-mint" />
-                </div>
-                <div className="text-2xl font-bold text-gray-800">{mockUser.studyTime}</div>
-                <div className="text-sm text-gray-600">Study Time</div>
               </div>
             </div>
           )}

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import FlashCard from "@/components/flash-card";
 import GradeSelector from "@/components/grade-selector";
+import AvatarProgressWidget from "@/components/avatar-progress-widget";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -9,10 +10,25 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { BookOpen, Clock, Target } from "lucide-react";
 
+// Mock user data for study session
+const mockStudentData = {
+  points: 1247,
+  level: 5,
+  streak: 7,
+  avatarGrowth: {
+    stage: 3,
+    experience: 324,
+    unlocks: ["glasses", "hat"],
+    accessories: ["glasses"],
+    mood: "focused"
+  }
+};
+
 export default function Study() {
   const [selectedGrade, setSelectedGrade] = useState("2");
   const [selectedSubject, setSelectedSubject] = useState<string | null>(null);
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
+  const [avatarGrowth, setAvatarGrowth] = useState(mockStudentData.avatarGrowth);
 
   const { data: flashCards, isLoading } = useQuery({
     queryKey: ["/api/flashcards", selectedGrade, selectedSubject],
@@ -119,8 +135,8 @@ export default function Study() {
           <Progress value={progress} className="w-full mb-4" />
         </div>
 
-        {/* Study Session Stats */}
-        <div className="grid grid-cols-3 gap-4 mb-6">
+        {/* Study Session Stats with Avatar */}
+        <div className="grid grid-cols-4 gap-4 mb-6">
           <Card>
             <CardContent className="p-4 text-center">
               <BookOpen className="h-6 w-6 mx-auto mb-2 text-coral" />
@@ -142,6 +158,22 @@ export default function Study() {
               <Clock className="h-6 w-6 mx-auto mb-2 text-sky" />
               <div className="text-sm text-gray-600">Time</div>
               <div className="text-lg font-bold">12:34</div>
+            </CardContent>
+          </Card>
+
+          {/* Learning Avatar Widget */}
+          <Card>
+            <CardContent className="p-2 text-center">
+              <AvatarProgressWidget
+                points={mockStudentData.points}
+                level={mockStudentData.level}
+                streak={mockStudentData.streak}
+                avatarGrowth={avatarGrowth}
+                onGrowthUpdate={setAvatarGrowth}
+                size="sm"
+                showDetails={false}
+              />
+              <div className="text-xs text-gray-600 mt-1">Companion</div>
             </CardContent>
           </Card>
         </div>

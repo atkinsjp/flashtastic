@@ -14,6 +14,13 @@ export const users = pgTable("users", {
   streak: integer("streak").default(0),
   lastStudyDate: timestamp("last_study_date"),
   settings: jsonb("settings").default({}),
+  avatarGrowth: jsonb("avatar_growth").default({
+    stage: 1, // 1: Seedling, 2: Sprout, 3: Young Plant, 4: Mature Plant, 5: Flowering
+    experience: 0,
+    unlocks: [],
+    accessories: [],
+    mood: "happy"
+  }),
   createdAt: timestamp("created_at").default(sql`now()`),
 });
 
