@@ -152,11 +152,14 @@ export default function LearningAvatar({
                          ${showGrowthAnimation ? 'animate-bounce scale-110' : 'hover:scale-105'}`}
               onClick={() => setShowDetails(true)}
             >
-              <span className="relative z-10">
-                {currentStage.emoji}
-                <span className="absolute -top-1 -right-1 text-lg">
-                  {MOOD_EMOJIS[avatarGrowth.mood as keyof typeof MOOD_EMOJIS]}
-                </span>
+              <img 
+                src="/avatars/avatar-1.svg" 
+                alt="Learning Avatar" 
+                className="w-16 h-16 rounded-full bg-white/30 p-1 relative z-10"
+                style={{ filter: 'drop-shadow(2px 2px 4px rgba(0,0,0,0.3))' }}
+              />
+              <span className="absolute -top-1 -right-1 text-lg z-20">
+                {MOOD_EMOJIS[avatarGrowth.mood as keyof typeof MOOD_EMOJIS]}
               </span>
               
               {/* Accessories */}
@@ -236,8 +239,13 @@ export default function LearningAvatar({
             {/* Avatar Display */}
             <div className="text-center">
               <div className={`w-24 h-24 mx-auto rounded-full bg-gradient-to-br ${currentStage.color} 
-                             flex items-center justify-center text-5xl relative`}>
-                {currentStage.emoji}
+                             flex items-center justify-center relative p-2`}>
+                <img 
+                  src="/avatars/avatar-1.svg" 
+                  alt="Learning Avatar" 
+                  className="w-20 h-20 rounded-full bg-white/30"
+                  style={{ filter: 'drop-shadow(2px 2px 4px rgba(0,0,0,0.3))' }}
+                />
                 <span className="absolute -top-2 -right-2 text-xl">
                   {MOOD_EMOJIS[avatarGrowth.mood as keyof typeof MOOD_EMOJIS]}
                 </span>
