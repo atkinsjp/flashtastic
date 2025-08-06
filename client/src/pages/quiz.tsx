@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -138,6 +138,23 @@ export default function Quiz() {
       setTimeLeft(600); // 10 minutes
     }
   };
+
+  // Timer effect for timed quizzes
+  useEffect(() => {
+    if (quizStarted && !quizCompleted && (quizMode === "timed" || quizMode === "mixed") && timeLeft > 0) {
+      const timer = setInterval(() => {
+        setTimeLeft((prev) => {
+          if (prev <= 1) {
+            setQuizCompleted(true);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+
+      return () => clearInterval(timer);
+    }
+  }, [quizStarted, quizCompleted, quizMode, timeLeft]);
 
   // Mode selection screen
   if (!quizMode) {
