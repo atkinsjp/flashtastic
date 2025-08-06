@@ -271,30 +271,30 @@ export class DatabaseStorage implements IStorage {
 
   // User methods
   async getUser(id: string): Promise<User | undefined> {
-    const [user] = await db.select().from(users).where(eq(users.id, id));
-    return user || undefined;
+    const result = await db.select().from(users).where(eq(users.id, id));
+    return result[0] || undefined;
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
-    const [user] = await db.select().from(users).where(eq(users.username, username));
-    return user || undefined;
+    const result = await db.select().from(users).where(eq(users.username, username));
+    return result[0] || undefined;
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
-    const [user] = await db
+    const result = await db
       .insert(users)
       .values(insertUser)
       .returning();
-    return user;
+    return result[0];
   }
 
   async updateUser(id: string, updates: Partial<User>): Promise<User | undefined> {
-    const [user] = await db
+    const result = await db
       .update(users)
       .set(updates)
       .where(eq(users.id, id))
       .returning();
-    return user || undefined;
+    return result[0] || undefined;
   }
 
   // Flash card methods

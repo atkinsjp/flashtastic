@@ -22,14 +22,14 @@ export const users = pgTable("users", {
     mood: "happy"
   }),
   userType: varchar("user_type", { length: 10 }).default("student"), // student, parent
-  parentId: varchar("parent_id").references(() => users.id), // for linking students to parents
+  parentId: varchar("parent_id"), // for linking students to parents - removed self-reference
   createdAt: timestamp("created_at").default(sql`now()`),
 });
 
 export const parentStudentLinks = pgTable("parent_student_links", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  parentId: varchar("parent_id").notNull().references(() => users.id),
-  studentId: varchar("student_id").notNull().references(() => users.id),
+  parentId: varchar("parent_id").notNull(),
+  studentId: varchar("student_id").notNull(),
   relationship: varchar("relationship", { length: 20 }).default("parent"), // parent, guardian, tutor
   isActive: boolean("is_active").default(true),
   createdAt: timestamp("created_at").default(sql`now()`),
@@ -52,8 +52,8 @@ export const flashCards = pgTable("flash_cards", {
 
 export const userProgress = pgTable("user_progress", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  userId: varchar("user_id").notNull().references(() => users.id),
-  cardId: varchar("card_id").notNull().references(() => flashCards.id),
+  userId: varchar("user_id").notNull(),
+  cardId: varchar("card_id").notNull(),
   correctCount: integer("correct_count").default(0),
   incorrectCount: integer("incorrect_count").default(0),
   lastReviewed: timestamp("last_reviewed"),
@@ -76,14 +76,14 @@ export const achievements = pgTable("achievements", {
 
 export const userAchievements = pgTable("user_achievements", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  userId: varchar("user_id").notNull().references(() => users.id),
-  achievementId: varchar("achievement_id").notNull().references(() => achievements.id),
+  userId: varchar("user_id").notNull(),
+  achievementId: varchar("achievement_id").notNull(),
   unlockedAt: timestamp("unlocked_at").default(sql`now()`),
 });
 
 export const studySessions = pgTable("study_sessions", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  userId: varchar("user_id").notNull().references(() => users.id),
+  userId: varchar("user_id").notNull(),
   subject: varchar("subject", { length: 50 }).notNull(),
   grade: varchar("grade", { length: 2 }).notNull(),
   mode: varchar("mode", { length: 20 }).notNull(), // flashcard, timed_quiz, practice_quiz, mixed
@@ -96,7 +96,7 @@ export const studySessions = pgTable("study_sessions", {
 
 export const quizzes = pgTable("quizzes", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  userId: varchar("user_id").notNull().references(() => users.id),
+  userId: varchar("user_id").notNull(),
   subject: varchar("subject", { length: 50 }).notNull(),
   grade: varchar("grade", { length: 2 }).notNull(),
   mode: varchar("mode", { length: 20 }).notNull(), // timed, untimed, mixed
@@ -114,8 +114,8 @@ export const quizzes = pgTable("quizzes", {
 // Sibling Competition Tables
 export const siblingChallenges = pgTable("sibling_challenges", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  challengerId: varchar("challenger_id").notNull().references(() => users.id),
-  challengedId: varchar("challenged_id").notNull().references(() => users.id),
+  challengerId: varchar("challenger_id").notNull(),
+  challengedId: varchar("challenged_id").notNull(),
   challengeType: varchar("challenge_type", { length: 30 }).notNull(), // speed_round, accuracy_battle, streak_challenge, subject_mastery
   subject: varchar("subject", { length: 50 }),
   grade: varchar("grade", { length: 2 }),
