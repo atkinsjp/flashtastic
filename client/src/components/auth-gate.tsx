@@ -35,7 +35,7 @@ export default function AuthGate({ isOpen, onClose }: AuthGateProps) {
       login(user);
       onClose();
       toast({
-        title: "Welcome to FlashKademy!",
+        title: "Welcome to FlashTastic!",
         description: "Your account has been created successfully.",
       });
     },
@@ -91,7 +91,7 @@ export default function AuthGate({ isOpen, onClose }: AuthGateProps) {
         <DialogContent className="max-w-md mx-4">
           <DialogHeader>
             <DialogTitle className="text-center text-2xl font-bold text-gray-800">
-              Join FlashKademy
+              Join FlashTastic
             </DialogTitle>
             <p className="text-center text-gray-600">Create your free account</p>
           </DialogHeader>
@@ -168,7 +168,7 @@ export default function AuthGate({ isOpen, onClose }: AuthGateProps) {
               <GraduationCap className="h-8 w-8 text-white" />
             </div>
             <DialogTitle className="text-3xl font-bold text-gray-800 mb-2">
-              Welcome to FlashKademy!
+              Welcome to FlashTastic!
             </DialogTitle>
             <p className="text-gray-600 text-lg">
               The fun way to learn with interactive flash cards and games
