@@ -1,6 +1,6 @@
 {
-  "name": "FlashKademy - Educational Flash Cards",
-  "short_name": "FlashKademy",
+  "name": "FlashTastic - Educational Flash Cards",
+  "short_name": "FlashTastic",
   "description": "A comprehensive K-8 educational flash card Progressive Web App with gamification, custom avatars, and multi-subject content",
   "start_url": "/",
   "display": "standalone",
@@ -125,7 +125,7 @@
   },
   "protocol_handlers": [
     {
-      "protocol": "web+flashkademy",
+      "protocol": "web+flashtastic",
       "url": "/?action=%s"
     }
   ]
