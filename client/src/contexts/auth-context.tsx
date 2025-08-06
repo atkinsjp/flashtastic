@@ -25,8 +25,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   useEffect(() => {
     // Check for saved user data on app start
-    const savedUser = localStorage.getItem('flashkademy-user');
-    const savedMode = localStorage.getItem('flashkademy-mode') as UserMode;
+    const savedUser = localStorage.getItem('flashtastic-user');
+    const savedMode = localStorage.getItem('flashtastic-mode') as UserMode;
     
     if (savedUser && savedMode === 'member') {
       try {
@@ -34,8 +34,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
         setUserMode('member');
       } catch (error) {
         console.error('Failed to parse saved user data:', error);
-        localStorage.removeItem('flashkademy-user');
-        localStorage.removeItem('flashkademy-mode');
+        localStorage.removeItem('flashtastic-user');
+        localStorage.removeItem('flashtastic-mode');
       }
     }
   }, []);
@@ -43,21 +43,21 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const login = (userData: User) => {
     setUser(userData);
     setUserMode('member');
-    localStorage.setItem('flashkademy-user', JSON.stringify(userData));
-    localStorage.setItem('flashkademy-mode', 'member');
+    localStorage.setItem('flashtastic-user', JSON.stringify(userData));
+    localStorage.setItem('flashtastic-mode', 'member');
   };
 
   const logout = () => {
     setUser(null);
     setUserMode('guest');
-    localStorage.removeItem('flashkademy-user');
-    localStorage.removeItem('flashkademy-mode');
+    localStorage.removeItem('flashtastic-user');
+    localStorage.removeItem('flashtastic-mode');
   };
 
   const continueAsGuest = () => {
     setUserMode('guest');
     setUser(null);
-    localStorage.setItem('flashkademy-mode', 'guest');
+    localStorage.setItem('flashtastic-mode', 'guest');
   };
 
   const value: AuthContextType = {

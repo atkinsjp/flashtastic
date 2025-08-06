@@ -20,6 +20,7 @@ export default function Quiz() {
   const [timeLeft, setTimeLeft] = useState(300); // 5 minutes for timed quiz
   const [quizCompleted, setQuizCompleted] = useState(false);
   const [quizStarted, setQuizStarted] = useState(false);
+  const [questionChoices, setQuestionChoices] = useState<Record<number, string[]>>({});
 
   const { data: flashCards = [], isLoading, isError } = useQuery<FlashCard[]>({
     queryKey: [`/api/flashcards?grade=${selectedGrade}&subject=${selectedSubject || "mixed"}`],
@@ -113,6 +114,7 @@ export default function Quiz() {
     setQuizStarted(false);
     setQuizMode(null);
     setSelectedSubject(null);
+    setQuestionChoices({});
   };
 
   const startQuiz = () => {
@@ -121,6 +123,14 @@ export default function Quiz() {
     setSelectedAnswer(null);
     setScore(0);
     setQuizCompleted(false);
+    
+    // Pre-generate all answer choices to prevent randomization during quiz
+    const choices: Record<number, string[]> = {};
+    flashCards.forEach((card, index) => {
+      choices[index] = generateChoices(card.answer, flashCards);
+    });
+    setQuestionChoices(choices);
+    
     // Set appropriate time limit based on quiz mode
     if (quizMode === "timed") {
       setTimeLeft(300); // 5 minutes
@@ -461,9 +471,9 @@ export default function Quiz() {
                 />
               )}
               
-              {/* Multiple choice options with randomized correct answer position */}
+              {/* Multiple choice options with stable correct answer position */}
               <div className="space-y-3">
-                {generateChoices(currentCard.answer, flashCards).map((choice, index) => (
+                {(questionChoices[currentQuestion] || []).map((choice, index) => (
                   <Button
                     key={`${currentQuestion}-${index}`}
                     variant={selectedAnswer === choice ? "default" : "outline"}
