@@ -214,7 +214,7 @@ export default function Study() {
                       variant={learningStyle === 'self-paced' ? 'default' : 'outline'}
                       size="sm"
                       onClick={() => setLearningStyle('self-paced')}
-                      className="bg-coral hover:bg-coral/90"
+                      className={learningStyle === 'self-paced' ? 'bg-coral hover:bg-coral/90 text-white' : 'border-coral text-coral hover:bg-coral hover:text-white'}
                     >
                       Self-paced
                     </Button>
@@ -222,7 +222,7 @@ export default function Study() {
                       variant={learningStyle === 'interactive' ? 'default' : 'outline'}
                       size="sm"
                       onClick={() => setLearningStyle('interactive')}
-                      className="bg-turquoise hover:bg-turquoise/90"
+                      className={learningStyle === 'interactive' ? 'bg-turquoise hover:bg-turquoise/90 text-white' : 'border-turquoise text-turquoise hover:bg-turquoise hover:text-white'}
                     >
                       Interactive
                     </Button>
@@ -230,7 +230,7 @@ export default function Study() {
                       variant={learningStyle === 'visual' ? 'default' : 'outline'}
                       size="sm"
                       onClick={() => setLearningStyle('visual')}
-                      className="bg-sky hover:bg-sky/90"
+                      className={learningStyle === 'visual' ? 'bg-sky hover:bg-sky/90 text-white' : 'border-sky text-sky hover:bg-sky hover:text-white'}
                     >
                       Visual learning
                     </Button>
@@ -254,10 +254,14 @@ export default function Study() {
                     Test your knowledge with multiple choice questions based on the current subject.
                   </p>
                   <Button 
-                    className="w-full bg-turquoise hover:bg-turquoise/90"
+                    className="w-full bg-turquoise hover:bg-turquoise/90 text-white"
                     onClick={() => {
                       // Navigate to quiz page with current subject and grade
-                      window.location.href = `/quiz?mode=practice&grade=${selectedGrade}&subject=${selectedSubject}`;
+                      if (selectedSubject) {
+                        window.location.href = `/quiz?mode=untimed&grade=${selectedGrade}&subject=${selectedSubject}`;
+                      } else {
+                        console.log('No subject selected for quiz');
+                      }
                     }}
                   >
                     Start Quick Quiz
@@ -277,11 +281,17 @@ export default function Study() {
                   </p>
                   <Button 
                     variant="outline" 
-                    className="w-full"
+                    className="w-full border-gray-300 text-gray-800 hover:bg-gray-50"
                     onClick={() => {
                       // Filter for difficult cards and restart current session
-                      setCurrentCardIndex(0);
-                      console.log('Starting review mode with difficult cards');
+                      if (flashCards && flashCards.length > 0) {
+                        setCurrentCardIndex(0);
+                        console.log('Starting review mode with difficult cards for', selectedSubject);
+                        // For now, just restart the deck - in production this would filter difficult cards
+                        window.location.reload();
+                      } else {
+                        console.log('No cards available for review');
+                      }
                     }}
                   >
                     Review Difficult Cards

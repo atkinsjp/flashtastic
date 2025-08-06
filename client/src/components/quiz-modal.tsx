@@ -71,7 +71,7 @@ export default function QuizModal({ isOpen, onClose, grade }: QuizModalProps) {
         
         <div className="space-y-4">
           <div className="text-center mb-4">
-            <Badge variant="outline" className="text-sm">
+            <Badge variant="outline" className="text-sm text-gray-800 border-gray-300">
               Grade {grade} • Ready to test your knowledge?
             </Badge>
           </div>
