@@ -1,8 +1,8 @@
-# Flashtastic - Educational Flash Cards Application
+# FlashTastic - Educational Flash Cards Application
 
 ## Overview
 
-Flashtastic is a comprehensive K-8 educational flash card Progressive Web App (PWA) with gamification features, 3D custom avatars, sibling competitions, and multi-subject content. The application provides an engaging learning experience for students across different grade levels with features like spaced repetition, achievements, progress tracking, interactive quizzes, and family-based competitive learning.
+FlashTastic is a comprehensive K-8 educational flash card Progressive Web App (PWA) with gamification features, 3D custom avatars, sibling competitions, and multi-subject content. The application provides an engaging learning experience for students across different grade levels with features like spaced repetition, achievements, progress tracking, interactive quizzes, and family-based competitive learning.
 
 ### Key Features
 - **Guest Mode**: Visitors can use basic flash cards and quizzes without registration - COMPLETED

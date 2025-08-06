@@ -2,7 +2,7 @@ import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'com.flashtastic.app',
-  appName: 'Flashtastic',
+  appName: 'FlashTastic',
   webDir: 'dist/public',
   server: {
     androidScheme: 'https'
