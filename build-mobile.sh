@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# FlashKademy Mobile Build Script
+# Flashtastic Mobile Build Script
 
-echo "🚀 Building FlashKademy for mobile platforms..."
+echo "🚀 Building Flashtastic for mobile platforms..."
 
 # Step 1: Build the web app
 echo "📦 Building web application..."
