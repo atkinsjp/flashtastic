@@ -74,7 +74,7 @@ export default function Home() {
 
   // Show auth gate on first visit if no user mode is set
   useEffect(() => {
-    if (!user && userMode === 'guest' && localStorage.getItem('flashkademy-mode') === null) {
+    if (!user && userMode === 'guest' && localStorage.getItem('flashtastic-mode') === null) {
       setShowAuthGate(true);
     }
   }, [user, userMode]);
@@ -89,7 +89,7 @@ export default function Home() {
               <div className="w-10 h-10 bg-gradient-to-r from-coral to-pink rounded-full flex items-center justify-center">
                 <GraduationCap className="h-6 w-6 text-white" />
               </div>
-              <h1 className="text-2xl font-bold text-gray-800">FlashKademy</h1>
+              <h1 className="text-2xl font-bold text-gray-800">FlashTastic</h1>
             </div>
             
             <div className="flex items-center space-x-4">

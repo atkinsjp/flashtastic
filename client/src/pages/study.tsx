@@ -29,11 +29,16 @@ export default function Study() {
   const [selectedSubject, setSelectedSubject] = useState<string | null>(null);
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [avatarGrowth, setAvatarGrowth] = useState(mockStudentData.avatarGrowth);
+  const [studyMode, setStudyMode] = useState<'flashcard' | 'quiz' | 'review'>('flashcard');
+  const [learningStyle, setLearningStyle] = useState<'self-paced' | 'interactive' | 'visual'>('self-paced');
 
   const { data: flashCards, isLoading } = useQuery({
-    queryKey: ["/api/flashcards", selectedGrade, selectedSubject],
+    queryKey: [`/api/flashcards?grade=${selectedGrade}&subject=${selectedSubject}`],
     enabled: !!selectedSubject,
   });
+
+  // Ensure flashCards is properly typed as an array
+  const cardArray = Array.isArray(flashCards) ? flashCards : [];
 
   const subjects = [
     { id: "vocabulary", name: "Vocabulary", icon: "📚", color: "from-coral to-pink" },
@@ -48,7 +53,7 @@ export default function Study() {
 
   const handleCardComplete = (correct: boolean) => {
     // TODO: Update progress API
-    if (flashCards && Array.isArray(flashCards) && currentCardIndex < flashCards.length - 1) {
+    if (cardArray.length > 0 && currentCardIndex < cardArray.length - 1) {
       setCurrentCardIndex(currentCardIndex + 1);
     } else {
       // Session complete
@@ -107,8 +112,8 @@ export default function Study() {
     );
   }
 
-  const currentCard = Array.isArray(flashCards) ? flashCards[currentCardIndex] : null;
-  const progress = Array.isArray(flashCards) ? ((currentCardIndex + 1) / flashCards.length) * 100 : 0;
+  const currentCard = cardArray[currentCardIndex] || null;
+  const progress = cardArray.length > 0 ? ((currentCardIndex + 1) / cardArray.length) * 100 : 0;
 
   return (
     <div className="min-h-screen p-4">
@@ -124,7 +129,7 @@ export default function Study() {
               ← Back to Subjects
             </Button>
             <Badge variant="secondary">
-              {currentCardIndex + 1} of {flashCards?.length || 0}
+              {currentCardIndex + 1} of {cardArray.length}
             </Badge>
           </div>
           
@@ -141,7 +146,7 @@ export default function Study() {
             <CardContent className="p-4 text-center">
               <BookOpen className="h-6 w-6 mx-auto mb-2 text-coral" />
               <div className="text-sm text-gray-600">Cards Left</div>
-              <div className="text-lg font-bold">{(flashCards?.length || 0) - currentCardIndex}</div>
+              <div className="text-lg font-bold">{cardArray.length - currentCardIndex}</div>
             </CardContent>
           </Card>
           
@@ -188,7 +193,7 @@ export default function Study() {
 
         {/* Study Mode Options */}
         <div className="mt-8">
-          <Tabs defaultValue="flashcard" className="w-full">
+          <Tabs value={studyMode} onValueChange={(value) => setStudyMode(value as 'flashcard' | 'quiz' | 'review')} className="w-full">
             <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger value="flashcard">Flash Cards</TabsTrigger>
               <TabsTrigger value="quiz">Quick Quiz</TabsTrigger>
@@ -204,11 +209,37 @@ export default function Study() {
                   <p className="text-gray-600 mb-4">
                     Study at your own pace with interactive flash cards. Tap to flip and see the answer.
                   </p>
-                  <div className="flex gap-2">
-                    <Badge variant="outline">Self-paced</Badge>
-                    <Badge variant="outline">Interactive</Badge>
-                    <Badge variant="outline">Visual learning</Badge>
+                  <div className="flex gap-2 mb-4">
+                    <Button
+                      variant={learningStyle === 'self-paced' ? 'default' : 'outline'}
+                      size="sm"
+                      onClick={() => setLearningStyle('self-paced')}
+                      className="bg-coral hover:bg-coral/90"
+                    >
+                      Self-paced
+                    </Button>
+                    <Button
+                      variant={learningStyle === 'interactive' ? 'default' : 'outline'}
+                      size="sm"
+                      onClick={() => setLearningStyle('interactive')}
+                      className="bg-turquoise hover:bg-turquoise/90"
+                    >
+                      Interactive
+                    </Button>
+                    <Button
+                      variant={learningStyle === 'visual' ? 'default' : 'outline'}
+                      size="sm"
+                      onClick={() => setLearningStyle('visual')}
+                      className="bg-sky hover:bg-sky/90"
+                    >
+                      Visual learning
+                    </Button>
                   </div>
+                  <p className="text-sm text-gray-500">
+                    {learningStyle === 'self-paced' && 'Study at your own comfortable pace'}
+                    {learningStyle === 'interactive' && 'Engage with dynamic content and immediate feedback'}
+                    {learningStyle === 'visual' && 'Focus on images, colors, and visual cues'}
+                  </p>
                 </CardContent>
               </Card>
             </TabsContent>
@@ -222,7 +253,13 @@ export default function Study() {
                   <p className="text-gray-600 mb-4">
                     Test your knowledge with multiple choice questions based on the current subject.
                   </p>
-                  <Button className="w-full bg-turquoise hover:bg-turquoise/90">
+                  <Button 
+                    className="w-full bg-turquoise hover:bg-turquoise/90"
+                    onClick={() => {
+                      // Navigate to quiz page with current subject and grade
+                      window.location.href = `/quiz?mode=practice&grade=${selectedGrade}&subject=${selectedSubject}`;
+                    }}
+                  >
                     Start Quick Quiz
                   </Button>
                 </CardContent>
@@ -238,7 +275,15 @@ export default function Study() {
                   <p className="text-gray-600 mb-4">
                     Review cards you've marked as difficult or incorrect in previous sessions.
                   </p>
-                  <Button variant="outline" className="w-full">
+                  <Button 
+                    variant="outline" 
+                    className="w-full"
+                    onClick={() => {
+                      // Filter for difficult cards and restart current session
+                      setCurrentCardIndex(0);
+                      console.log('Starting review mode with difficult cards');
+                    }}
+                  >
                     Review Difficult Cards
                   </Button>
                 </CardContent>
