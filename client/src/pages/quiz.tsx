@@ -141,7 +141,7 @@ export default function Quiz() {
 
   // Timer effect for timed quizzes
   useEffect(() => {
-    if (quizStarted && !quizCompleted && (quizMode === "timed" || quizMode === "mixed") && timeLeft > 0) {
+    if (quizStarted && !quizCompleted && (quizMode === "timed" || quizMode === "mixed")) {
       const timer = setInterval(() => {
         setTimeLeft((prev) => {
           if (prev <= 1) {
@@ -154,7 +154,7 @@ export default function Quiz() {
 
       return () => clearInterval(timer);
     }
-  }, [quizStarted, quizCompleted, quizMode, timeLeft]);
+  }, [quizStarted, quizCompleted, quizMode]);
 
   // Mode selection screen
   if (!quizMode) {
