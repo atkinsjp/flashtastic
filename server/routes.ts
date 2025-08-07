@@ -1,6 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
+import { generateQuestions } from "./ai-generator";
 import { 
   insertUserSchema, 
   insertFlashCardSchema, 
@@ -306,18 +307,50 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Flash cards routes
+  // Flash cards routes with AI generation fallback
   app.get("/api/flashcards", async (req, res) => {
     try {
       const { grade, subject, limit, offset } = req.query;
-      const cards = await storage.getFlashCards({
+      const requestedLimit = limit ? parseInt(limit as string) : 10;
+      
+      // First try to get existing cards from database
+      let cards = await storage.getFlashCards({
         grade: grade as string,
         subject: subject === "mixed" ? undefined : (subject as string),
-        limit: limit ? parseInt(limit as string) : 10, // Default limit for quizzes
+        limit: requestedLimit,
         offset: offset ? parseInt(offset as string) : undefined,
       });
+
+      // If no cards exist or we need more cards, generate with AI
+      if (cards.length === 0 && subject && subject !== "mixed" && grade) {
+        console.log(`No flashcards found for ${subject} grade ${grade}, generating with AI...`);
+        try {
+          const aiCards = await generateQuestions({
+            subject: subject as string,
+            grade: grade as string,
+            count: requestedLimit
+          });
+          
+          // Save generated cards to database for future use
+          for (const card of aiCards) {
+            try {
+              await storage.createFlashCard(card);
+            } catch (saveError) {
+              console.log("Card already exists or save failed:", saveError);
+            }
+          }
+          
+          cards = aiCards;
+        } catch (aiError) {
+          console.error("AI generation failed:", aiError);
+          // Return empty array if AI fails
+          cards = [];
+        }
+      }
+
       res.json(cards);
     } catch (error) {
+      console.error("Flash cards endpoint error:", error);
       res.status(500).json({ message: "Failed to get flash cards" });
     }
   });
@@ -331,6 +364,40 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(card);
     } catch (error) {
       res.status(500).json({ message: "Failed to get flash card" });
+    }
+  });
+
+  // New endpoint for generating AI questions on demand
+  app.post("/api/flashcards/generate", async (req, res) => {
+    try {
+      const { subject, grade, count = 10 } = req.body;
+      
+      if (!subject || !grade) {
+        return res.status(400).json({ message: "Subject and grade are required" });
+      }
+
+      const aiCards = await generateQuestions({
+        subject,
+        grade,
+        count: Math.min(count, 20) // Limit to 20 questions max per request
+      });
+
+      // Save generated cards to database
+      const savedCards = [];
+      for (const card of aiCards) {
+        try {
+          const savedCard = await storage.createFlashCard(card);
+          savedCards.push(savedCard);
+        } catch (saveError) {
+          console.log("Card save failed, using generated card:", saveError);
+          savedCards.push(card);
+        }
+      }
+
+      res.json(savedCards);
+    } catch (error) {
+      console.error("AI generation endpoint error:", error);
+      res.status(500).json({ message: "Failed to generate flash cards" });
     }
   });
 
