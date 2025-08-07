@@ -475,11 +475,11 @@ export default function Quiz() {
 
         {/* Question Card */}
         {currentCard && (
-          <Card className="mb-6">
-            <CardHeader>
-              <CardTitle className="text-xl">{currentCard.question}</CardTitle>
+          <Card className="mb-6 bg-white border-2 border-gray-200 shadow-lg">
+            <CardHeader className="bg-gradient-to-r from-coral to-pink text-white">
+              <CardTitle className="text-xl font-bold text-white drop-shadow-md">{currentCard.question}</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-4 bg-white p-6">
               {currentCard.imageUrl && (
                 <img 
                   src={currentCard.imageUrl}
@@ -494,10 +494,17 @@ export default function Quiz() {
                   <Button
                     key={`${currentQuestion}-${index}`}
                     variant={selectedAnswer === choice ? "default" : "outline"}
-                    className="w-full text-left justify-start"
+                    className={`w-full text-left justify-start p-4 text-lg font-semibold ${
+                      selectedAnswer === choice 
+                        ? "bg-coral hover:bg-coral/90 text-white border-coral shadow-md" 
+                        : "bg-gray-50 hover:bg-gray-100 text-gray-900 border-gray-300"
+                    } transition-all duration-200`}
                     onClick={() => handleAnswerSelect(choice)}
                   >
-                    {String.fromCharCode(65 + index)}) {choice}
+                    <span className={`font-bold mr-3 ${selectedAnswer === choice ? "text-white" : "text-gray-900"}`}>
+                      {String.fromCharCode(65 + index)})
+                    </span>
+                    <span className={selectedAnswer === choice ? "text-white" : "text-gray-900"}>{choice}</span>
                   </Button>
                 ))}
               </div>
@@ -509,7 +516,7 @@ export default function Quiz() {
         <Button 
           onClick={handleNextQuestion}
           disabled={!selectedAnswer}
-          className="w-full bg-turquoise hover:bg-turquoise/90 text-lg py-3"
+          className="w-full bg-turquoise hover:bg-turquoise/90 text-white font-bold text-lg py-3 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {currentQuestion === (flashCards.length || 1) - 1 ? "Finish Quiz" : "Next Question"} →
         </Button>
