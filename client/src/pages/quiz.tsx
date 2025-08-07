@@ -475,9 +475,9 @@ export default function Quiz() {
 
         {/* Question Card */}
         {currentCard && (
-          <Card className="mb-6 bg-white border-2 border-gray-200 shadow-lg">
-            <CardHeader className="bg-gradient-to-r from-coral to-pink text-white">
-              <CardTitle className="text-xl font-bold text-white drop-shadow-md">{currentCard.question}</CardTitle>
+          <Card className="mb-6 bg-white border-2 border-gray-300 shadow-lg">
+            <CardHeader className="bg-red-500 text-white p-6">
+              <CardTitle className="text-xl font-bold text-white">{currentCard.question}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4 bg-white p-6">
               {currentCard.imageUrl && (
@@ -493,18 +493,18 @@ export default function Quiz() {
                 {(questionChoices[currentQuestion] || []).map((choice, index) => (
                   <Button
                     key={`${currentQuestion}-${index}`}
-                    variant={selectedAnswer === choice ? "default" : "outline"}
-                    className={`w-full text-left justify-start p-4 text-lg font-semibold ${
+                    variant="outline"
+                    className={`w-full text-left justify-start p-4 text-lg font-semibold border-2 transition-all duration-200 ${
                       selectedAnswer === choice 
-                        ? "bg-coral hover:bg-coral/90 text-white border-coral shadow-md" 
-                        : "bg-gray-50 hover:bg-gray-100 text-gray-900 border-gray-300"
-                    } transition-all duration-200`}
+                        ? "!bg-red-500 !text-white !border-red-500 hover:!bg-red-600" 
+                        : "!bg-gray-100 !text-black !border-gray-400 hover:!bg-gray-200"
+                    }`}
                     onClick={() => handleAnswerSelect(choice)}
                   >
-                    <span className={`font-bold mr-3 ${selectedAnswer === choice ? "text-white" : "text-gray-900"}`}>
+                    <span className={`font-bold mr-3 ${selectedAnswer === choice ? "!text-white" : "!text-black"}`}>
                       {String.fromCharCode(65 + index)})
                     </span>
-                    <span className={selectedAnswer === choice ? "text-white" : "text-gray-900"}>{choice}</span>
+                    <span className={selectedAnswer === choice ? "!text-white" : "!text-black"}>{choice}</span>
                   </Button>
                 ))}
               </div>
