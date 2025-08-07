@@ -72,7 +72,7 @@ export default function SubjectGrid({ selectedGrade }: SubjectGridProps) {
 
   // Get flash cards for each subject to calculate progress
   const { data: subjectProgress } = useQuery({
-    queryKey: ["/api/flashcards", selectedGrade],
+    queryKey: [`/api/flashcards?grade=${selectedGrade}`],
     select: (data) => {
       if (!data) return {};
       

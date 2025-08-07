@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
 interface Achievement {
@@ -51,6 +51,10 @@ export default function AchievementPopup({
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-sm mx-4 text-center p-8 border-0 shadow-2xl">
+        <DialogTitle className="sr-only">Achievement Unlocked</DialogTitle>
+        <DialogDescription className="sr-only">
+          You have earned a new achievement: {achievement.name}. {achievement.description}
+        </DialogDescription>
         <div className={`space-y-6 ${showConfetti ? 'celebration' : ''}`}>
           {/* Celebration Emojis */}
           <div className="text-6xl animate-bounce">🎉</div>

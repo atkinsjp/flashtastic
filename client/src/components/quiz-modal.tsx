@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -58,6 +58,9 @@ export default function QuizModal({ isOpen, onClose, grade }: QuizModalProps) {
             <DialogTitle className="text-xl font-bold text-gray-800">
               Choose Quiz Mode
             </DialogTitle>
+            <DialogDescription className="sr-only">
+              Select from timed quiz, practice quiz, or mixed review modes
+            </DialogDescription>
             <Button 
               variant="ghost" 
               size="sm"

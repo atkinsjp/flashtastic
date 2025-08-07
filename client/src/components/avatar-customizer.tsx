@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 
@@ -65,6 +65,9 @@ export default function AvatarCustomizer({
             <DialogTitle className="text-xl font-bold text-gray-800">
               Customize Avatar
             </DialogTitle>
+            <DialogDescription className="sr-only">
+              Choose your avatar style from the available options
+            </DialogDescription>
             <Button 
               variant="ghost" 
               size="sm"

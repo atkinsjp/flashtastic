@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -29,8 +29,10 @@ export default function AuthGate({ isOpen, onClose }: AuthGateProps) {
   const { toast } = useToast();
 
   const createUserMutation = useMutation({
-    mutationFn: (userData: typeof formData) => 
-      apiRequest('/api/users', { method: 'POST', body: userData }),
+    mutationFn: async (userData: typeof formData) => {
+      const response = await apiRequest('POST', '/api/users', userData);
+      return await response.json();
+    },
     onSuccess: (user) => {
       login(user);
       onClose();
@@ -93,7 +95,7 @@ export default function AuthGate({ isOpen, onClose }: AuthGateProps) {
             <DialogTitle className="text-center text-2xl font-bold text-gray-800">
               Join FlashTastic
             </DialogTitle>
-            <p className="text-center text-gray-600">Create your free account</p>
+            <DialogDescription className="text-center text-gray-600">Create your free account</DialogDescription>
           </DialogHeader>
 
           <form onSubmit={handleSignup} className="space-y-4">
@@ -170,9 +172,9 @@ export default function AuthGate({ isOpen, onClose }: AuthGateProps) {
             <DialogTitle className="text-3xl font-bold text-gray-800 mb-2">
               Welcome to FlashTastic!
             </DialogTitle>
-            <p className="text-gray-600 text-lg">
+            <DialogDescription className="text-gray-600 text-lg">
               The fun way to learn with interactive flash cards and games
-            </p>
+            </DialogDescription>
           </div>
         </DialogHeader>
 
