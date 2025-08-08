@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useLocation } from "wouter";
 import FlashCard from "@/components/flash-card";
 import LearningPath from "@/components/learning-path";
 import GradeSelector from "@/components/grade-selector";
@@ -26,6 +27,7 @@ const mockStudentData = {
 };
 
 export default function Study() {
+  const [, setLocation] = useLocation();
   const [selectedGrade, setSelectedGrade] = useState("2");
   const [selectedSubject, setSelectedSubject] = useState<string | null>(null);
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
@@ -341,7 +343,8 @@ export default function Study() {
                     onClick={() => {
                       // Navigate to quiz page with current subject and grade
                       if (selectedSubject) {
-                        window.location.href = `/quiz?mode=untimed&grade=${selectedGrade}&subject=${selectedSubject}`;
+                        // Use proper client-side navigation
+                        setLocation(`/quiz?mode=untimed&grade=${selectedGrade}&subject=${selectedSubject}`);
                       } else {
                         console.log('No subject selected for quiz');
                       }
@@ -370,8 +373,7 @@ export default function Study() {
                       if (cardArray && cardArray.length > 0) {
                         setCurrentCardIndex(0);
                         console.log('Starting review mode with difficult cards for', selectedSubject);
-                        // For now, just restart the deck - in production this would filter difficult cards
-                        window.location.reload();
+                        // Reset to beginning of current deck instead of reloading page
                       } else {
                         console.log('No cards available for review');
                       }
