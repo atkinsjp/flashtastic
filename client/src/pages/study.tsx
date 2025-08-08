@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import FlashCard from "@/components/flash-card";
+import LearningPath from "@/components/learning-path";
 import GradeSelector from "@/components/grade-selector";
 import AvatarProgressWidget from "@/components/avatar-progress-widget";
 import { Button } from "@/components/ui/button";
@@ -8,7 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { BookOpen, Clock, Target } from "lucide-react";
+import { BookOpen, Clock, Target, Map, Brain, Zap } from "lucide-react";
 
 // Mock user data for study session
 const mockStudentData = {
@@ -29,8 +30,9 @@ export default function Study() {
   const [selectedSubject, setSelectedSubject] = useState<string | null>(null);
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [avatarGrowth, setAvatarGrowth] = useState(mockStudentData.avatarGrowth);
-  const [studyMode, setStudyMode] = useState<'flashcard' | 'quiz' | 'review'>('flashcard');
+  const [studyMode, setStudyMode] = useState<'flashcard' | 'quiz' | 'review' | 'learning-path'>('flashcard');
   const [learningStyle, setLearningStyle] = useState<'self-paced' | 'interactive' | 'visual'>('self-paced');
+  const [isInLearningPath, setIsInLearningPath] = useState(false);
 
   const { data: flashCards, isLoading } = useQuery({
     queryKey: [`/api/flashcards?grade=${selectedGrade}&subject=${selectedSubject}`],
@@ -62,6 +64,29 @@ export default function Study() {
     }
   };
 
+  const handleLearningPathComplete = (score: number) => {
+    // TODO: Update progress API with learning path completion
+    setIsInLearningPath(false);
+    setSelectedSubject(null);
+    setCurrentCardIndex(0);
+  };
+
+  const handleExitLearningPath = () => {
+    setIsInLearningPath(false);
+    setSelectedSubject(null);
+  };
+
+  // If user is in learning path mode, render the learning path component
+  if (isInLearningPath && selectedSubject && cardArray.length > 0) {
+    return (
+      <LearningPath
+        flashCards={cardArray}
+        onComplete={handleLearningPathComplete}
+        onExit={handleExitLearningPath}
+      />
+    );
+  }
+
   if (!selectedSubject) {
     return (
       <div className="min-h-screen p-4">
@@ -76,6 +101,54 @@ export default function Study() {
             onGradeSelect={setSelectedGrade}
           />
 
+          {/* Study Mode Selection */}
+          <div className="mt-8 mb-8">
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">Choose Your Study Experience</h3>
+            <div className="grid md:grid-cols-2 gap-6">
+              <Card 
+                className="cursor-pointer transform hover:scale-105 transition-all duration-300 bg-gradient-to-br from-blue-500 to-purple-600 text-white shadow-lg hover:shadow-xl border-4 border-transparent hover:border-white"
+                onClick={() => {
+                  setStudyMode('learning-path');
+                }}
+              >
+                <CardContent className="p-6 text-center">
+                  <Map className="h-12 w-12 mx-auto mb-4" />
+                  <h4 className="text-xl font-bold mb-2">Interactive Learning Path</h4>
+                  <p className="text-blue-100 mb-4">
+                    Follow a guided journey through Foundation → Practice → Challenge → Mastery
+                  </p>
+                  <div className="flex items-center justify-center space-x-2 text-sm">
+                    <Brain className="h-4 w-4" />
+                    <span>Adaptive</span>
+                    <Zap className="h-4 w-4 ml-2" />
+                    <span>Animated</span>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card 
+                className="cursor-pointer transform hover:scale-105 transition-all duration-300 bg-gradient-to-br from-green-500 to-teal-600 text-white shadow-lg hover:shadow-xl border-4 border-transparent hover:border-white"
+                onClick={() => {
+                  setStudyMode('flashcard');
+                }}
+              >
+                <CardContent className="p-6 text-center">
+                  <BookOpen className="h-12 w-12 mx-auto mb-4" />
+                  <h4 className="text-xl font-bold mb-2">Traditional Flash Cards</h4>
+                  <p className="text-green-100 mb-4">
+                    Classic flashcard experience with flip animations and progress tracking
+                  </p>
+                  <div className="flex items-center justify-center space-x-2 text-sm">
+                    <Clock className="h-4 w-4" />
+                    <span>Self-paced</span>
+                    <Target className="h-4 w-4 ml-2" />
+                    <span>Focus</span>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+
           <div className="mt-8">
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Choose Your Subject</h3>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -83,7 +156,12 @@ export default function Study() {
                 <Card
                   key={subject.id}
                   className={`cursor-pointer transform hover:scale-105 transition-all duration-300 bg-gradient-to-br ${subject.color} text-white shadow-lg hover:shadow-xl`}
-                  onClick={() => setSelectedSubject(subject.id)}
+                  onClick={() => {
+                    setSelectedSubject(subject.id);
+                    if (studyMode === 'learning-path') {
+                      setIsInLearningPath(true);
+                    }
+                  }}
                 >
                   <CardContent className="p-6 text-center">
                     <div className="text-4xl mb-3">{subject.icon}</div>
@@ -91,6 +169,11 @@ export default function Study() {
                     <Badge variant="secondary" className="bg-white/90 text-[#000000] font-bold border border-gray-800/20">
                       Grade {selectedGrade}
                     </Badge>
+                    {studyMode === 'learning-path' && (
+                      <Badge className="mt-2 bg-purple-600 text-white">
+                        Learning Path Mode
+                      </Badge>
+                    )}
                   </CardContent>
                 </Card>
               ))}
@@ -284,7 +367,7 @@ export default function Study() {
                     className="w-full border-gray-300 text-gray-800 hover:bg-gray-50"
                     onClick={() => {
                       // Filter for difficult cards and restart current session
-                      if (flashCards && flashCards.length > 0) {
+                      if (cardArray && cardArray.length > 0) {
                         setCurrentCardIndex(0);
                         console.log('Starting review mode with difficult cards for', selectedSubject);
                         // For now, just restart the deck - in production this would filter difficult cards
