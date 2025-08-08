@@ -48,6 +48,9 @@ In Android Studio:
 - **App Icon**: 512x512px (create a colorful graduation cap or brain icon)
 - **Feature Graphic**: 1024x500px banner
 - **Screenshots**: Take 4-6 screenshots of your app in action
+- **Screen Recording**: 2-3 minute demo video (optional but recommended)
+
+See LAUNCH-ASSETS-CHECKLIST.md for detailed screenshot guide and STORE-LISTING-OPTIMIZED.md for marketing copy
 
 ### Legal Requirements
 - **Privacy Policy**: Simple page stating you don't collect personal data
