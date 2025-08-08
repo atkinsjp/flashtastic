@@ -307,23 +307,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Flash cards routes with AI generation fallback
+  // Flash cards routes with AI-first generation
   app.get("/api/flashcards", async (req, res) => {
     try {
-      const { grade, subject, limit, offset } = req.query;
+      const { grade, subject, limit, offset, fresh } = req.query;
       const requestedLimit = limit ? parseInt(limit as string) : 10;
       
-      // First try to get existing cards from database
-      let cards = await storage.getFlashCards({
-        grade: grade as string,
-        subject: subject === "mixed" ? undefined : (subject as string),
-        limit: requestedLimit,
-        offset: offset ? parseInt(offset as string) : undefined,
-      });
-
-      // If no cards exist or we need more cards, generate with AI
-      if (cards.length === 0 && subject && subject !== "mixed" && grade) {
-        console.log(`No flashcards found for ${subject} grade ${grade}, generating with AI...`);
+      // Always generate fresh AI content first
+      if (subject && subject !== "mixed" && grade) {
+        console.log(`Generating fresh AI content for ${subject} grade ${grade}...`);
         try {
           const aiCards = await generateQuestions({
             subject: subject as string,
@@ -331,22 +323,38 @@ export async function registerRoutes(app: Express): Promise<Server> {
             count: requestedLimit
           });
           
-          // Save generated cards to database for future use
-          for (const card of aiCards) {
-            try {
-              await storage.createFlashCard(card);
-            } catch (saveError) {
-              console.log("Card already exists or save failed:", saveError);
-            }
+          // Mix with some existing cards for variety, but prioritize fresh content
+          let existingCards: any[] = [];
+          try {
+            existingCards = await storage.getFlashCards({
+              grade: grade as string,
+              subject: subject as string,
+              limit: Math.max(0, requestedLimit - aiCards.length),
+              offset: offset ? parseInt(offset as string) : undefined,
+            });
+          } catch (dbError) {
+            console.log("Could not fetch existing cards, using AI only");
           }
           
-          cards = aiCards;
+          // Combine fresh AI cards with some existing ones
+          const allCards = [...aiCards, ...existingCards];
+          const shuffledCards = allCards.sort(() => Math.random() - 0.5).slice(0, requestedLimit);
+          
+          res.json(shuffledCards);
+          return;
         } catch (aiError) {
-          console.error("AI generation failed:", aiError);
-          // Return empty array if AI fails
-          cards = [];
+          console.error("AI generation failed, falling back to database:", aiError);
+          // Fallback to database if AI fails
         }
       }
+
+      // Fallback: get existing cards from database
+      const cards = await storage.getFlashCards({
+        grade: grade as string,
+        subject: subject === "mixed" ? undefined : (subject as string),
+        limit: requestedLimit,
+        offset: offset ? parseInt(offset as string) : undefined,
+      });
 
       res.json(cards);
     } catch (error) {
@@ -383,10 +391,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
 
       // Save generated cards to database
-      const savedCards = [];
+      const savedCards: any[] = [];
       for (const card of aiCards) {
         try {
-          const savedCard = await storage.createFlashCard(card);
+          // Clean the card data to match expected schema
+          const cleanCard = {
+            question: card.question,
+            answer: card.answer,
+            subject: card.subject,
+            grade: card.grade,
+            difficulty: card.difficulty || 2,
+            imageUrl: card.imageUrl || null,
+            audioUrl: card.audioUrl || null,
+            type: card.type || "text",
+            choices: null,
+            tags: [],
+          };
+          const savedCard = await storage.createFlashCard(cleanCard);
           savedCards.push(savedCard);
         } catch (saveError) {
           console.log("Card save failed, using generated card:", saveError);

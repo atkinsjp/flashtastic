@@ -101,13 +101,46 @@ export default function LearningPath({ flashCards, onComplete, onExit }: Learnin
   const progress = totalCards > 0 ? (completedCards / totalCards) * 100 : 0;
 
   const generateChoices = (correctAnswer: string, allCards: FlashCard[]) => {
-    const wrongAnswers = allCards
-      .filter(card => card.answer !== correctAnswer)
-      .map(card => card.answer)
-      .sort(() => Math.random() - 0.5)
-      .slice(0, 3);
+    // Get wrong answers from all cards, excluding the correct one
+    const availableWrongAnswers = allCards
+      .filter(card => card.answer !== correctAnswer && card.answer.toLowerCase() !== correctAnswer.toLowerCase())
+      .map(card => card.answer);
     
-    const choices = [correctAnswer, ...wrongAnswers];
+    // If we don't have enough wrong answers, generate some plausible ones based on the question type
+    const wrongAnswers: string[] = [];
+    if (availableWrongAnswers.length >= 3) {
+      wrongAnswers.push(...availableWrongAnswers.sort(() => Math.random() - 0.5).slice(0, 3));
+    } else {
+      // Use available wrong answers
+      wrongAnswers.push(...availableWrongAnswers);
+      
+      // Generate additional plausible wrong answers if needed
+      const question = currentCard?.question.toLowerCase() || '';
+      if (question.includes('opposite') || question.includes('antonym')) {
+        // For opposite questions, add some common words but not the same word
+        const commonOppositeWords = ['big', 'small', 'fast', 'slow', 'good', 'bad', 'light', 'dark'];
+        const filteredWords = commonOppositeWords.filter(word => 
+          word !== correctAnswer.toLowerCase() && 
+          !wrongAnswers.map(a => a.toLowerCase()).includes(word)
+        );
+        wrongAnswers.push(...filteredWords.slice(0, 3 - wrongAnswers.length));
+      } else if (question.includes('color') || question.includes('colour')) {
+        const colors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange', 'black', 'white'];
+        const filteredColors = colors.filter(color => 
+          color !== correctAnswer.toLowerCase() && 
+          !wrongAnswers.map(a => a.toLowerCase()).includes(color)
+        );
+        wrongAnswers.push(...filteredColors.slice(0, 3 - wrongAnswers.length));
+      } else {
+        // Fallback: add some generic wrong answers
+        const fallbackAnswers = ['A', 'B', 'C', '1', '2', '3'];
+        wrongAnswers.push(...fallbackAnswers.slice(0, 3 - wrongAnswers.length));
+      }
+    }
+    
+    // Ensure we have exactly 3 wrong answers
+    const finalWrongAnswers = wrongAnswers.slice(0, 3);
+    const choices = [correctAnswer, ...finalWrongAnswers];
     return choices.sort(() => Math.random() - 0.5);
   };
 

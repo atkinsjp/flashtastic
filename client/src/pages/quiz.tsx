@@ -72,15 +72,48 @@ export default function Quiz() {
   };
 
   const generateChoices = (correctAnswer: string, allCards: FlashCard[]) => {
-    // Get 3 random wrong answers from other cards
-    const wrongAnswers = allCards
-      .filter(card => card.answer !== correctAnswer)
-      .map(card => card.answer)
-      .sort(() => Math.random() - 0.5)
-      .slice(0, 3);
+    // Get wrong answers from all cards, excluding the correct one
+    const availableWrongAnswers = allCards
+      .filter(card => card.answer !== correctAnswer && card.answer.toLowerCase() !== correctAnswer.toLowerCase())
+      .map(card => card.answer);
     
-    // Combine correct and wrong answers, then shuffle
-    const allChoices = [correctAnswer, ...wrongAnswers];
+    // If we don't have enough wrong answers, generate plausible ones
+    const wrongAnswers: string[] = [];
+    if (availableWrongAnswers.length >= 3) {
+      wrongAnswers.push(...availableWrongAnswers.sort(() => Math.random() - 0.5).slice(0, 3));
+    } else {
+      // Use available wrong answers
+      wrongAnswers.push(...availableWrongAnswers);
+      
+      // Find the current question to generate context-appropriate wrong answers
+      const currentCard = allCards.find(card => card.answer === correctAnswer);
+      const question = currentCard?.question.toLowerCase() || '';
+      
+      if (question.includes('opposite') || question.includes('antonym')) {
+        const commonWords = ['big', 'small', 'fast', 'slow', 'good', 'bad', 'light', 'dark', 'hot', 'cold'];
+        const filteredWords = commonWords.filter(word => 
+          word !== correctAnswer.toLowerCase() && 
+          !wrongAnswers.map(a => a.toLowerCase()).includes(word)
+        );
+        wrongAnswers.push(...filteredWords.slice(0, 3 - wrongAnswers.length));
+      } else if (question.includes('math') || question.includes('add') || question.includes('subtract') || question.includes('×') || question.includes('+')) {
+        // For math questions, generate nearby numbers
+        const correctNum = parseInt(correctAnswer);
+        if (!isNaN(correctNum)) {
+          const mathWrong = [correctNum + 1, correctNum - 1, correctNum + 2, correctNum - 2]
+            .filter(num => num >= 0 && !wrongAnswers.includes(num.toString()));
+          wrongAnswers.push(...mathWrong.map(n => n.toString()).slice(0, 3 - wrongAnswers.length));
+        }
+      } else {
+        // Fallback: add generic different answers
+        const fallbackAnswers = ['Option A', 'Option B', 'Option C', 'None of the above'];
+        wrongAnswers.push(...fallbackAnswers.slice(0, 3 - wrongAnswers.length));
+      }
+    }
+    
+    // Ensure we have exactly 3 wrong answers
+    const finalWrongAnswers = wrongAnswers.slice(0, 3);
+    const allChoices = [correctAnswer, ...finalWrongAnswers];
     return allChoices.sort(() => Math.random() - 0.5);
   };
 
