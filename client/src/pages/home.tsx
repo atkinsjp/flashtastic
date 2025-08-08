@@ -263,6 +263,15 @@ export default function Home() {
       <div className="fixed right-4 bottom-20 space-y-3 z-30">
         <Button 
           size="lg"
+          className="w-14 h-14 bg-purple-500 hover:bg-purple-600 rounded-full shadow-lg p-0"
+          onClick={() => setLocation("/study-buddy")}
+          title="AI Study Buddy"
+        >
+          <Brain className="h-6 w-6 text-white" />
+        </Button>
+        
+        <Button 
+          size="lg"
           className="w-14 h-14 bg-coral hover:bg-coral/90 rounded-full shadow-lg p-0"
           onClick={() => setShowQuizModal(true)}
         >

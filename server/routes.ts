@@ -2,6 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { generateQuestions } from "./ai-generator";
+import { generateStudyBuddyResponse, generateStudyTips } from "./study-buddy";
 import { 
   insertUserSchema, 
   insertFlashCardSchema, 
@@ -585,6 +586,51 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(quizzes);
     } catch (error) {
       res.status(500).json({ message: "Failed to get user quizzes" });
+    }
+  });
+
+  // Study Buddy AI Chat routes
+  app.post("/api/study-buddy/chat", async (req, res) => {
+    try {
+      const { message, subject, grade, recentTopics, conversationHistory } = req.body;
+      
+      if (!message || typeof message !== "string") {
+        return res.status(400).json({ message: "Message is required" });
+      }
+
+      const response = await generateStudyBuddyResponse({
+        message,
+        subject,
+        grade,
+        recentTopics: recentTopics || [],
+        conversationHistory: conversationHistory || []
+      });
+
+      res.json(response);
+    } catch (error) {
+      console.error("Study buddy chat error:", error);
+      res.status(500).json({ message: "Failed to generate response" });
+    }
+  });
+
+  app.get("/api/study-buddy/tips", async (req, res) => {
+    try {
+      const { subject, grade, topic } = req.query;
+      
+      if (!subject || !grade) {
+        return res.status(400).json({ message: "Subject and grade are required" });
+      }
+
+      const tips = await generateStudyTips(
+        subject as string,
+        grade as string,
+        topic as string | undefined
+      );
+
+      res.json({ tips });
+    } catch (error) {
+      console.error("Study tips generation error:", error);
+      res.status(500).json({ message: "Failed to generate study tips" });
     }
   });
 
