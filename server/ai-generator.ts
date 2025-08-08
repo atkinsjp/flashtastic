@@ -72,7 +72,7 @@ Respond with JSON in this exact format:
       grade: grade,
       type: q.type || "text",
       imageUrl: null,
-      difficulty: "medium",
+      difficulty: 2,
       tags: []
     }));
 
