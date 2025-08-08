@@ -72,6 +72,15 @@ export default function Quiz() {
   };
 
   const generateChoices = (correctAnswer: string, allCards: FlashCard[]) => {
+    // Find the current question to check for AI-generated wrong answers
+    const currentCard = allCards.find(card => card.answer === correctAnswer);
+    
+    // First check if this card has AI-generated wrong answers
+    if (currentCard?.choices && Array.isArray(currentCard.choices) && currentCard.choices.length >= 3) {
+      const choices = [correctAnswer, ...currentCard.choices.slice(0, 3)];
+      return choices.sort(() => Math.random() - 0.5);
+    }
+    
     // Get wrong answers from all cards, excluding the correct one
     const availableWrongAnswers = allCards
       .filter(card => card.answer !== correctAnswer && card.answer.toLowerCase() !== correctAnswer.toLowerCase())
@@ -85,28 +94,41 @@ export default function Quiz() {
       // Use available wrong answers
       wrongAnswers.push(...availableWrongAnswers);
       
-      // Find the current question to generate context-appropriate wrong answers
-      const currentCard = allCards.find(card => card.answer === correctAnswer);
+      // Generate context-appropriate wrong answers based on question type
       const question = currentCard?.question.toLowerCase() || '';
       
-      if (question.includes('opposite') || question.includes('antonym')) {
+      if (question.includes('river')) {
+        const rivers = ['Amazon River', 'Mississippi River', 'Congo River', 'Yangtze River', 'Thames River'];
+        const filteredRivers = rivers.filter(river => 
+          river !== correctAnswer && 
+          !wrongAnswers.map(a => a.toLowerCase()).includes(river.toLowerCase())
+        );
+        wrongAnswers.push(...filteredRivers.slice(0, 3 - wrongAnswers.length));
+      } else if (question.includes('opposite') || question.includes('antonym')) {
         const commonWords = ['big', 'small', 'fast', 'slow', 'good', 'bad', 'light', 'dark', 'hot', 'cold'];
         const filteredWords = commonWords.filter(word => 
           word !== correctAnswer.toLowerCase() && 
           !wrongAnswers.map(a => a.toLowerCase()).includes(word)
         );
         wrongAnswers.push(...filteredWords.slice(0, 3 - wrongAnswers.length));
-      } else if (question.includes('math') || question.includes('add') || question.includes('subtract') || question.includes('×') || question.includes('+')) {
+      } else if (question.includes('math') || question.includes('add') || question.includes('subtract') || question.includes('×') || question.includes('+') || question.includes('squared')) {
         // For math questions, generate nearby numbers
         const correctNum = parseInt(correctAnswer);
         if (!isNaN(correctNum)) {
-          const mathWrong = [correctNum + 1, correctNum - 1, correctNum + 2, correctNum - 2]
-            .filter(num => num >= 0 && !wrongAnswers.includes(num.toString()));
+          const mathWrong = [correctNum + 1, correctNum - 1, correctNum + 2, correctNum - 2, correctNum * 2]
+            .filter(num => num >= 0 && num !== correctNum && !wrongAnswers.includes(num.toString()));
           wrongAnswers.push(...mathWrong.map(n => n.toString()).slice(0, 3 - wrongAnswers.length));
         }
+      } else if (question.includes('capital')) {
+        const capitals = ['Paris', 'London', 'Berlin', 'Madrid', 'Rome', 'Tokyo', 'Beijing', 'Moscow'];
+        const filteredCapitals = capitals.filter(cap => 
+          cap !== correctAnswer && 
+          !wrongAnswers.map(a => a.toLowerCase()).includes(cap.toLowerCase())
+        );
+        wrongAnswers.push(...filteredCapitals.slice(0, 3 - wrongAnswers.length));
       } else {
-        // Fallback: add generic different answers
-        const fallbackAnswers = ['Option A', 'Option B', 'Option C', 'None of the above'];
+        // Fallback: add contextually related generic answers
+        const fallbackAnswers = ['Option A', 'Option B', 'Option C'];
         wrongAnswers.push(...fallbackAnswers.slice(0, 3 - wrongAnswers.length));
       }
     }

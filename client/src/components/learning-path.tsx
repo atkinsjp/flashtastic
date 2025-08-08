@@ -101,6 +101,12 @@ export default function LearningPath({ flashCards, onComplete, onExit }: Learnin
   const progress = totalCards > 0 ? (completedCards / totalCards) * 100 : 0;
 
   const generateChoices = (correctAnswer: string, allCards: FlashCard[]) => {
+    // First check if the current card has AI-generated wrong answers
+    if (currentCard?.choices && Array.isArray(currentCard.choices) && currentCard.choices.length >= 3) {
+      const choices = [correctAnswer, ...currentCard.choices.slice(0, 3)];
+      return choices.sort(() => Math.random() - 0.5);
+    }
+    
     // Get wrong answers from all cards, excluding the correct one
     const availableWrongAnswers = allCards
       .filter(card => card.answer !== correctAnswer && card.answer.toLowerCase() !== correctAnswer.toLowerCase())
@@ -116,9 +122,15 @@ export default function LearningPath({ flashCards, onComplete, onExit }: Learnin
       
       // Generate additional plausible wrong answers if needed
       const question = currentCard?.question.toLowerCase() || '';
-      if (question.includes('opposite') || question.includes('antonym')) {
-        // For opposite questions, add some common words but not the same word
-        const commonOppositeWords = ['big', 'small', 'fast', 'slow', 'good', 'bad', 'light', 'dark'];
+      if (question.includes('river')) {
+        const rivers = ['Amazon River', 'Mississippi River', 'Congo River', 'Yangtze River', 'Thames River'];
+        const filteredRivers = rivers.filter(river => 
+          river !== correctAnswer && 
+          !wrongAnswers.map(a => a.toLowerCase()).includes(river.toLowerCase())
+        );
+        wrongAnswers.push(...filteredRivers.slice(0, 3 - wrongAnswers.length));
+      } else if (question.includes('opposite') || question.includes('antonym')) {
+        const commonOppositeWords = ['big', 'small', 'fast', 'slow', 'good', 'bad', 'light', 'dark', 'hot', 'cold'];
         const filteredWords = commonOppositeWords.filter(word => 
           word !== correctAnswer.toLowerCase() && 
           !wrongAnswers.map(a => a.toLowerCase()).includes(word)
@@ -131,9 +143,17 @@ export default function LearningPath({ flashCards, onComplete, onExit }: Learnin
           !wrongAnswers.map(a => a.toLowerCase()).includes(color)
         );
         wrongAnswers.push(...filteredColors.slice(0, 3 - wrongAnswers.length));
+      } else if (question.includes('×') || question.includes('squared') || question.includes('add') || question.includes('+')) {
+        // For math questions, generate nearby numbers
+        const correctNum = parseInt(correctAnswer);
+        if (!isNaN(correctNum)) {
+          const mathWrong = [correctNum + 1, correctNum - 1, correctNum + 2, correctNum - 2, correctNum * 2]
+            .filter(num => num >= 0 && num !== correctNum && !wrongAnswers.includes(num.toString()));
+          wrongAnswers.push(...mathWrong.map(n => n.toString()).slice(0, 3 - wrongAnswers.length));
+        }
       } else {
-        // Fallback: add some generic wrong answers
-        const fallbackAnswers = ['A', 'B', 'C', '1', '2', '3'];
+        // Fallback: add contextually related generic answers
+        const fallbackAnswers = ['Option A', 'Option B', 'Option C'];
         wrongAnswers.push(...fallbackAnswers.slice(0, 3 - wrongAnswers.length));
       }
     }
