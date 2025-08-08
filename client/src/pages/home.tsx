@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { GraduationCap, Flame, Trophy, Brain, Clock, User, LogOut } from "lucide-react";
+import { GraduationCap, Flame, Trophy, Brain, Clock, User, LogOut, MessageCircle, Sparkles, ArrowRight } from "lucide-react";
+import { useLocation } from "wouter";
 import GradeSelector from "@/components/grade-selector";
 import SubjectGrid from "@/components/subject-grid";
 import AvatarCustomizer from "@/components/avatar-customizer";
@@ -62,6 +63,7 @@ const mockRecentAwards = [
 
 export default function Home() {
   const { user, userMode, isGuest, logout } = useAuth();
+  const [, setLocation] = useLocation();
   const [selectedGrade, setSelectedGrade] = useState(user?.grade || "2");
   const [showAvatarModal, setShowAvatarModal] = useState(false);
   const [showQuizModal, setShowQuizModal] = useState(false);
@@ -226,6 +228,45 @@ export default function Home() {
               </div>
             </div>
           )}
+        </section>
+
+        {/* AI Study Buddy Feature Card */}
+        <section className="mb-8">
+          <div 
+            className="bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl p-6 shadow-xl cursor-pointer transform transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl"
+            onClick={() => setLocation("/study-buddy")}
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-4">
+                <div className="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                  <Brain className="h-8 w-8 text-white" />
+                </div>
+                <div className="text-white">
+                  <h3 className="text-2xl font-bold mb-1">AI Study Buddy 🤖</h3>
+                  <p className="text-purple-100 text-sm mb-2">
+                    Get instant help with your homework and learning!
+                  </p>
+                  <div className="flex items-center space-x-4 text-xs text-purple-100">
+                    <div className="flex items-center">
+                      <MessageCircle className="h-3 w-3 mr-1" />
+                      Ask Questions
+                    </div>
+                    <div className="flex items-center">
+                      <Sparkles className="h-3 w-3 mr-1" />
+                      Get Explanations
+                    </div>
+                    <div className="flex items-center">
+                      <Brain className="h-3 w-3 mr-1" />
+                      Practice Together
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="text-white">
+                <ArrowRight className="h-6 w-6" />
+              </div>
+            </div>
+          </div>
         </section>
 
         {/* Grade Level Selection */}
