@@ -124,7 +124,7 @@ export default function Home() {
               {!isGuest ? (
                 <div className="flex items-center space-x-2 bg-golden bg-opacity-20 px-3 py-1 rounded-full">
                   <span className="text-golden">⭐</span>
-                  <span className="font-semibold text-golden">{displayUser.points.toLocaleString()}</span>
+                  <span className="font-semibold text-golden">{(displayUser.points || 0).toLocaleString()}</span>
                 </div>
               ) : (
                 <Button 
@@ -173,9 +173,9 @@ export default function Home() {
                 </div>
                 <div className="flex items-center space-x-6">
                   <LearningAvatar
-                    points={displayUser.points}
-                    level={displayUser.level}
-                    streak={displayUser.streak}
+                    points={displayUser.points || 0}
+                    level={displayUser.level || 1}
+                    streak={displayUser.streak || 0}
                     avatarGrowth={avatarGrowth}
                     onGrowthUpdate={setAvatarGrowth}
                     className="flex-shrink-0"
@@ -186,7 +186,7 @@ export default function Home() {
                       Keep learning to unlock new stages and accessories.
                     </p>
                     <div className="text-sm text-gray-500">
-                      Next unlock at Level {Math.ceil(displayUser.level / 5) * 5}
+                      Next unlock at Level {Math.ceil((displayUser.level || 1) / 5) * 5}
                     </div>
                   </div>
                 </div>
@@ -198,7 +198,7 @@ export default function Home() {
                   <div className="w-12 h-12 bg-coral bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-2">
                     <Flame className="h-6 w-6 text-coral" />
                   </div>
-                  <div className="text-2xl font-bold text-gray-800">{displayUser.streak}</div>
+                  <div className="text-2xl font-bold text-gray-800">{displayUser.streak || 0}</div>
                   <div className="text-sm text-gray-600">Day Streak</div>
                 </div>
                 
@@ -336,7 +336,7 @@ export default function Home() {
         <AvatarCustomizer 
           isOpen={showAvatarModal}
           onClose={() => setShowAvatarModal(false)}
-          currentAvatar={displayUser.avatar}
+          currentAvatar={displayUser.avatar || "1"}
           onAvatarChange={(avatar) => {
             console.log("Avatar changed to:", avatar);
             setShowAvatarModal(false);
