@@ -60,6 +60,13 @@ Guidelines:
 - For science: use simple experiments or analogies
 - Always end with a question or encouragement to keep learning
 
+IMPORTANT FORMATTING RULES:
+- NEVER use LaTeX notation like $\frac{2}{5}$ or $\frac{a}{b}$
+- For fractions, use simple text like "2/5" or "two-fifths"
+- For math expressions, use plain text like "2 + 3 = 5" instead of LaTeX
+- Use ** for bold text when emphasizing important points
+- Keep all math notation in simple, readable text format
+
 Recent topics we've covered: ${recentTopics.join(", ") || "None yet"}
 
 Conversation context:
