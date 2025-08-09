@@ -65,6 +65,32 @@ Respond with JSON in this exact format:
       config: {
         systemInstruction: systemPrompt,
         responseMimeType: "application/json",
+        responseSchema: {
+          type: "object",
+          properties: {
+            questions: {
+              type: "array",
+              items: {
+                type: "object",
+                properties: {
+                  question: { type: "string" },
+                  answer: { type: "string" },
+                  wrongAnswers: {
+                    type: "array",
+                    items: { type: "string" },
+                    minItems: 3,
+                    maxItems: 3
+                  },
+                  subject: { type: "string" },
+                  grade: { type: "string" },
+                  type: { type: "string" }
+                },
+                required: ["question", "answer", "wrongAnswers", "subject", "grade"]
+              }
+            }
+          },
+          required: ["questions"]
+        }
       },
       contents: `Generate ${count} ${subject} flash card questions for grade ${grade} students with contextually related multiple choice options.`,
     });
@@ -74,7 +100,17 @@ Respond with JSON in this exact format:
       throw new Error("Empty response from Gemini");
     }
 
-    const data = JSON.parse(rawJson);
+    console.log("Raw Gemini response:", rawJson);
+
+    let data;
+    try {
+      data = JSON.parse(rawJson);
+    } catch (parseError) {
+      console.error("JSON parse error:", parseError);
+      console.error("Raw JSON that failed to parse:", rawJson);
+      const errorMessage = parseError instanceof Error ? parseError.message : String(parseError);
+      throw new Error(`Failed to parse JSON response: ${errorMessage}`);
+    }
     
     if (!data.questions || !Array.isArray(data.questions)) {
       throw new Error("Invalid response format from Gemini");

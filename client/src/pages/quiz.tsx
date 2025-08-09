@@ -72,14 +72,18 @@ export default function Quiz() {
   };
 
   const generateChoices = (correctAnswer: string, allCards: FlashCard[]) => {
-    // Find the current question to check for AI-generated wrong answers
-    const currentCard = allCards.find(card => card.answer === correctAnswer);
+    // CRITICAL: Find the current question to use AI-generated wrong answers
+    const currentCard = allCards[currentQuestion];
     
-    // First check if this card has AI-generated wrong answers
+    // MUST use AI-generated wrong answers for production launch
     if (currentCard?.choices && Array.isArray(currentCard.choices) && currentCard.choices.length >= 3) {
+      console.log("✅ Using AI-generated choices for:", currentCard.question);
       const choices = [correctAnswer, ...currentCard.choices.slice(0, 3)];
       return choices.sort(() => Math.random() - 0.5);
     }
+    
+    console.error("❌ CRITICAL: No AI choices available for question:", currentCard?.question);
+    console.error("Available choices:", currentCard?.choices);
     
     // Get wrong answers from all cards, excluding the correct one
     const availableWrongAnswers = allCards
@@ -127,9 +131,9 @@ export default function Quiz() {
         );
         wrongAnswers.push(...filteredCapitals.slice(0, 3 - wrongAnswers.length));
       } else {
-        // Fallback: add contextually related generic answers
-        const fallbackAnswers = ['Option A', 'Option B', 'Option C'];
-        wrongAnswers.push(...fallbackAnswers.slice(0, 3 - wrongAnswers.length));
+        // CRITICAL ERROR: This should never happen with AI generation
+        console.error("CRITICAL: No contextual answers and no AI choices available");
+        throw new Error("AI service required - insufficient question data");
       }
     }
     

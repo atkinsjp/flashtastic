@@ -314,50 +314,52 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const { grade, subject, limit, offset, fresh } = req.query;
       const requestedLimit = limit ? parseInt(limit as string) : 10;
       
-      // Always generate fresh AI content first
+      // CRITICAL: AI-First Generation - No Fallbacks Allowed
       if (subject && subject !== "mixed" && grade) {
         console.log(`Generating fresh AI content for ${subject} grade ${grade}...`);
-        try {
-          const aiCards = await generateQuestions({
-            subject: subject as string,
-            grade: grade as string,
-            count: requestedLimit
-          });
-          
-          // Mix with some existing cards for variety, but prioritize fresh content
-          let existingCards: any[] = [];
+        
+        const maxRetries = 3;
+        let attempt = 0;
+        
+        while (attempt < maxRetries) {
           try {
-            existingCards = await storage.getFlashCards({
-              grade: grade as string,
+            const aiCards = await generateQuestions({
               subject: subject as string,
-              limit: Math.max(0, requestedLimit - aiCards.length),
-              offset: offset ? parseInt(offset as string) : undefined,
+              grade: grade as string,
+              count: requestedLimit
             });
-          } catch (dbError) {
-            console.log("Could not fetch existing cards, using AI only");
+            
+            if (aiCards && aiCards.length > 0) {
+              console.log(`Successfully generated ${aiCards.length} AI cards`);
+              res.json(aiCards);
+              return;
+            }
+          } catch (aiError) {
+            attempt++;
+            console.error(`AI generation attempt ${attempt}/${maxRetries} failed:`, aiError);
+            
+            if (attempt < maxRetries) {
+              console.log(`Retrying in 1 second...`);
+              await new Promise(resolve => setTimeout(resolve, 1000));
+            }
           }
-          
-          // Combine fresh AI cards with some existing ones
-          const allCards = [...aiCards, ...existingCards];
-          const shuffledCards = allCards.sort(() => Math.random() - 0.5).slice(0, requestedLimit);
-          
-          res.json(shuffledCards);
-          return;
-        } catch (aiError) {
-          console.error("AI generation failed, falling back to database:", aiError);
-          // Fallback to database if AI fails
         }
+        
+        // If all retries failed, return error - NO FALLBACK DATA
+        console.error("All AI generation attempts failed");
+        res.status(503).json({ 
+          error: "AI service temporarily unavailable",
+          message: "Please try again in a moment. Our AI is generating personalized questions for you."
+        });
+        return;
       }
 
-      // Fallback: get existing cards from database
-      const cards = await storage.getFlashCards({
-        grade: grade as string,
-        subject: subject === "mixed" ? undefined : (subject as string),
-        limit: requestedLimit,
-        offset: offset ? parseInt(offset as string) : undefined,
+      // CRITICAL: No fallback to database - AI is required
+      console.error("Reached fallback section - this should not happen in production");
+      res.status(503).json({ 
+        error: "AI service required",
+        message: "Fresh content generation is required for the best learning experience."
       });
-
-      res.json(cards);
     } catch (error) {
       console.error("Flash cards endpoint error:", error);
       res.status(500).json({ message: "Failed to get flash cards" });
