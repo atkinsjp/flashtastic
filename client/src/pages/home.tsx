@@ -233,7 +233,7 @@ export default function Home() {
         {/* AI Study Buddy Feature Card */}
         <section className="mb-8">
           <div 
-            className="bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl p-6 shadow-xl cursor-pointer transform transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl"
+            className="bg-gradient-to-r from-purple-700 to-purple-600 rounded-xl p-6 shadow-xl cursor-pointer transform transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl"
             onClick={() => setLocation("/study-buddy")}
           >
             <div className="flex items-center justify-between">
@@ -243,7 +243,7 @@ export default function Home() {
                 </div>
                 <div className="text-white">
                   <h3 className="text-2xl font-bold mb-1">AI Study Buddy 🤖</h3>
-                  <p className="text-purple-100 text-sm mb-2">
+                  <p className="text-white text-sm mb-2">
                     Get instant help with your homework and learning!
                   </p>
                   <div className="flex items-center space-x-4 text-xs text-purple-100">
