@@ -92,10 +92,24 @@ export default function AuthGate({ isOpen, onClose }: AuthGateProps) {
       <Dialog open={isOpen} onOpenChange={onClose}>
         <DialogContent className="max-w-md mx-4">
           <DialogHeader>
-            <DialogTitle className="text-center text-2xl font-bold text-gray-800">
-              Join FlashTastic
-            </DialogTitle>
-            <DialogDescription className="text-center text-gray-600">Create your free account</DialogDescription>
+            <div className="text-center mb-4">
+              <div className="flex items-center justify-center space-x-3 mb-4">
+                <img 
+                  src="/attached_assets/FlashTastic Icon_1754739615841.jpg"
+                  alt="FlashTastic Icon" 
+                  className="w-12 h-12 object-contain"
+                />
+                <img 
+                  src="/attached_assets/FlashTastic Logo-1_1754739615840.jpg"
+                  alt="FlashTastic Logo" 
+                  className="h-10 object-contain"
+                />
+              </div>
+              <DialogTitle className="text-center text-2xl font-bold text-gray-800">
+                Join FlashTastic
+              </DialogTitle>
+              <DialogDescription className="text-center text-gray-600">Create your free account</DialogDescription>
+            </div>
           </DialogHeader>
 
           <form onSubmit={handleSignup} className="space-y-4">
@@ -166,8 +180,17 @@ export default function AuthGate({ isOpen, onClose }: AuthGateProps) {
       <DialogContent className="max-w-2xl mx-4 max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <div className="text-center mb-6">
-            <div className="w-16 h-16 bg-gradient-to-r from-coral to-pink rounded-full flex items-center justify-center mx-auto mb-4">
-              <GraduationCap className="h-8 w-8 text-white" />
+            <div className="flex items-center justify-center space-x-4 mb-6">
+              <img 
+                src="/attached_assets/FlashTastic Icon_1754739615841.jpg"
+                alt="FlashTastic Icon" 
+                className="w-16 h-16 object-contain"
+              />
+              <img 
+                src="/attached_assets/FlashTastic Logo-1_1754739615840.jpg"
+                alt="FlashTastic Logo" 
+                className="h-12 object-contain"
+              />
             </div>
             <DialogTitle className="text-3xl font-bold text-gray-800 mb-2">
               Welcome to FlashTastic!

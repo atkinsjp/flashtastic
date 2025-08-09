@@ -58,8 +58,20 @@ export function StudyBuddyPage() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center space-y-4"
         >
+          <div className="flex items-center justify-center gap-4 mb-4">
+            <img 
+              src="/attached_assets/FlashTastic Icon_1754739615841.jpg"
+              alt="FlashTastic Icon" 
+              className="w-16 h-16 object-contain"
+            />
+            <img 
+              src="/attached_assets/FlashTastic Logo-1_1754739615840.jpg"
+              alt="FlashTastic Logo" 
+              className="h-12 object-contain"
+            />
+          </div>
           <div className="flex items-center justify-center gap-3">
-            <div className="p-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full text-white">
+            <div className="p-3 bg-gradient-to-r from-purple-700 to-purple-600 rounded-full text-white">
               <Brain className="h-8 w-8" />
             </div>
             <div>

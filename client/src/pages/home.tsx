@@ -88,10 +88,16 @@ export default function Home() {
         <div className="container mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-r from-coral to-pink rounded-full flex items-center justify-center">
-                <GraduationCap className="h-6 w-6 text-white" />
-              </div>
-              <h1 className="text-2xl font-bold text-gray-800">FlashTastic</h1>
+              <img 
+                src="/attached_assets/FlashTastic Icon_1754739615841.jpg"
+                alt="FlashTastic Icon" 
+                className="w-10 h-10 object-contain"
+              />
+              <img 
+                src="/attached_assets/FlashTastic Logo-1_1754739615840.jpg"
+                alt="FlashTastic Logo" 
+                className="h-8 object-contain"
+              />
             </div>
             
             <div className="flex items-center space-x-4">
