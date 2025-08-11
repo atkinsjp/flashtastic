@@ -314,51 +314,44 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const { grade, subject, limit, offset, fresh } = req.query;
       const requestedLimit = limit ? parseInt(limit as string) : 10;
       
-      // CRITICAL: AI-First Generation - No Fallbacks Allowed
-      if (subject && subject !== "mixed" && grade) {
-        console.log(`Generating fresh AI content for ${subject} grade ${grade}...`);
-        
-        const maxRetries = 3;
-        let attempt = 0;
-        
-        while (attempt < maxRetries) {
-          try {
-            const aiCards = await generateQuestions({
-              subject: subject as string,
-              grade: grade as string,
-              count: requestedLimit
-            });
-            
-            if (aiCards && aiCards.length > 0) {
-              console.log(`Successfully generated ${aiCards.length} AI cards`);
-              res.json(aiCards);
-              return;
-            }
-          } catch (aiError) {
-            attempt++;
-            console.error(`AI generation attempt ${attempt}/${maxRetries} failed:`, aiError);
-            
-            if (attempt < maxRetries) {
-              console.log(`Retrying in 1 second...`);
-              await new Promise(resolve => setTimeout(resolve, 1000));
-            }
+      // Default to grade 2 math if no params provided (for app initialization)
+      const defaultGrade = grade as string || "2";
+      const defaultSubject = subject as string || "math";
+      
+      console.log(`Generating AI content for ${defaultSubject} grade ${defaultGrade}...`);
+      
+      const maxRetries = 3;
+      let attempt = 0;
+      
+      while (attempt < maxRetries) {
+        try {
+          const aiCards = await generateQuestions({
+            subject: defaultSubject,
+            grade: defaultGrade,
+            count: requestedLimit
+          });
+          
+          if (aiCards && aiCards.length > 0) {
+            console.log(`Successfully generated ${aiCards.length} AI cards`);
+            res.json(aiCards);
+            return;
+          }
+        } catch (aiError) {
+          attempt++;
+          console.error(`AI generation attempt ${attempt}/${maxRetries} failed:`, aiError);
+          
+          if (attempt < maxRetries) {
+            console.log(`Retrying in 1 second...`);
+            await new Promise(resolve => setTimeout(resolve, 1000));
           }
         }
-        
-        // If all retries failed, return error - NO FALLBACK DATA
-        console.error("All AI generation attempts failed");
-        res.status(503).json({ 
-          error: "AI service temporarily unavailable",
-          message: "Please try again in a moment. Our AI is generating personalized questions for you."
-        });
-        return;
       }
-
-      // CRITICAL: No fallback to database - AI is required
-      console.error("Reached fallback section - this should not happen in production");
+      
+      // If all retries failed, return error - NO FALLBACK DATA
+      console.error("All AI generation attempts failed");
       res.status(503).json({ 
-        error: "AI service required",
-        message: "Fresh content generation is required for the best learning experience."
+        error: "AI service temporarily unavailable",
+        message: "Please try again in a moment. Our AI is generating personalized questions for you."
       });
     } catch (error) {
       console.error("Flash cards endpoint error:", error);

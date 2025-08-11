@@ -98,11 +98,19 @@ export default function AuthGate({ isOpen, onClose }: AuthGateProps) {
                   src="/attached_assets/FlashTastic Icon_1754739615841.jpg"
                   alt="FlashTastic Icon" 
                   className="w-12 h-12 object-contain"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHZpZXdCb3g9IjAgMCA0OCA0OCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQ4IiBoZWlnaHQ9IjQ4IiByeD0iMTAiIGZpbGw9IiMwMEQ0RkYiLz4KPHR5ZXh0IHg9IjI0IiB5PSIzMiIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjIwIiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkZUPC90ZXh0Pgo8L3N2Zz4K';
+                  }}
                 />
                 <img 
                   src="/attached_assets/FlashTastic Logo-1_1754739615840.jpg"
                   alt="FlashTastic Logo" 
                   className="h-10 object-contain"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgwIiBoZWlnaHQ9IjQwIiB2aWV3Qm94PSIwIDAgMTgwIDQwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8dGV4dCB4PSI5MCIgeT0iMzAiIGZvbnQtZmFtaWx5PSJBcmlhbCBCbGFjayIgZm9udC1zaXplPSIyOCIgZm9udC13ZWlnaHQ9IjkwMCIgZmlsbD0iIzAwRDRGRiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+Rmxhc2hUYXN0aWM8L3RleHQ+Cjwvc3ZnPgo=';
+                  }}
                 />
               </div>
               <DialogTitle className="text-center text-2xl font-bold text-gray-800">

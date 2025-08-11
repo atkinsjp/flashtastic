@@ -92,11 +92,19 @@ export default function Home() {
                 src="/attached_assets/FlashTastic Icon_1754739615841.jpg"
                 alt="FlashTastic Icon" 
                 className="w-10 h-10 object-contain"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiByeD0iOCIgZmlsbD0iIzAwRDRGRiIvPgo8dGV4dCB4PSIyMCIgeT0iMjgiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIyMCIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5GVDwvdGV4dD4KPC9zdmc+';
+                }}
               />
               <img 
                 src="/attached_assets/FlashTastic Logo-1_1754739615840.jpg"
                 alt="FlashTastic Logo" 
                 className="h-8 object-contain"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYwIiBoZWlnaHQ9IjMyIiB2aWV3Qm94PSIwIDAgMTYwIDMyIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8dGV4dCB4PSI4MCIgeT0iMjQiIGZvbnQtZmFtaWx5PSJBcmlhbCBCbGFjayIgZm9udC1zaXplPSIyNCIgZm9udC13ZWlnaHQ9IjkwMCIgZmlsbD0iIzAwRDRGRiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+Rmxhc2hUYXN0aWM8L3RleHQ+Cjwvc3ZnPgo=';
+                }}
               />
             </div>
             
