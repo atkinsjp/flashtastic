@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">FlashKademy</string>
-    <string name="title_activity_main">FlashKademy</string>
-    <string name="package_name">com.flashkademy.app</string>
-    <string name="custom_url_scheme">com.flashkademy.app</string>
+    <string name="app_name">FlashTastic</string>
+    <string name="title_activity_main">FlashTastic</string>
+    <string name="package_name">com.flashtastic.app</string>
+    <string name="custom_url_scheme">com.flashtastic.app</string>
 </resources>

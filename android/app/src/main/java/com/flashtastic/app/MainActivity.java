@@ -1,4 +1,4 @@
-package com.flashkademy.app;
+package com.flashtastic.app;
 
 import com.getcapacitor.BridgeActivity;
 

@@ -1,6 +1,6 @@
-const CACHE_NAME = 'flashkademy-v1';
-const STATIC_CACHE_NAME = 'flashkademy-static-v1';
-const API_CACHE_NAME = 'flashkademy-api-v1';
+const CACHE_NAME = 'flashtastic-v1';
+const STATIC_CACHE_NAME = 'flashtastic-static-v1';
+const API_CACHE_NAME = 'flashtastic-api-v1';
 
 // Files to cache for offline functionality
 const STATIC_FILES = [
