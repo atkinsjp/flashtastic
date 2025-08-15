@@ -93,25 +93,49 @@ export default function AuthGate({ isOpen, onClose }: AuthGateProps) {
         <DialogContent className="max-w-md mx-4">
           <DialogHeader>
             <div className="text-center mb-4">
-              <div className="flex items-center justify-center space-x-3 mb-4">
-                <img 
-                  src="/attached_assets/FlashTastic Icon_1754739615841.jpg"
-                  alt="FlashTastic Icon" 
-                  className="w-12 h-12 object-contain"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHZpZXdCb3g9IjAgMCA0OCA0OCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQ4IiBoZWlnaHQ9IjQ4IiByeD0iMTAiIGZpbGw9IiMwMEQ0RkYiLz4KPHR5ZXh0IHg9IjI0IiB5PSIzMiIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjIwIiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkZUPC90ZXh0Pgo8L3N2Zz4K';
-                  }}
-                />
-                <img 
-                  src="/attached_assets/FlashTastic Logo-1_1754739615840.jpg"
-                  alt="FlashTastic Logo" 
-                  className="h-10 object-contain"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgwIiBoZWlnaHQ9IjQwIiB2aWV3Qm94PSIwIDAgMTgwIDQwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8dGV4dCB4PSI5MCIgeT0iMzAiIGZvbnQtZmFtaWx5PSJBcmlhbCBCbGFjayIgZm9udC1zaXplPSIyOCIgZm9udC13ZWlnaHQ9IjkwMCIgZmlsbD0iIzAwRDRGRiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+Rmxhc2hUYXN0aWM8L3RleHQ+Cjwvc3ZnPgo=';
-                  }}
-                />
+              {/* Main Branding Header */}
+              <div className="bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 p-6 rounded-lg mb-4 border border-blue-100 dark:border-blue-800">
+                <div className="flex items-center justify-center space-x-4 mb-3">
+                  <img 
+                    src="/attached_assets/FlashTastic Icon_1754739615841.jpg"
+                    alt="FlashTastic Icon" 
+                    className="w-16 h-16 object-contain rounded-lg shadow-md"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiMwMEQ0RkYiLz4KPHR5ZXh0IHg9IjMyIiB5PSI0MiIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjI0IiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkZUPC90ZXh0Pgo8L3N2Zz4K';
+                    }}
+                  />
+                  <div className="text-center">
+                    <img 
+                      src="/attached_assets/FlashTastic Logo-1_1754739615840.jpg"
+                      alt="FlashTastic Logo" 
+                      className="h-12 object-contain mx-auto mb-2"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjQ4IiB2aWV3Qm94PSIwIDAgMjAwIDQ4IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8dGV4dCB4PSIxMDAiIHk9IjM2IiBmb250LWZhbWlseT0iQXJpYWwgQmxhY2siIGZvbnQtc2l6ZT0iMzIiIGZvbnQtd2VpZ2h0PSI5MDAiIGZpbGw9IiMwMEQ0RkYiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkZsYXNoVGFzdGljPC90ZXh0Pgo8L3N2Zz4K';
+                      }}
+                    />
+                    <div className="text-sm text-blue-600 dark:text-blue-400 font-medium">
+                      K-8 Educational Flash Cards
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Additional Branding Elements */}
+                <div className="flex items-center justify-center space-x-6 text-xs text-blue-500 dark:text-blue-400">
+                  <div className="flex items-center space-x-1">
+                    <Zap className="w-3 h-3" />
+                    <span>AI-Powered</span>
+                  </div>
+                  <div className="flex items-center space-x-1">
+                    <Star className="w-3 h-3" />
+                    <span>Gamified Learning</span>
+                  </div>
+                  <div className="flex items-center space-x-1">
+                    <Trophy className="w-3 h-3" />
+                    <span>Achievements</span>
+                  </div>
+                </div>
               </div>
               <DialogTitle className="text-center text-2xl font-bold text-gray-800">
                 Join FlashTastic
@@ -188,17 +212,53 @@ export default function AuthGate({ isOpen, onClose }: AuthGateProps) {
       <DialogContent className="max-w-2xl mx-4 max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <div className="text-center mb-6">
-            <div className="flex items-center justify-center space-x-4 mb-6">
-              <img 
-                src="/attached_assets/FlashTastic Icon_1754739615841.jpg"
-                alt="FlashTastic Icon" 
-                className="w-16 h-16 object-contain"
-              />
-              <img 
-                src="/attached_assets/FlashTastic Logo-1_1754739615840.jpg"
-                alt="FlashTastic Logo" 
-                className="h-12 object-contain"
-              />
+            {/* Enhanced Welcome Header */}
+            <div className="bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 p-8 rounded-xl mb-6 border border-blue-100 dark:border-blue-800">
+              <div className="flex items-center justify-center space-x-6 mb-4">
+                <img 
+                  src="/attached_assets/FlashTastic Icon_1754739615841.jpg"
+                  alt="FlashTastic Icon" 
+                  className="w-20 h-20 object-contain rounded-xl shadow-lg"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiByeD0iMTYiIGZpbGw9IiMwMEQ0RkYiLz4KPHR5ZXh0IHg9IjQwIiB5PSI1NCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjMyIiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkZUPC90ZXh0Pgo8L3N2Zz4K';
+                  }}
+                />
+                <div className="text-center">
+                  <img 
+                    src="/attached_assets/FlashTastic Logo-1_1754739615840.jpg"
+                    alt="FlashTastic Logo" 
+                    className="h-16 object-contain mx-auto mb-3"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQwIiBoZWlnaHQ9IjY0IiB2aWV3Qm94PSIwIDAgMjQwIDY0IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8dGV4dCB4PSIxMjAiIHk9IjQ4IiBmb250LWZhbWlseT0iQXJpYWwgQmxhY2siIGZvbnQtc2l6ZT0iNDAiIGZvbnQtd2VpZ2h0PSI5MDAiIGZpbGw9IiMwMEQ0RkYiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkZsYXNoVGFzdGljPC90ZXh0Pgo8L3N2Zz4K';
+                    }}
+                  />
+                  <div className="text-base text-blue-600 dark:text-blue-400 font-semibold">
+                    K-8 Educational Flash Cards & Games
+                  </div>
+                </div>
+              </div>
+              
+              {/* Feature Highlights */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs text-blue-600 dark:text-blue-400">
+                <div className="flex flex-col items-center space-y-1 p-2 bg-white/50 dark:bg-blue-800/30 rounded-lg">
+                  <Zap className="w-4 h-4" />
+                  <span className="font-medium">AI-Powered</span>
+                </div>
+                <div className="flex flex-col items-center space-y-1 p-2 bg-white/50 dark:bg-blue-800/30 rounded-lg">
+                  <Star className="w-4 h-4" />
+                  <span className="font-medium">Gamified</span>
+                </div>
+                <div className="flex flex-col items-center space-y-1 p-2 bg-white/50 dark:bg-blue-800/30 rounded-lg">
+                  <Trophy className="w-4 h-4" />
+                  <span className="font-medium">Achievements</span>
+                </div>
+                <div className="flex flex-col items-center space-y-1 p-2 bg-white/50 dark:bg-blue-800/30 rounded-lg">
+                  <Clock className="w-4 h-4" />
+                  <span className="font-medium">Progress</span>
+                </div>
+              </div>
             </div>
             <DialogTitle className="text-3xl font-bold text-gray-800 mb-2">
               Welcome to FlashTastic!
