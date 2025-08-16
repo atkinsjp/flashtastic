@@ -166,7 +166,16 @@ export default function LearningAvatar({
               {avatarGrowth.accessories.map((accessory, index) => (
                 <span 
                   key={accessory}
-                  className={`absolute text-sm ${index === 0 ? 'top-0 right-0' : 'bottom-0 left-0'}`}
+                  className={`absolute text-sm cursor-pointer hover:scale-110 transition-transform z-30 ${index === 0 ? 'top-0 right-0' : 'bottom-0 left-0'}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    const newAccessories = avatarGrowth.accessories.filter(a => a !== accessory);
+                    onGrowthUpdate?.({
+                      ...avatarGrowth,
+                      accessories: newAccessories
+                    });
+                  }}
+                  title={`Remove ${ACCESSORIES[accessory as keyof typeof ACCESSORIES]?.name}`}
                 >
                   {ACCESSORIES[accessory as keyof typeof ACCESSORIES]?.emoji}
                 </span>
@@ -280,14 +289,15 @@ export default function LearningAvatar({
                 <div className="grid grid-cols-2 gap-2">
                   {avatarGrowth.unlocks.map((unlock) => {
                     const accessory = ACCESSORIES[unlock as keyof typeof ACCESSORIES];
+                    const isEquipped = avatarGrowth.accessories.includes(unlock);
                     return (
                       <Button
                         key={unlock}
-                        variant="outline"
+                        variant={isEquipped ? "default" : "outline"}
                         size="sm"
-                        className="h-auto p-3"
+                        className={`h-auto p-3 transition-all ${isEquipped ? 'bg-coral hover:bg-coral/90 text-white' : 'hover:bg-gray-50'}`}
                         onClick={() => {
-                          const newAccessories = avatarGrowth.accessories.includes(unlock)
+                          const newAccessories = isEquipped
                             ? avatarGrowth.accessories.filter(a => a !== unlock)
                             : [...avatarGrowth.accessories, unlock];
                           
@@ -300,6 +310,9 @@ export default function LearningAvatar({
                         <div className="text-center">
                           <div className="text-lg">{accessory?.emoji}</div>
                           <div className="text-xs">{accessory?.name}</div>
+                          <div className="text-xs text-gray-500 mt-1">
+                            {isEquipped ? 'Equipped' : 'Click to equip'}
+                          </div>
                         </div>
                       </Button>
                     );
