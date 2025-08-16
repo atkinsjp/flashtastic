@@ -61,22 +61,12 @@ export default function AvatarCustomizer({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-md mx-4 max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <div className="flex justify-between items-center">
-            <DialogTitle className="text-xl font-bold text-gray-800">
-              Customize Avatar
-            </DialogTitle>
-            <DialogDescription className="sr-only">
-              Choose your avatar style from the available options
-            </DialogDescription>
-            <Button 
-              variant="ghost" 
-              size="sm"
-              onClick={onClose}
-              className="text-gray-500 hover:text-gray-700"
-            >
-              <X className="h-4 w-4" />
-            </Button>
-          </div>
+          <DialogTitle className="text-xl font-bold text-gray-800">
+            Customize Avatar
+          </DialogTitle>
+          <DialogDescription>
+            Choose your avatar style from the available options
+          </DialogDescription>
         </DialogHeader>
         
         <div className="space-y-6">

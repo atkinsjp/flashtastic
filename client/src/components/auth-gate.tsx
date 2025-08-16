@@ -96,23 +96,28 @@ export default function AuthGate({ isOpen, onClose }: AuthGateProps) {
               {/* Main Branding Header */}
               <div className="bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 p-6 rounded-lg mb-4 border border-blue-100 dark:border-blue-800">
                 <div className="flex items-center justify-center space-x-4 mb-3">
-                  <img 
-                    src="/attached_assets/FlashTastic Icon_1754739615841.jpg"
-                    alt="FlashTastic Icon" 
-                    className="w-16 h-16 object-contain rounded-lg shadow-md"
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement;
-                      target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiMwMEQ0RkYiLz4KPHR5ZXh0IHg9IjMyIiB5PSI0MiIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjI0IiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkZUPC90ZXh0Pgo8L3N2Zz4K';
-                    }}
-                  />
+                  <div className="w-16 h-16 rounded-lg shadow-md bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center">
+                    <img 
+                      src="/attached_assets/FlashTastic%20Icon_1754739615841.jpg"
+                      alt="FlashTastic Icon" 
+                      className="w-14 h-14 object-contain rounded-md"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        const parent = target.parentElement!;
+                        parent.innerHTML = '<span class="text-white font-bold text-xl">FT</span>';
+                      }}
+                    />
+                  </div>
                   <div className="text-center">
                     <img 
-                      src="/attached_assets/FlashTastic Logo-1_1754739615840.jpg"
+                      src="/attached_assets/FlashTastic%20Logo-1_1754739615840.jpg"
                       alt="FlashTastic Logo" 
                       className="h-12 object-contain mx-auto mb-2"
                       onError={(e) => {
                         const target = e.target as HTMLImageElement;
-                        target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjQ4IiB2aWV3Qm94PSIwIDAgMjAwIDQ4IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8dGV4dCB4PSIxMDAiIHk9IjM2IiBmb250LWZhbWlseT0iQXJpYWwgQmxhY2siIGZvbnQtc2l6ZT0iMzIiIGZvbnQtd2VpZ2h0PSI5MDAiIGZpbGw9IiMwMEQ0RkYiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkZsYXNoVGFzdGljPC90ZXh0Pgo8L3N2Zz4K';
+                        target.style.display = 'none';
+                        const parent = target.parentElement!;
+                        parent.innerHTML = '<div class="text-2xl font-black text-blue-600">FlashTastic</div>';
                       }}
                     />
                     <div className="text-sm text-blue-600 dark:text-blue-400 font-medium">
@@ -215,23 +220,28 @@ export default function AuthGate({ isOpen, onClose }: AuthGateProps) {
             {/* Enhanced Welcome Header */}
             <div className="bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 p-8 rounded-xl mb-6 border border-blue-100 dark:border-blue-800">
               <div className="flex items-center justify-center space-x-6 mb-4">
-                <img 
-                  src="/attached_assets/FlashTastic Icon_1754739615841.jpg"
-                  alt="FlashTastic Icon" 
-                  className="w-20 h-20 object-contain rounded-xl shadow-lg"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiByeD0iMTYiIGZpbGw9IiMwMEQ0RkYiLz4KPHR5ZXh0IHg9IjQwIiB5PSI1NCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjMyIiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkZUPC90ZXh0Pgo8L3N2Zz4K';
-                  }}
-                />
+                <div className="w-20 h-20 rounded-xl shadow-lg bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center">
+                  <img 
+                    src="/attached_assets/FlashTastic%20Icon_1754739615841.jpg"
+                    alt="FlashTastic Icon" 
+                    className="w-18 h-18 object-contain rounded-lg"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      const parent = target.parentElement!;
+                      parent.innerHTML = '<span class="text-white font-bold text-3xl">FT</span>';
+                    }}
+                  />
+                </div>
                 <div className="text-center">
                   <img 
-                    src="/attached_assets/FlashTastic Logo-1_1754739615840.jpg"
+                    src="/attached_assets/FlashTastic%20Logo-1_1754739615840.jpg"
                     alt="FlashTastic Logo" 
                     className="h-16 object-contain mx-auto mb-3"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
-                      target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQwIiBoZWlnaHQ9IjY0IiB2aWV3Qm94PSIwIDAgMjQwIDY0IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8dGV4dCB4PSIxMjAiIHk9IjQ4IiBmb250LWZhbWlseT0iQXJpYWwgQmxhY2siIGZvbnQtc2l6ZT0iNDAiIGZvbnQtd2VpZ2h0PSI5MDAiIGZpbGw9IiMwMEQ0RkYiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkZsYXNoVGFzdGljPC90ZXh0Pgo8L3N2Zz4K';
+                      target.style.display = 'none';
+                      const parent = target.parentElement!;
+                      parent.innerHTML = '<div class="text-3xl font-black text-blue-600 mb-3">FlashTastic</div>';
                     }}
                   />
                   <div className="text-base text-blue-600 dark:text-blue-400 font-semibold">
