@@ -63,36 +63,53 @@ export function MilestoneProvider({ children }: { children: ReactNode }) {
 
   const [recentMilestones, setRecentMilestones] = useState<MilestoneData[]>([]);
 
-  // Load progress from localStorage on mount
+  // Load progress from localStorage on mount  
   useEffect(() => {
-    const savedProgress = localStorage.getItem(`milestone-progress-${user?.id || 'guest'}`);
-    if (savedProgress) {
-      const parsed = JSON.parse(savedProgress);
-      // Convert date strings back to Date objects
-      if (parsed.lastActivityDate) {
-        parsed.lastActivityDate = new Date(parsed.lastActivityDate);
+    if (typeof window === 'undefined') return;
+    
+    try {
+      const savedProgress = localStorage.getItem(`milestone-progress-${user?.id || 'guest'}`);
+      if (savedProgress) {
+        const parsed = JSON.parse(savedProgress);
+        if (parsed.lastActivityDate) {
+          parsed.lastActivityDate = new Date(parsed.lastActivityDate);
+        }
+        setProgress(parsed);
       }
-      setProgress(parsed);
-    }
 
-    const savedMilestones = localStorage.getItem(`recent-milestones-${user?.id || 'guest'}`);
-    if (savedMilestones) {
-      const parsed = JSON.parse(savedMilestones).map((m: any) => ({
-        ...m,
-        date: new Date(m.date)
-      }));
-      setRecentMilestones(parsed);
+      const savedMilestones = localStorage.getItem(`recent-milestones-${user?.id || 'guest'}`);
+      if (savedMilestones) {
+        const parsed = JSON.parse(savedMilestones).map((m: any) => ({
+          ...m,
+          date: new Date(m.date)
+        }));
+        setRecentMilestones(parsed);
+      }
+    } catch (error) {
+      console.warn('Failed to load milestone data:', error);
     }
   }, [user?.id]);
 
   // Save progress to localStorage whenever it changes
   useEffect(() => {
-    localStorage.setItem(`milestone-progress-${user?.id || 'guest'}`, JSON.stringify(progress));
+    if (typeof window === 'undefined') return;
+    
+    try {
+      localStorage.setItem(`milestone-progress-${user?.id || 'guest'}`, JSON.stringify(progress));
+    } catch (error) {
+      console.warn('Failed to save milestone progress:', error);
+    }
   }, [progress, user?.id]);
 
   // Save recent milestones to localStorage
   useEffect(() => {
-    localStorage.setItem(`recent-milestones-${user?.id || 'guest'}`, JSON.stringify(recentMilestones));
+    if (typeof window === 'undefined') return;
+    
+    try {
+      localStorage.setItem(`recent-milestones-${user?.id || 'guest'}`, JSON.stringify(recentMilestones));
+    } catch (error) {
+      console.warn('Failed to save milestones:', error);
+    }
   }, [recentMilestones, user?.id]);
 
   const updateProgress = (updates: Partial<MilestoneProgress>) => {
