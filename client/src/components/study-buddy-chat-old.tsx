@@ -3,8 +3,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Bot, User, Send, Sparkles, Lock } from "lucide-react";
+import { Bot, User, Send, Sparkles, BookOpen, Brain, Lock } from "lucide-react";
 import { motion } from "framer-motion";
+import { apiRequest } from "@/lib/queryClient";
 import { useSubscription, useFeatureAccess } from "@/hooks/use-subscription";
 
 interface ChatMessage {
@@ -55,7 +56,7 @@ export function StudyBuddyChat({
 
   const quickSuggestions = [
     "Explain this topic simply",
-    "Give me practice questions", 
+    "Give me practice questions",
     "What should I study next?",
     "How can I remember this better?",
     "Can you make this fun?"
@@ -138,10 +139,6 @@ export function StudyBuddyChat({
   };
 
   const handleQuickSuggestion = (suggestion: string) => {
-    if (!hasUnlimitedAI && dailyQuestionsUsed >= dailyAILimit) {
-      showUpgradeModal('ai_limit');
-      return;
-    }
     sendMessage(suggestion);
   };
 
@@ -189,7 +186,7 @@ export function StudyBuddyChat({
             <div className="flex items-center gap-2 text-sm">
               <Lock className="h-4 w-4 text-purple-600" />
               <span className="text-purple-800">
-                {dailyQuestionsUsed >= dailyAILimit ? 
+                {dailyQuestionsUsed === dailyAILimit ? 
                   "Daily limit reached! Upgrade for unlimited AI tutoring." : 
                   `${dailyAILimit - dailyQuestionsUsed} question remaining today.`
                 }
@@ -206,6 +203,21 @@ export function StudyBuddyChat({
             </div>
           </motion.div>
         )}
+      </CardHeader>
+            </div>
+            <div>
+              <CardTitle className="text-lg">AI Study Buddy</CardTitle>
+              <p className="text-sm text-muted-foreground">
+                Learning {currentSubject} • Grade {currentGrade}
+              </p>
+            </div>
+          </div>
+          {onClose && (
+            <Button variant="ghost" size="sm" onClick={onClose}>
+              ×
+            </Button>
+          )}
+        </div>
       </CardHeader>
 
       <CardContent className="flex-1 flex flex-col p-4 space-y-4">
@@ -280,7 +292,7 @@ export function StudyBuddyChat({
         </ScrollArea>
 
         {/* Quick Suggestions */}
-        {messages.length <= 2 && !(!hasUnlimitedAI && dailyQuestionsUsed >= dailyAILimit) && (
+        {messages.length <= 2 && (
           <div className="space-y-2">
             <p className="text-sm text-muted-foreground">Quick suggestions:</p>
             <div className="flex flex-wrap gap-2">
@@ -292,7 +304,6 @@ export function StudyBuddyChat({
                   onClick={() => handleQuickSuggestion(suggestion)}
                   className="text-xs"
                   disabled={isLoading}
-                  data-testid={`quick-suggestion-${index}`}
                 >
                   <Sparkles className="h-3 w-3 mr-1" />
                   {suggestion}
@@ -316,7 +327,6 @@ export function StudyBuddyChat({
             onKeyPress={handleKeyPress}
             className="flex-1"
             disabled={isLoading || (!hasUnlimitedAI && dailyQuestionsUsed >= dailyAILimit)}
-            data-testid="chat-input"
           />
           <Button 
             onClick={() => sendMessage(inputMessage)} 
