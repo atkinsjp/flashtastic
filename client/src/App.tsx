@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/contexts/auth-context";
 import { SubscriptionProvider } from "@/hooks/use-subscription";
+import { MilestoneProvider } from "@/hooks/use-milestone-tracker";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
 import Study from "@/pages/study";
@@ -14,6 +15,7 @@ import Profile from "@/pages/profile";
 import ParentDashboard from "@/pages/parent-dashboard";
 import Competitions from "@/pages/competitions";
 import { StudyBuddyPage } from "@/pages/study-buddy";
+import MilestoneTest from "@/pages/milestone-test";
 import BottomNav from "@/components/bottom-nav";
 import { usePWA } from "@/hooks/use-pwa";
 
@@ -29,6 +31,7 @@ function Router() {
         <Route path="/parent-dashboard" component={ParentDashboard} />
         <Route path="/profile" component={Profile} />
         <Route path="/study-buddy" component={StudyBuddyPage} />
+        <Route path="/milestone-test" component={MilestoneTest} />
         <Route component={NotFound} />
       </Switch>
       <BottomNav />
@@ -43,10 +46,12 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <SubscriptionProvider>
-          <TooltipProvider>
-            <Toaster />
-            <Router />
-          </TooltipProvider>
+          <MilestoneProvider>
+            <TooltipProvider>
+              <Toaster />
+              <Router />
+            </TooltipProvider>
+          </MilestoneProvider>
         </SubscriptionProvider>
       </AuthProvider>
     </QueryClientProvider>

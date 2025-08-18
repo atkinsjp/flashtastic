@@ -5,6 +5,7 @@ import FlashCard from "@/components/flash-card";
 import LearningPath from "@/components/learning-path";
 import GradeSelector from "@/components/grade-selector";
 import AvatarProgressWidget from "@/components/avatar-progress-widget";
+import { useMilestoneTracker } from "@/hooks/use-milestone-tracker";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -35,6 +36,8 @@ export default function Study() {
   const [studyMode, setStudyMode] = useState<'flashcard' | 'quiz' | 'review' | 'learning-path'>('flashcard');
   const [learningStyle, setLearningStyle] = useState<'self-paced' | 'interactive' | 'visual'>('self-paced');
   const [isInLearningPath, setIsInLearningPath] = useState(false);
+  const [studySession, setStudySession] = useState({ startTime: Date.now(), cardsCompleted: 0 });
+  const { checkForMilestones } = useMilestoneTracker();
 
   const { data: flashCards, isLoading } = useQuery({
     queryKey: [`/api/flashcards?grade=${selectedGrade}&subject=${selectedSubject}`],
@@ -55,22 +58,56 @@ export default function Study() {
     { id: "music", name: "Music", icon: "🎵", color: "from-indigo-500 to-purple-600" },
   ];
 
-  const handleCardComplete = (correct: boolean) => {
-    // TODO: Update progress API
+  const handleCardComplete = async (correct: boolean) => {
+    const newCardsCompleted = studySession.cardsCompleted + 1;
+    setStudySession(prev => ({ ...prev, cardsCompleted: newCardsCompleted }));
+    
+    // Trigger milestone check for flashcard practice
+    await checkForMilestones({
+      type: 'flashcard_practice',
+      subject: selectedSubject || 'mixed',
+      grade: selectedGrade,
+      pointsEarned: correct ? 10 : 5,
+      correctAnswers: correct ? 1 : 0,
+      totalQuestions: 1,
+    });
+    
     if (cardArray.length > 0 && currentCardIndex < cardArray.length - 1) {
       setCurrentCardIndex(currentCardIndex + 1);
     } else {
-      // Session complete
+      // Session complete - trigger study session milestone
+      const sessionDuration = Math.round((Date.now() - studySession.startTime) / 60000); // minutes
+      await checkForMilestones({
+        type: 'study_session',
+        subject: selectedSubject || 'mixed',
+        grade: selectedGrade,
+        pointsEarned: newCardsCompleted * 8,
+        timeSpent: sessionDuration,
+        correctAnswers: newCardsCompleted, // Approximate
+        totalQuestions: newCardsCompleted,
+      });
+      
       setCurrentCardIndex(0);
       setSelectedSubject(null);
+      setStudySession({ startTime: Date.now(), cardsCompleted: 0 });
     }
   };
 
-  const handleLearningPathComplete = (score: number) => {
-    // TODO: Update progress API with learning path completion
+  const handleLearningPathComplete = async (score: number) => {
+    // Trigger milestone for learning path completion
+    await checkForMilestones({
+      type: 'study_session',
+      subject: selectedSubject || 'mixed',
+      grade: selectedGrade,
+      score: score,
+      pointsEarned: Math.round(score * 2),
+      timeSpent: Math.round((Date.now() - studySession.startTime) / 60000),
+    });
+    
     setIsInLearningPath(false);
     setSelectedSubject(null);
     setCurrentCardIndex(0);
+    setStudySession({ startTime: Date.now(), cardsCompleted: 0 });
   };
 
   const handleExitLearningPath = () => {

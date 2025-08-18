@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Timer, Clock, Zap, Brain, RotateCcw } from "lucide-react";
 import GradeSelector from "@/components/grade-selector";
+import { useMilestoneTracker } from "@/hooks/use-milestone-tracker";
 import type { FlashCard } from "@shared/schema";
 
 type QuizMode = "timed" | "untimed" | "mixed" | null;
@@ -21,6 +22,8 @@ export default function Quiz() {
   const [quizCompleted, setQuizCompleted] = useState(false);
   const [quizStarted, setQuizStarted] = useState(false);
   const [questionChoices, setQuestionChoices] = useState<Record<number, string[]>>({});
+  const [milestonesTriggered, setMilestonesTriggered] = useState(false);
+  const { checkForMilestones } = useMilestoneTracker();
 
   const { data: flashCards = [], isLoading, isError } = useQuery<FlashCard[]>({
     queryKey: [`/api/flashcards?grade=${selectedGrade}&subject=${selectedSubject || "mixed"}`],
@@ -147,7 +150,7 @@ export default function Quiz() {
     setSelectedAnswer(answer);
   };
 
-  const handleNextQuestion = () => {
+  const handleNextQuestion = async () => {
     if (!flashCards || flashCards.length === 0) return;
     
     // Check if answer is correct
@@ -161,6 +164,23 @@ export default function Quiz() {
       setSelectedAnswer(null);
     } else {
       setQuizCompleted(true);
+      
+      // Trigger milestone checking when quiz is completed
+      if (!milestonesTriggered) {
+        setMilestonesTriggered(true);
+        const finalScore = selectedAnswer === currentCard?.answer ? score + 1 : score;
+        const percentage = Math.round((finalScore / flashCards.length) * 100);
+        
+        await checkForMilestones({
+          type: 'quiz_completed',
+          subject: selectedSubject || 'mixed',
+          grade: selectedGrade,
+          score: percentage,
+          pointsEarned: finalScore * 10,
+          correctAnswers: finalScore,
+          totalQuestions: flashCards.length,
+        });
+      }
     }
   };
 
@@ -174,6 +194,7 @@ export default function Quiz() {
     setQuizMode(null);
     setSelectedSubject(null);
     setQuestionChoices({});
+    setMilestonesTriggered(false);
   };
 
   const startQuiz = () => {
@@ -182,6 +203,7 @@ export default function Quiz() {
     setSelectedAnswer(null);
     setScore(0);
     setQuizCompleted(false);
+    setMilestonesTriggered(false);
     
     // Pre-generate all answer choices to prevent randomization during quiz
     const choices: Record<number, string[]> = {};

@@ -4,6 +4,7 @@ import { Progress as ProgressBar } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Calendar, Target, TrendingUp, Clock, Flame, Trophy, Star, BookOpen } from "lucide-react";
+import { MilestoneDashboard } from "@/components/milestone-dashboard";
 
 // Mock data
 const mockProgress = {
