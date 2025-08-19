@@ -1,4 +1,4 @@
-// Mobile App Initialization for FlashKademy
+// Mobile App Initialization for FlashTastic
 import { App } from '@capacitor/app';
 import { StatusBar, Style } from '@capacitor/status-bar';
 import { SplashScreen } from '@capacitor/splash-screen';

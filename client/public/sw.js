@@ -149,7 +149,7 @@ self.addEventListener('push', (event) => {
   };
 
   event.waitUntil(
-    self.registration.showNotification('FlashKademy', options)
+    self.registration.showNotification('FlashTastic', options)
   );
 });
 
