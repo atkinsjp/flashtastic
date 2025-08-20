@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlashTastic - Embed Codes</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8fafc;
+        }
+        .container {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #1f2937;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .embed-section {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f1f5f9;
+            border-radius: 8px;
+            border-left: 4px solid #3b82f6;
+        }
+        .embed-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #1e40af;
+            margin-bottom: 10px;
+        }
+        .embed-description {
+            color: #64748b;
+            margin-bottom: 15px;
+        }
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+        .copy-btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+        .copy-btn:hover {
+            background: #2563eb;
+        }
+        .preview {
+            margin-top: 15px;
+            padding: 15px;
+            background: white;
+            border: 2px dashed #d1d5db;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎓 FlashTastic - Embed Codes</h1>
+        <p style="text-align: center; color: #64748b; margin-bottom: 30px;">
+            Use these embed codes to integrate FlashTastic into your website, blog, or educational platform.
+        </p>
+
+        <!-- Full App Embed -->
+        <div class="embed-section">
+            <div class="embed-title">📱 Full App Embed (Responsive)</div>
+            <div class="embed-description">
+                Embeds the complete FlashTastic app in an iframe. Perfect for educational websites and learning portals.
+            </div>
+            <div class="code-block" id="full-embed">
+&lt;iframe 
+    src="https://your-replit-domain.replit.app" 
+    width="100%" 
+    height="600" 
+    frameborder="0" 
+    allowfullscreen
+    title="FlashTastic - Educational Flash Cards"
+    style="border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);"&gt;
+    &lt;p&gt;Your browser doesn't support iframes. &lt;a href="https://your-replit-domain.replit.app"&gt;Visit FlashTastic&lt;/a&gt;&lt;/p&gt;
+&lt;/iframe&gt;
+            </div>
+            <button class="copy-btn" onclick="copyCode('full-embed')">Copy Code</button>
+        </div>
+
+        <!-- Study Mode Direct Link -->
+        <div class="embed-section">
+            <div class="embed-title">📚 Study Mode Embed</div>
+            <div class="embed-description">
+                Direct link to the study interface. Great for embedding in course materials or study guides.
+            </div>
+            <div class="code-block" id="study-embed">
+&lt;iframe 
+    src="https://your-replit-domain.replit.app/study" 
+    width="100%" 
+    height="500" 
+    frameborder="0"
+    title="FlashTastic Study Mode"
+    style="border-radius: 8px; border: 2px solid #e5e7eb;"&gt;
+    &lt;p&gt;&lt;a href="https://your-replit-domain.replit.app/study"&gt;Start studying with FlashTastic&lt;/a&gt;&lt;/p&gt;
+&lt;/iframe&gt;
+            </div>
+            <button class="copy-btn" onclick="copyCode('study-embed')">Copy Code</button>
+        </div>
+
+        <!-- Quiz Mode Embed -->
+        <div class="embed-section">
+            <div class="embed-title">🧠 Quiz Mode Embed</div>
+            <div class="embed-description">
+                Direct access to the quiz interface. Perfect for assessment pages and homework assignments.
+            </div>
+            <div class="code-block" id="quiz-embed">
+&lt;iframe 
+    src="https://your-replit-domain.replit.app/quiz" 
+    width="100%" 
+    height="550" 
+    frameborder="0"
+    title="FlashTastic Quiz Mode"
+    style="border-radius: 8px; border: 2px solid #fbbf24;"&gt;
+    &lt;p&gt;&lt;a href="https://your-replit-domain.replit.app/quiz"&gt;Take a quiz with FlashTastic&lt;/a&gt;&lt;/p&gt;
+&lt;/iframe&gt;
+            </div>
+            <button class="copy-btn" onclick="copyCode('quiz-embed')">Copy Code</button>
+        </div>
+
+        <!-- Mobile Optimized Embed -->
+        <div class="embed-section">
+            <div class="embed-title">📱 Mobile-First Embed</div>
+            <div class="embed-description">
+                Optimized for mobile devices with responsive sizing and touch-friendly controls.
+            </div>
+            <div class="code-block" id="mobile-embed">
+&lt;div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"&gt;
+    &lt;iframe 
+        src="https://your-replit-domain.replit.app" 
+        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 12px;"
+        allowfullscreen
+        title="FlashTastic Mobile App"&gt;
+        &lt;p&gt;&lt;a href="https://your-replit-domain.replit.app"&gt;Open FlashTastic&lt;/a&gt;&lt;/p&gt;
+    &lt;/iframe&gt;
+&lt;/div&gt;
+            </div>
+            <button class="copy-btn" onclick="copyCode('mobile-embed')">Copy Code</button>
+        </div>
+
+        <!-- Button/Link Embed -->
+        <div class="embed-section">
+            <div class="embed-title">🔗 Launch Button</div>
+            <div class="embed-description">
+                Styled button that opens FlashTastic in a new tab. Great for call-to-action sections.
+            </div>
+            <div class="code-block" id="button-embed">
+&lt;a href="https://your-replit-domain.replit.app" 
+   target="_blank" 
+   style="display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+          color: white; text-decoration: none; padding: 12px 24px; border-radius: 8px; 
+          font-weight: 600; font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+          box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4); transition: transform 0.2s ease;"
+   onmouseover="this.style.transform='translateY(-2px)'" 
+   onmouseout="this.style.transform='translateY(0)'"&gt;
+   🎓 Launch FlashTastic
+&lt;/a&gt;
+            </div>
+            <button class="copy-btn" onclick="copyCode('button-embed')">Copy Code</button>
+            <div class="preview">
+                <strong>Preview:</strong><br>
+                <a href="#" style="display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-weight: 600; font-family: -apple-system, BlinkMacSystemFont, sans-serif; box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);">
+                    🎓 Launch FlashTastic
+                </a>
+            </div>
+        </div>
+
+        <!-- WordPress Shortcode -->
+        <div class="embed-section">
+            <div class="embed-title">📝 WordPress Shortcode</div>
+            <div class="embed-description">
+                Custom shortcode for WordPress sites. Add this to your functions.php or use a plugin.
+            </div>
+            <div class="code-block" id="wordpress-embed">
+// Add to functions.php
+function flashtastic_shortcode($atts) {
+    $atts = shortcode_atts(array(
+        'width' => '100%',
+        'height' => '600',
+        'mode' => 'app' // app, study, quiz
+    ), $atts);
+    
+    $url = 'https://your-replit-domain.replit.app';
+    if ($atts['mode'] === 'study') $url .= '/study';
+    if ($atts['mode'] === 'quiz') $url .= '/quiz';
+    
+    return '&lt;iframe src="' . $url . '" width="' . $atts['width'] . '" height="' . $atts['height'] . '" frameborder="0" title="FlashTastic"&gt;&lt;/iframe&gt;';
+}
+add_shortcode('flashtastic', 'flashtastic_shortcode');
+
+// Usage: [flashtastic width="100%" height="500" mode="study"]
+            </div>
+            <button class="copy-btn" onclick="copyCode('wordpress-embed')">Copy Code</button>
+        </div>
+
+        <!-- Social Media Share -->
+        <div class="embed-section">
+            <div class="embed-title">📢 Social Media Share Card</div>
+            <div class="embed-description">
+                HTML card perfect for sharing on social media or in newsletters.
+            </div>
+            <div class="code-block" id="social-embed">
+&lt;div style="max-width: 400px; border: 2px solid #e5e7eb; border-radius: 12px; overflow: hidden; font-family: -apple-system, BlinkMacSystemFont, sans-serif;"&gt;
+    &lt;div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; color: white;"&gt;
+        &lt;h3 style="margin: 0 0 8px 0; font-size: 1.2em;"&gt;🎓 FlashTastic&lt;/h3&gt;
+        &lt;p style="margin: 0; opacity: 0.9; font-size: 0.9em;"&gt;Educational Flash Cards for K-8&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div style="padding: 20px; background: white;"&gt;
+        &lt;p style="margin: 0 0 15px 0; color: #64748b; font-size: 0.9em;"&gt;
+            Interactive learning with gamification, AI-powered questions, and progress tracking.
+        &lt;/p&gt;
+        &lt;a href="https://your-replit-domain.replit.app" target="_blank" 
+           style="display: block; background: #3b82f6; color: white; text-decoration: none; 
+                  padding: 10px; border-radius: 6px; text-align: center; font-weight: 600;"&gt;
+            Start Learning
+        &lt;/a&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+            </div>
+            <button class="copy-btn" onclick="copyCode('social-embed')">Copy Code</button>
+            <div class="preview">
+                <strong>Preview:</strong><br>
+                <div style="max-width: 400px; border: 2px solid #e5e7eb; border-radius: 12px; overflow: hidden; font-family: -apple-system, BlinkMacSystemFont, sans-serif; margin-top: 10px;">
+                    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; color: white;">
+                        <h3 style="margin: 0 0 8px 0; font-size: 1.2em;">🎓 FlashTastic</h3>
+                        <p style="margin: 0; opacity: 0.9; font-size: 0.9em;">Educational Flash Cards for K-8</p>
+                    </div>
+                    <div style="padding: 20px; background: white;">
+                        <p style="margin: 0 0 15px 0; color: #64748b; font-size: 0.9em;">
+                            Interactive learning with gamification, AI-powered questions, and progress tracking.
+                        </p>
+                        <a href="#" style="display: block; background: #3b82f6; color: white; text-decoration: none; padding: 10px; border-radius: 6px; text-align: center; font-weight: 600;">
+                            Start Learning
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Instructions -->
+        <div style="margin-top: 40px; padding: 20px; background: #fef3c7; border-radius: 8px; border-left: 4px solid #f59e0b;">
+            <h3 style="color: #92400e; margin-top: 0;">📋 Setup Instructions</h3>
+            <ol style="color: #78350f;">
+                <li>Replace <code>https://your-replit-domain.replit.app</code> with your actual Replit app URL</li>
+                <li>Adjust width, height, and styling to match your website design</li>
+                <li>Test the embed on different devices to ensure responsiveness</li>
+                <li>Consider adding loading states or fallback content for better user experience</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        function copyCode(elementId) {
+            const element = document.getElementById(elementId);
+            const text = element.textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = element.nextElementSibling;
+                const originalText = btn.textContent;
+                btn.textContent = 'Copied!';
+                btn.style.background = '#10b981';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = '#3b82f6';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
