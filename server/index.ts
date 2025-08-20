@@ -6,6 +6,17 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+// Allow iframe embedding by removing X-Frame-Options restrictions
+app.use((req, res, next) => {
+  // Remove any X-Frame-Options that might block embedding
+  res.removeHeader('X-Frame-Options');
+  // Set permissive frame options for embedding
+  res.setHeader('X-Frame-Options', 'ALLOWALL');
+  // Add Content Security Policy to allow embedding
+  res.setHeader('Content-Security-Policy', "frame-ancestors *");
+  next();
+});
+
 app.use((req, res, next) => {
   const start = Date.now();
   const path = req.path;

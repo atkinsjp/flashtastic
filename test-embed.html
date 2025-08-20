@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlashTastic Embed Test</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .embed-test {
+            margin: 30px 0;
+            padding: 20px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+        }
+        .embed-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #2563eb;
+            margin-bottom: 10px;
+        }
+        .iframe-container {
+            position: relative;
+            margin: 15px 0;
+        }
+        iframe {
+            border: 1px solid #ddd;
+            border-radius: 6px;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        .status.success { background: #dcfce7; color: #166534; }
+        .status.error { background: #fef2f2; color: #dc2626; }
+        .status.info { background: #dbeafe; color: #1d4ed8; }
+        
+        .responsive-embed {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+        }
+        .responsive-embed iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .test-info {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 10px 0;
+            font-size: 0.9em;
+            color: #64748b;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🎓 FlashTastic Embed Tests</h1>
+        
+        <div class="status info">
+            <strong>Testing URL:</strong> <span id="current-url">Loading...</span>
+        </div>
+        
+        <!-- Test 1: Direct URL Check -->
+        <div class="embed-test">
+            <div class="embed-title">Test 1: Direct App Link</div>
+            <div class="test-info">
+                This tests if the app loads directly in the browser before embedding.
+            </div>
+            <a href="#" id="direct-link" target="_blank" style="display: inline-block; background: #3b82f6; color: white; padding: 10px 20px; text-decoration: none; border-radius: 6px;">
+                Open FlashTastic in New Tab
+            </a>
+            <div id="direct-status" class="status info">Click the link above to test direct access</div>
+        </div>
+
+        <!-- Test 2: Basic Iframe -->
+        <div class="embed-test">
+            <div class="embed-title">Test 2: Basic Iframe Embed</div>
+            <div class="test-info">
+                Simple iframe embed with fixed dimensions.
+            </div>
+            <div class="iframe-container">
+                <iframe 
+                    id="basic-iframe"
+                    width="100%" 
+                    height="400" 
+                    frameborder="0"
+                    title="FlashTastic Basic Embed">
+                </iframe>
+            </div>
+            <div id="basic-status" class="status info">Loading basic iframe...</div>
+        </div>
+
+        <!-- Test 3: Responsive Iframe -->
+        <div class="embed-test">
+            <div class="embed-title">Test 3: Responsive Iframe Embed</div>
+            <div class="test-info">
+                Responsive iframe that adjusts to container size.
+            </div>
+            <div class="responsive-embed">
+                <iframe 
+                    id="responsive-iframe"
+                    frameborder="0"
+                    allowfullscreen
+                    title="FlashTastic Responsive Embed">
+                </iframe>
+            </div>
+            <div id="responsive-status" class="status info">Loading responsive iframe...</div>
+        </div>
+
+        <!-- Test 4: Same Origin Test -->
+        <div class="embed-test">
+            <div class="embed-title">Test 4: X-Frame-Options Check</div>
+            <div class="test-info">
+                Tests if the server allows iframe embedding (checks for X-Frame-Options header).
+            </div>
+            <div id="frame-options-result" class="status info">Checking server headers...</div>
+        </div>
+
+        <!-- Working Embed Codes -->
+        <div class="embed-test">
+            <div class="embed-title">✅ Working Embed Codes</div>
+            <div class="test-info">
+                Copy these codes if the tests above work properly:
+            </div>
+            
+            <h4>Basic Embed:</h4>
+            <textarea id="basic-code" readonly style="width: 100%; height: 80px; padding: 10px; font-family: monospace; border: 1px solid #ddd; border-radius: 4px;"></textarea>
+            
+            <h4>Responsive Embed:</h4>
+            <textarea id="responsive-code" readonly style="width: 100%; height: 100px; padding: 10px; font-family: monospace; border: 1px solid #ddd; border-radius: 4px;"></textarea>
+            
+            <button onclick="copyToClipboard('basic-code')" style="background: #3b82f6; color: white; border: none; padding: 8px 16px; border-radius: 4px; margin: 5px;">
+                Copy Basic Code
+            </button>
+            <button onclick="copyToClipboard('responsive-code')" style="background: #3b82f6; color: white; border: none; padding: 8px 16px; border-radius: 4px; margin: 5px;">
+                Copy Responsive Code
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Get current URL and set up tests
+        const currentURL = window.location.origin;
+        const appURL = currentURL; // Assuming FlashTastic runs on same domain
+        
+        document.getElementById('current-url').textContent = appURL;
+        document.getElementById('direct-link').href = appURL;
+        
+        // Set iframe sources
+        const basicIframe = document.getElementById('basic-iframe');
+        const responsiveIframe = document.getElementById('responsive-iframe');
+        
+        basicIframe.src = appURL;
+        responsiveIframe.src = appURL;
+        
+        // Generate embed codes
+        const basicCode = `<iframe 
+    src="${appURL}" 
+    width="100%" 
+    height="600" 
+    frameborder="0"
+    title="FlashTastic - Educational Flash Cards"
+    style="border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+    <p>Your browser doesn't support iframes. <a href="${appURL}">Visit FlashTastic</a></p>
+</iframe>`;
+
+        const responsiveCode = `<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+    <iframe 
+        src="${appURL}" 
+        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 8px;"
+        allowfullscreen
+        title="FlashTastic - Educational Flash Cards">
+        <p><a href="${appURL}">Open FlashTastic</a></p>
+    </iframe>
+</div>`;
+        
+        document.getElementById('basic-code').value = basicCode;
+        document.getElementById('responsive-code').value = responsiveCode;
+        
+        // Test iframe loading
+        basicIframe.onload = function() {
+            document.getElementById('basic-status').className = 'status success';
+            document.getElementById('basic-status').textContent = '✅ Basic iframe loaded successfully';
+        };
+        
+        basicIframe.onerror = function() {
+            document.getElementById('basic-status').className = 'status error';
+            document.getElementById('basic-status').textContent = '❌ Basic iframe failed to load';
+        };
+        
+        responsiveIframe.onload = function() {
+            document.getElementById('responsive-status').className = 'status success';
+            document.getElementById('responsive-status').textContent = '✅ Responsive iframe loaded successfully';
+        };
+        
+        responsiveIframe.onerror = function() {
+            document.getElementById('responsive-status').className = 'status error';
+            document.getElementById('responsive-status').textContent = '❌ Responsive iframe failed to load';
+        };
+        
+        // Check X-Frame-Options
+        fetch(appURL, { method: 'HEAD' })
+            .then(response => {
+                const frameOptions = response.headers.get('X-Frame-Options');
+                const frameOptionsResult = document.getElementById('frame-options-result');
+                
+                if (!frameOptions) {
+                    frameOptionsResult.className = 'status success';
+                    frameOptionsResult.textContent = '✅ No X-Frame-Options header - iframe embedding allowed';
+                } else if (frameOptions.toLowerCase() === 'sameorigin') {
+                    frameOptionsResult.className = 'status info';
+                    frameOptionsResult.textContent = `ℹ️ X-Frame-Options: ${frameOptions} - embedding allowed on same domain`;
+                } else {
+                    frameOptionsResult.className = 'status error';
+                    frameOptionsResult.textContent = `❌ X-Frame-Options: ${frameOptions} - may block iframe embedding`;
+                }
+            })
+            .catch(error => {
+                document.getElementById('frame-options-result').className = 'status error';
+                document.getElementById('frame-options-result').textContent = '❌ Could not check server headers';
+            });
+        
+        // Copy to clipboard function
+        function copyToClipboard(elementId) {
+            const element = document.getElementById(elementId);
+            element.select();
+            element.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(element.value).then(() => {
+                // Find the button that was clicked and show feedback
+                const button = event.target;
+                const originalText = button.textContent;
+                button.textContent = 'Copied!';
+                button.style.background = '#10b981';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '#3b82f6';
+                }, 2000);
+            });
+        }
+        
+        // Auto-refresh iframes every 30 seconds to test persistence
+        setTimeout(() => {
+            console.log('Refreshing iframes for persistence test...');
+            basicIframe.src = basicIframe.src;
+            responsiveIframe.src = responsiveIframe.src;
+        }, 30000);
+    </script>
+</body>
+</html>
