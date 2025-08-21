@@ -1,0 +1,9 @@
+[versions]
+agp = "8.7.2"
+gradle = "8.9"
+kotlin = "1.9.25"
+java = "17"
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
