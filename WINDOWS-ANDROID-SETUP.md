@@ -1,45 +1,96 @@
-# Windows Android Studio Setup - Alternative Method
+# 🔧 Windows Android Studio Setup for FlashTastic
 
-## If No Gradle Panel Appears
+## Current Issue Resolution
+The version conflicts between Capacitor plugins and Android Studio have been resolved. All modules now use consistent AGP 8.7.2 and Java 17.
 
-The issue is likely that Android Studio didn't recognize the project structure. Let's fix this:
+## ✅ Updated Configuration (August 2025)
+- **AGP Version**: 8.7.2 (all modules aligned)
+- **Gradle Version**: 8.9 (required for AGP 8.7.2)
+- **Java Version**: 17 (configured in gradle.properties)
+- **Capacitor**: All 6 plugins properly integrated
 
-### Method 1: Open the Android Folder Directly
-1. **Close Android Studio completely**
-2. **Navigate to**: `C:\Users\James\FlashTastic\FlashTastic\android`
-3. **Right-click** on the `android` folder
-4. **Open with Android Studio** (or drag the `android` folder into Android Studio)
+## 🚀 Android Studio Build Steps
 
-This opens just the Android part of your project, which Android Studio will recognize.
+### 1. Clean Previous Attempts
+In Android Studio:
+- **File** → **Invalidate Caches and Restart**
+- **Build** → **Clean Project**
 
-### Method 2: Import Project
-1. In Android Studio: **File** → **Open**
-2. Navigate to: `C:\Users\James\FlashTastic\FlashTastic\android`
-3. Select the **android** folder (not the main FlashTastic folder)
-4. Click **OK**
+### 2. Force Fresh Sync
+- **File** → **Sync Project with Gradle Files**
+- Wait for complete sync (may take 5-10 minutes)
+- Accept any SDK license prompts
 
-### Method 3: Check Project Structure
-If you're in the main FlashTastic folder, Android Studio sees it as a Node.js project, not Android.
+### 3. Verify Project Recognition
+After successful sync, check:
+- Project panel shows "app" module structure
+- **Build** menu shows "Generate Signed Bundle / APK" option
+- No red error indicators in project files
 
-You need to open the **android subfolder specifically**.
+### 4. Generate Signed Bundle
+1. **Build** → **Generate Signed Bundle / APK**
+2. **Choose**: Android App Bundle (.aab)
+3. **Keystore Setup**:
+   - Click "Create new..." if first time
+   - Save as: `android/keystores/flashtastic-release.keystore`
+   - **Key alias**: flashtastic-release-key
+   - **Passwords**: Use strong passwords and save them securely
+   - **Validity**: 25 years
+   - **Organization details**: Fill as required
+4. **Build variant**: release
+5. **Destination folder**: Use default
+6. **Click**: Finish
 
-### What Should Happen
-Once you open the android folder correctly:
-- You'll see **app**, **gradle**, **build.gradle** files
-- **Gradle panel** will appear on the right
-- **Build** menu will have Android options
-- Sync will happen automatically
-
-### Then Follow Normal Steps
-1. Wait for **Gradle sync** to complete
-2. **Build** → **Make Project** 
-3. **Build** → **Generate Signed Bundle/APK**
-
-## Quick Fix Command
-Try this in PowerShell:
-```powershell
-cd "C:\Users\James\FlashTastic\FlashTastic\android"
-# Then open Android Studio from this folder
+### 5. Expected Output
+After successful build:
+```
+BUILD SUCCESSFUL
+Generated at: android/app/build/outputs/bundle/release/app-release.aab
 ```
 
-The key is opening the `android` subfolder, not the main project folder!
+## ⚠️ Warning Messages (Normal)
+You may see these warnings - they don't affect the build:
+- "Using flatDir should be avoided" 
+- "Failed to resolve project :capacitor-*" warnings
+
+These are cosmetic warnings from Capacitor plugin resolution and don't impact functionality.
+
+## 🔧 Troubleshooting
+
+### Build Keeps Failing
+1. **Close Android Studio**
+2. **Delete cache folders**:
+   ```
+   android/.gradle/
+   android/.idea/
+   android/build/
+   android/app/build/
+   ```
+3. **Reopen project in Android Studio**
+4. **Wait for full sync**
+
+### Java Version Issues
+- **File** → **Project Structure** → **SDK Location**
+- **Gradle JVM**: Use "Project JDK" or "Embedded JDK"
+- Ensure Android Studio is using JDK 17+
+
+### Gradle Sync Failures
+- Check internet connection
+- **File** → **Settings** → **Build** → **Gradle**
+- Ensure "Use Gradle wrapper" is selected
+
+## 📱 Bundle Verification
+Before uploading to Google Play:
+1. **Check file size**: Should be 15-30 MB
+2. **Verify app ID**: com.flashtastic.app
+3. **Check version**: 1.0 (Code: 1)
+
+## 🚀 Google Play Store Upload
+1. Go to [Google Play Console](https://play.google.com/console)
+2. Navigate to FlashTastic app → Production
+3. Create new release
+4. Upload `app-release.aab`
+5. Add release notes: "Initial release of FlashTastic educational app"
+6. Review and publish
+
+Your FlashTastic project is now properly configured for successful Android Studio build and Google Play Store submission.
