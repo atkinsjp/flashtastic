@@ -26,29 +26,29 @@ Your Android Studio expects AGP 8.3.2, but the project had:
 
 ## 🚀 Build Instructions
 
-### Step 1: Complete Clean (CRITICAL)
+### IMPORTANT: Use Android Studio
+Due to Android SDK licensing requirements in the Replit environment, the build must be completed in Android Studio.
+
+### Quick Setup Verification:
 ```bash
-cd android
-rm -rf .gradle
-rm -rf app/build
-rm -rf capacitor-cordova-android-plugins/build
-rm -rf */build
+# 1. Build web app and sync Capacitor
+npm run build
+npx cap sync android
+
+# 2. Verify configuration
+cd android && ./gradlew --version
+# Should show: Gradle 8.9, JVM 17.0.7
 ```
 
-### Step 2: Gradle Daemon Reset
-```bash
-./gradlew --stop
-```
+### Android Studio Build:
+1. **Download Android Studio** (if not installed)
+2. **Open Project**: Select the `android` folder
+3. **Wait for Sync**: Gradle sync will complete automatically
+4. **Generate Bundle**: Build → Generate Signed Bundle / APK
+5. **Create Keystore**: Follow the signing wizard
+6. **Build**: Release bundle will be created
 
-### Step 3: Clean Build
-```bash
-./gradlew clean
-```
-
-### Step 4: Build Release Bundle
-```bash
-./gradlew bundleRelease
-```
+**See ./ANDROID-STUDIO-FIX.md for detailed step-by-step instructions.**
 
 ## Expected Output
 If successful, your signed bundle will be at:
