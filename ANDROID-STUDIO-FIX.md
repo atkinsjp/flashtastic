@@ -92,10 +92,11 @@ java -jar bundletool.jar install-apks --apks=flashtastic.apks
 - **Solution**: Accept all licenses when prompted
 
 ### Java Version Issues
-- **Problem**: "Unsupported Java version"
+- **Problem**: "Unsupported Java version" or invalid Java home
 - **Solution**: 
   1. File → Project Structure → SDK Location
-  2. Set JDK location to Java 11 or 17
+  2. Set JDK location to Java 17 (Android Studio will auto-detect)
+  3. If issues persist, use Android Studio's embedded JDK
 
 ### Build Failures
 - **Clean Build**: Build → Clean Project, then Build → Rebuild Project
