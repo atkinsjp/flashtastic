@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="500" viewBox="0 0 1024 500">
+  <!-- Background Gradient -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4ECDC4;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#44A08D;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#093637;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="textGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#00D4FF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#00A8FF;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1024" height="500" fill="url(#bgGradient)"/>
+  
+  <!-- Logo Icon (simplified FT) -->
+  <g transform="translate(80, 150)">
+    <!-- F Letter -->
+    <rect x="0" y="0" width="15" height="60" rx="3" fill="#00D4FF" stroke="#0099CC" stroke-width="2"/>
+    <rect x="0" y="0" width="35" height="15" rx="3" fill="#00D4FF" stroke="#0099CC" stroke-width="2"/>
+    <rect x="0" y="25" width="30" height="12" rx="3" fill="#00D4FF" stroke="#0099CC" stroke-width="2"/>
+    
+    <!-- T Letter -->
+    <rect x="45" y="0" width="35" height="15" rx="3" fill="#00D4FF" stroke="#0099CC" stroke-width="2"/>
+    <rect x="55" y="0" width="15" height="60" rx="3" fill="#00D4FF" stroke="#0099CC" stroke-width="2"/>
+  </g>
+  
+  <!-- Main Title -->
+  <text x="200" y="200" font-family="Arial Black, sans-serif" font-size="48" font-weight="900" fill="url(#textGlow)" stroke="#003366" stroke-width="2">
+    FlashTastic
+  </text>
+  
+  <!-- Subtitle -->
+  <text x="200" y="240" font-family="Arial, sans-serif" font-size="24" font-weight="600" fill="#FFFFFF" stroke="#003366" stroke-width="1">
+    AI-Powered Learning for K-8 Students
+  </text>
+  
+  <!-- Feature Highlights -->
+  <g transform="translate(200, 280)">
+    <!-- AI Brain Icon -->
+    <circle cx="15" cy="15" r="12" fill="#FFD700" stroke="#FF9500" stroke-width="2"/>
+    <path d="M8,15 Q15,8 22,15 Q15,22 8,15" fill="#FF9500"/>
+    <text x="35" y="20" font-family="Arial, sans-serif" font-size="16" font-weight="600" fill="#FFFFFF">AI Study Buddy</text>
+    
+    <!-- 3D Avatar Icon -->
+    <g transform="translate(180, 0)">
+      <polygon points="15,5 25,12 15,25 5,12" fill="#00FF88" stroke="#00CC66" stroke-width="2"/>
+      <circle cx="15" cy="15" r="3" fill="#FFFFFF"/>
+      <text x="35" y="20" font-family="Arial, sans-serif" font-size="16" font-weight="600" fill="#FFFFFF">3D Avatars</text>
+    </g>
+    
+    <!-- Family Icon -->
+    <g transform="translate(360, 0)">
+      <circle cx="8" cy="8" r="4" fill="#FF6B9D" stroke="#FF4081" stroke-width="1"/>
+      <circle cx="15" cy="8" r="4" fill="#FF6B9D" stroke="#FF4081" stroke-width="1"/>
+      <circle cx="22" cy="8" r="4" fill="#FF6B9D" stroke="#FF4081" stroke-width="1"/>
+      <rect x="5" y="15" width="20" height="8" rx="2" fill="#FF6B9D" stroke="#FF4081" stroke-width="1"/>
+      <text x="35" y="20" font-family="Arial, sans-serif" font-size="16" font-weight="600" fill="#FFFFFF">Family Fun</text>
+    </g>
+  </g>
+  
+  <!-- Right Side - Mobile Device Mockup -->
+  <g transform="translate(750, 80)">
+    <!-- Phone Frame -->
+    <rect x="0" y="0" width="180" height="320" rx="25" fill="#2C3E50" stroke="#34495E" stroke-width="3"/>
+    <rect x="15" y="40" width="150" height="240" rx="10" fill="#FFFFFF"/>
+    
+    <!-- Screen Content -->
+    <rect x="25" y="50" width="130" height="30" rx="5" fill="#4ECDC4"/>
+    <text x="90" y="70" font-family="Arial, sans-serif" font-size="12" font-weight="600" fill="#FFFFFF" text-anchor="middle">Quiz Time!</text>
+    
+    <!-- Quiz Options -->
+    <rect x="25" y="100" width="130" height="25" rx="5" fill="#E8F8F5" stroke="#4ECDC4" stroke-width="1"/>
+    <rect x="25" y="135" width="130" height="25" rx="5" fill="#E8F8F5" stroke="#4ECDC4" stroke-width="1"/>
+    <rect x="25" y="170" width="130" height="25" rx="5" fill="#4ECDC4"/>
+    <rect x="25" y="205" width="130" height="25" rx="5" fill="#E8F8F5" stroke="#4ECDC4" stroke-width="1"/>
+    
+    <!-- Avatar at bottom -->
+    <circle cx="90" cy="250" r="15" fill="#00FF88" stroke="#00CC66" stroke-width="2"/>
+    <polygon points="90,240 100,247 90,265 80,247" fill="#00CC66"/>
+  </g>
+  
+  <!-- Call to Action -->
+  <text x="200" y="380" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#FFD700" stroke="#FF9500" stroke-width="1">
+    Download Free • Premium AI Features Available
+  </text>
+  
+  <!-- Educational Badge -->
+  <g transform="translate(200, 420)">
+    <rect x="0" y="0" width="120" height="30" rx="15" fill="#FFD700" stroke="#FF9500" stroke-width="2"/>
+    <text x="60" y="20" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#003366" text-anchor="middle">TEACHER APPROVED</text>
+  </g>
+</svg>
