@@ -3,6 +3,6 @@
   "target": {
     "namespace": "android_app",
     "package_name": "com.flashtastic.app",
-    "sha256_cert_fingerprints": ["78:A0:AB:9F:19:E2:27:DE:14:74:2D:30:F6:73:00:61:77:0F:BE:A8:9A:01:03:0B:75:71:57:E7:AE:06:C4:17"]
+    "sha256_cert_fingerprints": ["7F:1C:B7:2F:73:C5:67:77:CB:A7:DA:27:3F:E4:B7:31:6B:1A:B9:EE:6B:52:8E:3E:5A:F2:80:87:4A:0C:98:E3"]
   }
 }]
