@@ -1,29 +1,12 @@
 {
   "name": "FlashTastic - Educational Flash Cards",
   "short_name": "FlashTastic",
-  "description": "A comprehensive K-8 educational flash card Progressive Web App with gamification, custom avatars, and multi-subject content",
+  "description": "Interactive K-8 learning with 3D avatars, family competitions, and adaptive flash cards",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#FF6B6B",
-  "orientation": "portrait-primary",
   "scope": "/",
-  "lang": "en",
-  "categories": ["education", "kids", "learning"],
-  "screenshots": [
-    {
-      "src": "/icons/screenshot-wide.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "form_factor": "wide"
-    },
-    {
-      "src": "/icons/screenshot-narrow.png", 
-      "sizes": "640x1136",
-      "type": "image/png",
-      "form_factor": "narrow"
-    }
-  ],
   "icons": [
     {
       "src": "/icons/icon-72x72.png",
@@ -71,62 +54,7 @@
       "src": "/icons/icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "maskable any"
-    }
-  ],
-  "shortcuts": [
-    {
-      "name": "Start Studying",
-      "short_name": "Study",
-      "description": "Begin a study session with flash cards",
-      "url": "/study",
-      "icons": [
-        {
-          "src": "/icons/study-icon.png",
-          "sizes": "192x192"
-        }
-      ]
-    },
-    {
-      "name": "Take Quiz", 
-      "short_name": "Quiz",
-      "description": "Take a timed or practice quiz",
-      "url": "/quiz",
-      "icons": [
-        {
-          "src": "/icons/quiz-icon.png",
-          "sizes": "192x192"
-        }
-      ]
-    },
-    {
-      "name": "View Progress",
-      "short_name": "Progress", 
-      "description": "Check your learning progress and achievements",
-      "url": "/progress",
-      "icons": [
-        {
-          "src": "/icons/progress-icon.png",
-          "sizes": "192x192"
-        }
-      ]
-    }
-  ],
-  "related_applications": [],
-  "prefer_related_applications": false,
-  "dir": "ltr",
-  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
-  "edge_side_panel": {
-    "preferred_width": 400
-  },
-  "handle_links": "preferred",
-  "launch_handler": {
-    "client_mode": "focus-existing"
-  },
-  "protocol_handlers": [
-    {
-      "protocol": "web+flashtastic",
-      "url": "/?action=%s"
+      "purpose": "any"
     }
   ]
 }
