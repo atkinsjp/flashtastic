@@ -3,6 +3,6 @@
   "target": {
     "namespace": "android_app",
     "package_name": "com.flashtastic.app",
-    "sha256_cert_fingerprints": ["35:0F:6F:EE:60:D1:E4:1B:22:A7:0A:2F:2F:C1:F4:8E:21:64:ED:5B"]
+    "sha256_cert_fingerprints": ["YOUR_NEW_FINGERPRINT_FROM_FRESH_BUNDLE"]
   }
 }]
