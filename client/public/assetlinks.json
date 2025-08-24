@@ -2,7 +2,7 @@
   "relation": ["delegate_permission/common.handle_all_urls"],
   "target": {
     "namespace": "android_app",
-    "package_name": "com.flashtastic.app",
-    "sha256_cert_fingerprints": ["YOUR_NEW_FINGERPRINT_FROM_FRESH_BUNDLE"]
+    "package_name": "app.replit.flashtastic_jimatkins753.twa",
+    "sha256_cert_fingerprints": ["42:AC:47:3E:AA:C0:0E:90:C6:18:EB:DE:34:13:4E:F2:30:DD:E0:A0:6D:5D:91:4C:C1:2E:F9:59:57:43:89:DF"]
   }
 }]
