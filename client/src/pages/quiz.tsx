@@ -88,6 +88,9 @@ export default function Quiz() {
       return choices.sort(() => Math.random() - 0.5);
     }
     
+    console.log("🔍 DEBUG: Current card choices:", currentCard?.choices);
+    console.log("🔍 DEBUG: Current card structure:", JSON.stringify(currentCard, null, 2));
+    
     console.error("❌ CRITICAL: No AI choices available for question:", currentCard?.question);
     console.error("Available choices:", currentCard?.choices);
     
@@ -563,20 +566,18 @@ export default function Quiz() {
             <CardHeader className="bg-red-500 text-white p-6">
               <div className="flex items-start justify-between">
                 <CardTitle className="text-xl font-bold text-white flex-1">{currentCard.question}</CardTitle>
-                {currentCard.id?.startsWith('ai-') && (
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => {
-                      setSelectedQuestionForReport(currentCard);
-                      setReportModalOpen(true);
-                    }}
-                    className="ml-2 h-8 px-2 text-white/80 hover:text-white hover:bg-white/20"
-                    data-testid={`report-question-${currentCard.id}`}
-                  >
-                    <Flag className="h-4 w-4" />
-                  </Button>
-                )}
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => {
+                    setSelectedQuestionForReport(currentCard);
+                    setReportModalOpen(true);
+                  }}
+                  className="ml-2 h-8 px-2 text-white/80 hover:text-white hover:bg-white/20"
+                  data-testid={`report-question-${currentCard.id}`}
+                >
+                  <Flag className="h-4 w-4" />
+                </Button>
               </div>
             </CardHeader>
             <CardContent className="space-y-4 bg-white p-6">
