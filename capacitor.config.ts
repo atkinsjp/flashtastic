@@ -1,7 +1,7 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.flashtastic.app',
+  appId: 'com.flashkademy.app',
   appName: 'FlashTastic',
   webDir: 'dist/public',
   server: {
