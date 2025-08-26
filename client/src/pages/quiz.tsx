@@ -573,10 +573,11 @@ export default function Quiz() {
                     setSelectedQuestionForReport(currentCard);
                     setReportModalOpen(true);
                   }}
-                  className="ml-2 h-8 px-2 text-white/80 hover:text-white hover:bg-white/20"
+                  className="ml-2 h-8 px-2 text-white/80 hover:text-white hover:bg-white/20 flex items-center gap-1"
                   data-testid={`report-question-${currentCard.id}`}
                 >
-                  <Flag className="h-4 w-4" />
+                  <Flag className="h-3 w-3" />
+                  <span className="text-xs">Report Abuse</span>
                 </Button>
               </div>
             </CardHeader>
