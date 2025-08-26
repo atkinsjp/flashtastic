@@ -3,9 +3,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Bot, User, Send, Sparkles, Lock } from "lucide-react";
+import { Bot, User, Send, Sparkles, Lock, Flag } from "lucide-react";
 import { motion } from "framer-motion";
 import { useSubscription, useFeatureAccess } from "@/hooks/use-subscription";
+import { ContentReportModal } from "./content-report-modal";
 
 interface ChatMessage {
   id: string;
@@ -42,6 +43,8 @@ export function StudyBuddyChat({
   ]);
   const [inputMessage, setInputMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [reportModalOpen, setReportModalOpen] = useState(false);
+  const [selectedMessageForReport, setSelectedMessageForReport] = useState<ChatMessage | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -241,9 +244,26 @@ export function StudyBuddyChat({
                   >
                     <p className="text-sm whitespace-pre-wrap">{message.content}</p>
                   </div>
-                  <p className="text-xs text-muted-foreground mt-1 px-2">
-                    {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                  </p>
+                  <div className="flex items-center justify-between mt-1 px-2">
+                    <p className="text-xs text-muted-foreground">
+                      {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    </p>
+                    {message.sender === "buddy" && message.id !== "welcome" && (
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => {
+                          setSelectedMessageForReport(message);
+                          setReportModalOpen(true);
+                        }}
+                        className="h-6 px-2 text-xs text-muted-foreground hover:text-red-600"
+                        data-testid={`report-message-${message.id}`}
+                      >
+                        <Flag className="h-3 w-3 mr-1" />
+                        Report
+                      </Button>
+                    )}
+                  </div>
                 </div>
 
                 {message.sender === "user" && (
@@ -332,6 +352,20 @@ export function StudyBuddyChat({
           </Button>
         </div>
       </CardContent>
+
+      {/* Content Report Modal */}
+      {selectedMessageForReport && (
+        <ContentReportModal
+          isOpen={reportModalOpen}
+          onClose={() => {
+            setReportModalOpen(false);
+            setSelectedMessageForReport(null);
+          }}
+          contentType="ai_response"
+          contentText={selectedMessageForReport.content}
+          contentId={selectedMessageForReport.id}
+        />
+      )}
     </Card>
   );
 }

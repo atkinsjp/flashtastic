@@ -8,7 +8,8 @@ import {
   insertFlashCardSchema, 
   insertUserProgressSchema,
   insertStudySessionSchema,
-  insertQuizSchema
+  insertQuizSchema,
+  insertContentReportSchema
 } from "@shared/schema";
 import { z } from "zod";
 
@@ -626,6 +627,60 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Study tips generation error:", error);
       res.status(500).json({ message: "Failed to generate study tips" });
+    }
+  });
+
+  // Content reporting routes
+  app.post("/api/content-reports", async (req, res) => {
+    try {
+      const reportData = insertContentReportSchema.parse(req.body);
+      const report = await storage.createContentReport(reportData);
+      res.status(201).json(report);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ message: "Invalid report data", errors: error.errors });
+      }
+      console.error("Content report creation error:", error);
+      res.status(500).json({ message: "Failed to create content report" });
+    }
+  });
+
+  app.get("/api/content-reports", async (req, res) => {
+    try {
+      const { userId, status } = req.query;
+      const reports = await storage.getContentReports(
+        userId as string | undefined,
+        status as string | undefined
+      );
+      res.json(reports);
+    } catch (error) {
+      console.error("Content reports retrieval error:", error);
+      res.status(500).json({ message: "Failed to get content reports" });
+    }
+  });
+
+  app.patch("/api/content-reports/:id/status", async (req, res) => {
+    try {
+      const { status, moderatorNotes } = req.body;
+      
+      if (!status || typeof status !== "string") {
+        return res.status(400).json({ message: "Status is required" });
+      }
+
+      const report = await storage.updateContentReportStatus(
+        req.params.id,
+        status,
+        moderatorNotes
+      );
+      
+      if (!report) {
+        return res.status(404).json({ message: "Content report not found" });
+      }
+
+      res.json(report);
+    } catch (error) {
+      console.error("Content report status update error:", error);
+      res.status(500).json({ message: "Failed to update content report status" });
     }
   });
 

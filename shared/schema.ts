@@ -74,6 +74,32 @@ export const achievements = pgTable("achievements", {
   rarity: varchar("rarity", { length: 20 }).default("common"), // common, rare, epic, legendary
 });
 
+export const contentReports = pgTable("content_reports", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull(),
+  contentType: varchar("content_type", { length: 50 }).notNull(), // ai_question, ai_response, flashcard
+  contentId: varchar("content_id"), // reference to the specific content
+  contentText: text("content_text").notNull(), // the actual content being reported
+  reportReason: varchar("report_reason", { length: 100 }).notNull(), // inappropriate, inaccurate, offensive, etc.
+  reportDetails: text("report_details"), // additional details from user
+  status: varchar("status", { length: 20 }).default("pending"), // pending, reviewed, resolved, dismissed
+  moderatorNotes: text("moderator_notes"),
+  createdAt: timestamp("created_at").default(sql`now()`),
+  reviewedAt: timestamp("reviewed_at"),
+});
+
+// Content Reports schema types
+export const insertContentReportSchema = createInsertSchema(contentReports).omit({
+  id: true,
+  createdAt: true,
+  reviewedAt: true,
+  status: true,
+  moderatorNotes: true,
+});
+
+export type InsertContentReport = z.infer<typeof insertContentReportSchema>;
+export type ContentReport = typeof contentReports.$inferSelect;
+
 export const userAchievements = pgTable("user_achievements", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   userId: varchar("user_id").notNull(),

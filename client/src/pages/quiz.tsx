@@ -4,9 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { Timer, Clock, Zap, Brain, RotateCcw } from "lucide-react";
+import { Timer, Clock, Zap, Brain, RotateCcw, Flag } from "lucide-react";
 import GradeSelector from "@/components/grade-selector";
 import { useMilestoneTracker } from "@/hooks/use-milestone-tracker";
+import { ContentReportModal } from "@/components/content-report-modal";
 import type { FlashCard } from "@shared/schema";
 
 type QuizMode = "timed" | "untimed" | "mixed" | null;
@@ -23,6 +24,8 @@ export default function Quiz() {
   const [quizStarted, setQuizStarted] = useState(false);
   const [questionChoices, setQuestionChoices] = useState<Record<number, string[]>>({});
   const [milestonesTriggered, setMilestonesTriggered] = useState(false);
+  const [reportModalOpen, setReportModalOpen] = useState(false);
+  const [selectedQuestionForReport, setSelectedQuestionForReport] = useState<FlashCard | null>(null);
   const { checkForMilestones } = useMilestoneTracker();
 
   const { data: flashCards = [], isLoading, isError } = useQuery<FlashCard[]>({
@@ -558,7 +561,23 @@ export default function Quiz() {
         {currentCard && (
           <Card className="mb-6 bg-white border-2 border-gray-300 shadow-lg">
             <CardHeader className="bg-red-500 text-white p-6">
-              <CardTitle className="text-xl font-bold text-white">{currentCard.question}</CardTitle>
+              <div className="flex items-start justify-between">
+                <CardTitle className="text-xl font-bold text-white flex-1">{currentCard.question}</CardTitle>
+                {currentCard.id?.startsWith('ai-') && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => {
+                      setSelectedQuestionForReport(currentCard);
+                      setReportModalOpen(true);
+                    }}
+                    className="ml-2 h-8 px-2 text-white/80 hover:text-white hover:bg-white/20"
+                    data-testid={`report-question-${currentCard.id}`}
+                  >
+                    <Flag className="h-4 w-4" />
+                  </Button>
+                )}
+              </div>
             </CardHeader>
             <CardContent className="space-y-4 bg-white p-6">
               {currentCard.imageUrl && (
@@ -607,5 +626,21 @@ export default function Quiz() {
   }
 
   // Default fallback - should not reach here
-  return null;
+  return (
+    <>
+      {/* Content Report Modal */}
+      {selectedQuestionForReport && (
+        <ContentReportModal
+          isOpen={reportModalOpen}
+          onClose={() => {
+            setReportModalOpen(false);
+            setSelectedQuestionForReport(null);
+          }}
+          contentType="ai_question"
+          contentText={selectedQuestionForReport.question}
+          contentId={selectedQuestionForReport.id}
+        />
+      )}
+    </>
+  );
 }

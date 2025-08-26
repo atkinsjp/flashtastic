@@ -13,6 +13,8 @@ import {
   type InsertStudySession,
   type Quiz,
   type InsertQuiz,
+  type ContentReport,
+  type InsertContentReport,
   GRADES,
   SUBJECTS
 } from "@shared/schema";
@@ -54,6 +56,11 @@ export interface IStorage {
   getQuiz(id: string): Promise<Quiz | undefined>;
   updateQuiz(id: string, updates: Partial<Quiz>): Promise<Quiz | undefined>;
   getUserQuizzes(userId: string, limit?: number): Promise<Quiz[]>;
+
+  // Content Reports
+  createContentReport(report: InsertContentReport): Promise<ContentReport>;
+  getContentReports(userId?: string, status?: string): Promise<ContentReport[]>;
+  updateContentReportStatus(id: string, status: string, moderatorNotes?: string): Promise<ContentReport | undefined>;
 }
 
 import { db } from "./db";
@@ -65,7 +72,8 @@ import {
   achievements,
   userAchievements,
   studySessions,
-  quizzes
+  quizzes,
+  contentReports
 } from "@shared/schema";
 
 export class DatabaseStorage implements IStorage {
@@ -471,6 +479,55 @@ export class DatabaseStorage implements IStorage {
       .where(eq(quizzes.userId, userId))
       .orderBy(quizzes.createdAt)
       .limit(limit);
+  }
+
+  // Content reporting methods
+  async createContentReport(report: InsertContentReport): Promise<ContentReport> {
+    const [contentReport] = await db
+      .insert(contentReports)
+      .values(report)
+      .returning();
+    return contentReport;
+  }
+
+  async getContentReports(userId?: string, status?: string): Promise<ContentReport[]> {
+    let conditions = [];
+    
+    if (userId) {
+      conditions.push(eq(contentReports.userId, userId));
+    }
+    
+    if (status) {
+      conditions.push(eq(contentReports.status, status));
+    }
+
+    const query = db.select().from(contentReports);
+    
+    if (conditions.length > 0) {
+      return await query
+        .where(conditions.length === 1 ? conditions[0] : and(...conditions))
+        .orderBy(contentReports.createdAt);
+    }
+
+    return await query.orderBy(contentReports.createdAt);
+  }
+
+  async updateContentReportStatus(id: string, status: string, moderatorNotes?: string): Promise<ContentReport | undefined> {
+    const updateData: any = { 
+      status, 
+      reviewedAt: new Date() 
+    };
+    
+    if (moderatorNotes) {
+      updateData.moderatorNotes = moderatorNotes;
+    }
+
+    const [report] = await db
+      .update(contentReports)
+      .set(updateData)
+      .where(eq(contentReports.id, id))
+      .returning();
+    return report || undefined;
   }
 }
 
