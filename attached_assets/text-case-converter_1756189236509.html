@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Case Converter</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+</head>
+<body>
+    <header>
+        <h1 class="gradient-text-1">Text Case Converter</h1>
+    </header>
+    <main>
+        <div class="tool-container animate__animated animate__fadeInLeft">
+            <h2 class="gradient-text-2">Convert Your Text</h2>
+            <p class="animate__animated animate__fadeInLeft">Paste your text below and click the button to convert its case.</p>
+            <textarea id="inputText" placeholder="Enter your text here..."></textarea>
+            <div class="buttons">
+                <button class="btn" onclick="toUppercase()">Uppercase</button>
+                <button class="btn" onclick="toLowercase()">Lowercase</button>
+                <button class="btn" onclick="toTitleCase()">Title Case</button>
+                <button class="btn reset" onclick="resetText()">Reset</button>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <p class="animate__animated animate__fadeInUp"><a href="index.html" class="home-button">Back to Dashboard</a></p>
+    </footer>
+
+    <script>
+        const inputText = document.getElementById('inputText');
+
+        function toUppercase() {
+            inputText.value = inputText.value.toUpperCase();
+        }
+
+        function toLowercase() {
+            inputText.value = inputText.value.toLowerCase();
+        }
+
+        function toTitleCase() {
+            const words = inputText.value.toLowerCase().split(' ');
+            for (let i = 0; i < words.length; i++) {
+                words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1);
+            }
+            inputText.value = words.join(' ');
+        }
+        
+        function resetText() {
+            inputText.value = '';
+        }
+    </script>
+</body>
+</html>

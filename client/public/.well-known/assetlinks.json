@@ -2,7 +2,7 @@
   "relation": ["delegate_permission/common.handle_all_urls"],
   "target": {
     "namespace": "android_app",
-    "package_name": "com.flashtastic.app",
+    "package_name": "com.flashkademy.app",
     "sha256_cert_fingerprints": ["7F:1C:B7:2F:73:C5:67:77:CB:A7:DA:27:3F:E4:B7:31:6B:1A:B9:EE:6B:52:8E:3E:5A:F2:80:87:4A:0C:98:E3"]
   }
 }]

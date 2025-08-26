@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        #qrcode {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 class="gradient-text-1">QR Code Generator</h1>
+    </header>
+    <main>
+        <div class="tool-container animate__animated animate__fadeInUp">
+            <h2 class="gradient-text-3">Create a QR Code</h2>
+            <p class="animate__animated animate__fadeInUp">Enter a URL, text, or number to generate a custom QR code.</p>
+            <input type="text" id="qrInput" placeholder="Enter your text or URL...">
+            <div class="buttons">
+                <button class="btn" onclick="generateQR()">Generate</button>
+                <button class="btn reset" onclick="resetQR()">Reset</button>
+            </div>
+            <div id="qrcode"></div>
+        </div>
+    </main>
+    <footer>
+        <p class="animate__animated animate__fadeInUp"><a href="index.html" class="home-button">Back to Dashboard</a></p>
+    </footer>
+
+    <script>
+        let qrcode;
+
+        function generateQR() {
+            const qrInput = document.getElementById('qrInput').value;
+            const qrcodeContainer = document.getElementById('qrcode');
+            qrcodeContainer.innerHTML = '';
+            
+            if (qrInput) {
+                qrcode = new QRCode(qrcodeContainer, {
+                    text: qrInput,
+                    width: 200,
+                    height: 200,
+                    colorDark: "#000000",
+                    colorLight: "#ffffff",
+                    correctLevel: QRCode.CorrectLevel.H
+                });
+            } else {
+                alert("Please enter some text or a URL.");
+            }
+        }
+
+        function resetQR() {
+            const qrInput = document.getElementById('qrInput');
+            qrInput.value = '';
+            const qrcodeContainer = document.getElementById('qrcode');
+            qrcodeContainer.innerHTML = '';
+        }
+    </script>
+</body>
+</html>

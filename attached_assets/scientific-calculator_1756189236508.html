@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scientific Calculator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0A0A0A;
+        }
+        .gradient-text {
+            background: linear-gradient(90deg, #34D399, #FBBF24);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .calc-btn {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: background-color 0.2s ease;
+        }
+        .calc-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .calc-btn.operator {
+            background-color: rgba(52, 211, 153, 0.2);
+            color: #6EE7B7;
+        }
+        .calc-btn.function {
+            background-color: rgba(251, 191, 36, 0.2);
+            color: #FBBF24;
+        }
+    </style>
+</head>
+<body class="text-gray-300">
+
+    <!-- Header -->
+    <header class="bg-black/30 backdrop-blur-lg fixed w-full z-50 top-0 border-b border-gray-800">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-white">
+                Quick<span class="text-blue-500">Free</span>Toolz
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="pt-32 pb-20 md:pt-40 md:pb-20 relative overflow-hidden">
+            <div class="absolute inset-0 bg-grid-gray-800/20 [mask-image:linear-gradient(to_bottom,white_5%,transparent_90%)]"></div>
+            <div class="container mx-auto px-6 text-center relative z-10">
+                <h1 class="text-4xl md:text-5xl font-extrabold text-white leading-tight mb-4">
+                    Scientific <span class="gradient-text">Calculator</span>
+                </h1>
+            </div>
+        </section>
+
+        <!-- Tool Section -->
+        <section class="pb-20">
+            <div class="container mx-auto px-6 max-w-lg">
+                <div class="bg-gray-900/50 border border-gray-800 rounded-xl p-6">
+                    <div id="display" class="bg-gray-800/50 rounded-lg p-4 text-right text-4xl font-mono text-white mb-4 h-20 overflow-x-auto">0</div>
+                    <div class="grid grid-cols-5 gap-2">
+                        <!-- Scientific Functions -->
+                        <button class="calc-btn function rounded-lg p-4 text-xl" data-value="sin">sin</button>
+                        <button class="calc-btn function rounded-lg p-4 text-xl" data-value="cos">cos</button>
+                        <button class="calc-btn function rounded-lg p-4 text-xl" data-value="tan">tan</button>
+                        <button class="calc-btn function rounded-lg p-4 text-xl" data-value="log">log</button>
+                        <button class="calc-btn function rounded-lg p-4 text-xl" data-value="ln">ln</button>
+                        <button class="calc-btn function rounded-lg p-4 text-xl" data-value="sqrt">√</button>
+                        <button class="calc-btn function rounded-lg p-4 text-xl" data-value="^">x^y</button>
+                        <button class="calc-btn function rounded-lg p-4 text-xl" data-value="(">(</button>
+                        <button class="calc-btn function rounded-lg p-4 text-xl" data-value=")">)</button>
+                        <button class="calc-btn function rounded-lg p-4 text-xl" data-value="pi">π</button>
+                        
+                        <!-- Standard Calculator -->
+                        <button class="calc-btn rounded-lg p-4 text-2xl" data-value="7">7</button>
+                        <button class="calc-btn rounded-lg p-4 text-2xl" data-value="8">8</button>
+                        <button class="calc-btn rounded-lg p-4 text-2xl" data-value="9">9</button>
+                        <button class="calc-btn operator rounded-lg p-4 text-2xl" data-value="/">÷</button>
+                        <button class="calc-btn operator rounded-lg p-4 text-2xl" data-value="C">C</button>
+                        
+                        <button class="calc-btn rounded-lg p-4 text-2xl" data-value="4">4</button>
+                        <button class="calc-btn rounded-lg p-4 text-2xl" data-value="5">5</button>
+                        <button class="calc-btn rounded-lg p-4 text-2xl" data-value="6">6</button>
+                        <button class="calc-btn operator rounded-lg p-4 text-2xl" data-value="*">×</button>
+                        
+                        <button class="calc-btn rounded-lg p-4 text-2xl col-start-1" data-value="1">1</button>
+                        <button class="calc-btn rounded-lg p-4 text-2xl" data-value="2">2</button>
+                        <button class="calc-btn rounded-lg p-4 text-2xl" data-value="3">3</button>
+                        <button class="calc-btn operator rounded-lg p-4 text-2xl" data-value="-">−</button>
+                        <button class="calc-btn operator rounded-lg p-4 text-2xl row-span-2" data-value="=">=</button>
+                        
+                        <button class="calc-btn rounded-lg p-4 text-2xl col-span-2" data-value="0">0</button>
+                        <button class="calc-btn rounded-lg p-4 text-2xl" data-value=".">.</button>
+                        <button class="calc-btn operator rounded-lg p-4 text-2xl" data-value="+">+</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <script>
+        const display = document.getElementById('display');
+        const buttons = document.querySelectorAll('.calc-btn');
+        let currentInput = '0';
+        let resultDisplayed = false;
+
+        function updateDisplay() {
+            display.textContent = currentInput;
+        }
+
+        function handleInput(value) {
+            if (resultDisplayed) {
+                currentInput = '0';
+                resultDisplayed = false;
+            }
+            if (currentInput === '0' && value !== '.') {
+                currentInput = value;
+            } else {
+                currentInput += value;
+            }
+            updateDisplay();
+        }
+
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {
+                const value = button.getAttribute('data-value');
+
+                switch(value) {
+                    case '=':
+                        try {
+                            // Replace math symbols for eval
+                            let evalStr = currentInput.replace(/÷/g, '/').replace(/×/g, '*').replace(/−/g, '-').replace(/π/g, 'Math.PI').replace(/\^/g, '**');
+                            currentInput = eval(evalStr).toString();
+                        } catch {
+                            currentInput = 'Error';
+                        }
+                        resultDisplayed = true;
+                        break;
+                    case 'C':
+                        currentInput = '0';
+                        break;
+                    case 'sin':
+                    case 'cos':
+                    case 'tan':
+                    case 'log':
+                    case 'ln':
+                    case 'sqrt':
+                        try {
+                            let num = eval(currentInput);
+                            if (value === 'sin') currentInput = Math.sin(num).toString();
+                            if (value === 'cos') currentInput = Math.cos(num).toString();
+                            if (value === 'tan') currentInput = Math.tan(num).toString();
+                            if (value === 'log') currentInput = Math.log10(num).toString();
+                            if (value === 'ln') currentInput = Math.log(num).toString();
+                            if (value === 'sqrt') currentInput = Math.sqrt(num).toString();
+                        } catch {
+                            currentInput = 'Error';
+                        }
+                        resultDisplayed = true;
+                        break;
+                    default:
+                        handleInput(value);
+                }
+                updateDisplay();
+            });
+        });
+    </script>
+</body>
+</html>
