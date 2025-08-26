@@ -621,13 +621,7 @@ export default function Quiz() {
           {currentQuestion === (flashCards.length || 1) - 1 ? "Finish Quiz" : "Next Question"} →
         </Button>
       </div>
-    </div>
-    );
-  }
 
-  // Default fallback - should not reach here
-  return (
-    <>
       {/* Content Report Modal */}
       {selectedQuestionForReport && (
         <ContentReportModal
@@ -641,6 +635,10 @@ export default function Quiz() {
           contentId={selectedQuestionForReport.id}
         />
       )}
-    </>
-  );
+    </div>
+    );
+  }
+
+  // Default fallback - should not reach here
+  return null;
 }
