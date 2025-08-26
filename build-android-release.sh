@@ -23,14 +23,21 @@ echo ""
 echo "Capacitor config shows:"
 grep "appId" android/app/src/main/assets/capacitor.config.json
 
-# Step 4: Build instructions
+# Step 4: Build signed release
 echo ""
-echo "4. To build the release .aab file:"
-echo "   cd android"
-echo "   ./gradlew bundleRelease"
+echo "4. Building signed release .aab file..."
+cd android
+echo "Building with your flashtastic-keystore.jks..."
+./gradlew bundleRelease
 echo ""
-echo "   The .aab file will be created at:"
+echo "✅ Signed .aab file created at:"
 echo "   android/app/build/outputs/bundle/release/app-release.aab"
+echo ""
+echo "This .aab file contains:"
+echo "   - Package name: com.flashkademy.app"
+echo "   - Version: 3.0.0.0 (code 3)"
+echo "   - Signed with your keystore"
+echo "   - Ready for Google Play upload"
 echo ""
 echo "=== Alternative: Use PWABuilder ==="
 echo "1. Go to https://www.pwabuilder.com/"
