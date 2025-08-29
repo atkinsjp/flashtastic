@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { PremiumGate } from "@/components/premium-gate";
 import {
   Trophy,
   Medal,
@@ -242,6 +243,8 @@ export default function Competitions() {
           </h1>
           <p className="text-gray-600">Challenge your siblings and compete to become the ultimate learner!</p>
         </div>
+
+        <PremiumGate feature="family_competitions">
 
         <Tabs defaultValue="challenges" className="w-full">
           <TabsList className="grid w-full grid-cols-4">
@@ -639,6 +642,7 @@ export default function Competitions() {
             </Card>
           </TabsContent>
         </Tabs>
+        </PremiumGate>
       </div>
     </div>
   );

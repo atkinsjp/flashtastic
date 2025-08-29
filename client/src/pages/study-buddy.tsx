@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, Brain, BookOpen, Lightbulb, MessageCircle } from "lucide-react";
 import { StudyBuddyChat } from "@/components/study-buddy-chat";
+import { PremiumGate } from "@/components/premium-gate";
 import { motion } from "framer-motion";
 
 export function StudyBuddyPage() {
@@ -26,11 +27,13 @@ export function StudyBuddyPage() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 p-4">
         <div className="max-w-4xl mx-auto">
-          <StudyBuddyChat
-            currentSubject={currentSubject}
-            currentGrade={currentGrade}
-            onClose={() => setShowChat(false)}
-          />
+          <PremiumGate feature="ai_study_buddy">
+            <StudyBuddyChat
+              currentSubject={currentSubject}
+              currentGrade={currentGrade}
+              onClose={() => setShowChat(false)}
+            />
+          </PremiumGate>
         </div>
       </div>
     );

@@ -1,5 +1,6 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
+import Stripe from "stripe";
 import { storage } from "./storage";
 import { generateQuestions } from "./ai-generator";
 import { generateStudyBuddyResponse, generateStudyTips } from "./study-buddy";
@@ -12,6 +13,14 @@ import {
   insertContentReportSchema
 } from "@shared/schema";
 import { z } from "zod";
+
+// Initialize Stripe
+if (!process.env.STRIPE_SECRET_KEY) {
+  throw new Error('Missing required Stripe secret: STRIPE_SECRET_KEY');
+}
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+  apiVersion: "2023-10-16",
+});
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // User routes
@@ -681,6 +690,60 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Content report status update error:", error);
       res.status(500).json({ message: "Failed to update content report status" });
+    }
+  });
+
+  // Subscription and payment routes
+  app.get("/api/subscription-status", async (req, res) => {
+    try {
+      // For now, return guest mode for all users
+      // In a real implementation, you'd check user's subscription in database
+      res.json({
+        tier: 'guest',
+        status: 'inactive'
+      });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to get subscription status" });
+    }
+  });
+
+  app.post("/api/create-subscription", async (req, res) => {
+    try {
+      // Create a subscription with Stripe
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: 999, // $9.99 in cents
+        currency: "usd",
+        automatic_payment_methods: {
+          enabled: true,
+        },
+        metadata: {
+          type: 'subscription',
+          plan: 'premium'
+        }
+      });
+
+      res.json({ 
+        clientSecret: paymentIntent.client_secret,
+        subscriptionId: paymentIntent.id
+      });
+    } catch (error: any) {
+      res.status(500).json({ 
+        message: "Error creating subscription: " + error.message 
+      });
+    }
+  });
+
+  // Webhook endpoint for Stripe events
+  app.post("/api/stripe-webhook", async (req, res) => {
+    try {
+      // In production, verify the webhook signature
+      // const signature = req.headers['stripe-signature'];
+      // const event = stripe.webhooks.constructEvent(req.body, signature, webhookSecret);
+      
+      // For now, just acknowledge receipt
+      res.status(200).json({ received: true });
+    } catch (error) {
+      res.status(400).json({ message: "Webhook error" });
     }
   });
 

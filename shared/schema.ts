@@ -23,6 +23,12 @@ export const users = pgTable("users", {
   }),
   userType: varchar("user_type", { length: 10 }).default("student"), // student, parent
   parentId: varchar("parent_id"), // for linking students to parents - removed self-reference
+  // Subscription fields
+  subscriptionTier: varchar("subscription_tier", { length: 20 }).default("guest"), // guest, premium
+  stripeCustomerId: varchar("stripe_customer_id"),
+  stripeSubscriptionId: varchar("stripe_subscription_id"),
+  subscriptionStatus: varchar("subscription_status", { length: 20 }).default("inactive"), // active, inactive, cancelled, past_due
+  subscriptionEndDate: timestamp("subscription_end_date"),
   createdAt: timestamp("created_at").default(sql`now()`),
 });
 

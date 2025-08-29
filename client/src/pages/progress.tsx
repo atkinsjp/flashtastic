@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Calendar, Target, TrendingUp, Clock, Flame, Trophy, Star, BookOpen } from "lucide-react";
 import { MilestoneDashboard } from "@/components/milestone-dashboard";
+import { PremiumGate } from "@/components/premium-gate";
 
 // Mock data
 const mockProgress = {
@@ -50,7 +51,8 @@ export default function Progress() {
           <p className="text-gray-600">Track your learning journey and achievements</p>
         </div>
 
-        {/* Overview Stats */}
+        <PremiumGate feature="progress_tracking">
+          {/* Overview Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           <Card>
             <CardContent className="p-4 text-center">
@@ -300,6 +302,7 @@ export default function Progress() {
             </div>
           </TabsContent>
         </Tabs>
+        </PremiumGate>
       </div>
     </div>
   );

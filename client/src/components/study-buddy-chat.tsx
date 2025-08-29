@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Bot, User, Send, Sparkles, Lock, Flag } from "lucide-react";
 import { motion } from "framer-motion";
-import { useSubscription, useFeatureAccess } from "@/hooks/use-subscription";
+import { useSubscription } from "@/hooks/use-subscription";
 import { ContentReportModal } from "./content-report-modal";
 
 interface ChatMessage {
@@ -29,8 +29,7 @@ export function StudyBuddyChat({
   recentTopics = [],
   onClose 
 }: StudyBuddyChatProps) {
-  const { showUpgradeModal } = useSubscription();
-  const { hasUnlimitedAI, dailyAILimit } = useFeatureAccess();
+  const { canAccess } = useSubscription();
   const [dailyQuestionsUsed, setDailyQuestionsUsed] = useState(0);
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
@@ -68,8 +67,7 @@ export function StudyBuddyChat({
     if (!message.trim() || isLoading) return;
 
     // Check AI question limit for free users
-    if (!hasUnlimitedAI && dailyQuestionsUsed >= dailyAILimit) {
-      showUpgradeModal('ai_limit');
+    if (!canAccess('unlimited_questions') && dailyQuestionsUsed >= 5) {
       return;
     }
 
@@ -86,7 +84,7 @@ export function StudyBuddyChat({
     setIsLoading(true);
 
     // Increment question count for free users
-    if (!hasUnlimitedAI) {
+    if (!canAccess('unlimited_questions')) {
       setDailyQuestionsUsed(prev => prev + 1);
     }
 
@@ -141,8 +139,7 @@ export function StudyBuddyChat({
   };
 
   const handleQuickSuggestion = (suggestion: string) => {
-    if (!hasUnlimitedAI && dailyQuestionsUsed >= dailyAILimit) {
-      showUpgradeModal('ai_limit');
+    if (!canAccess('unlimited_questions') && dailyQuestionsUsed >= 5) {
       return;
     }
     sendMessage(suggestion);
@@ -167,9 +164,9 @@ export function StudyBuddyChat({
               <CardTitle className="text-lg">AI Study Buddy</CardTitle>
               <p className="text-sm text-muted-foreground">
                 {currentSubject} • Grade {currentGrade}
-                {!hasUnlimitedAI && (
+                {!canAccess('unlimited_questions') && (
                   <span className="ml-2">
-                    ({dailyQuestionsUsed}/{dailyAILimit} questions today)
+                    ({dailyQuestionsUsed}/5 questions today)
                   </span>
                 )}
               </p>
@@ -183,7 +180,7 @@ export function StudyBuddyChat({
         </div>
         
         {/* Upgrade prompt for free users */}
-        {!hasUnlimitedAI && dailyQuestionsUsed >= dailyAILimit - 1 && (
+        {!canAccess('unlimited_questions') && dailyQuestionsUsed >= 4 && (
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -192,9 +189,9 @@ export function StudyBuddyChat({
             <div className="flex items-center gap-2 text-sm">
               <Lock className="h-4 w-4 text-purple-600" />
               <span className="text-purple-800">
-                {dailyQuestionsUsed >= dailyAILimit ? 
+                {dailyQuestionsUsed >= 5 ? 
                   "Daily limit reached! Upgrade for unlimited AI tutoring." : 
-                  `${dailyAILimit - dailyQuestionsUsed} question remaining today.`
+                  `${5 - dailyQuestionsUsed} questions remaining today.`
                 }
               </span>
               <Button
@@ -300,7 +297,7 @@ export function StudyBuddyChat({
         </ScrollArea>
 
         {/* Quick Suggestions */}
-        {messages.length <= 2 && !(!hasUnlimitedAI && dailyQuestionsUsed >= dailyAILimit) && (
+        {messages.length <= 2 && !(!canAccess('unlimited_questions') && dailyQuestionsUsed >= 5) && (
           <div className="space-y-2">
             <p className="text-sm text-muted-foreground">Quick suggestions:</p>
             <div className="flex flex-wrap gap-2">
@@ -327,7 +324,7 @@ export function StudyBuddyChat({
           <Input
             ref={inputRef}
             placeholder={
-              !hasUnlimitedAI && dailyQuestionsUsed >= dailyAILimit 
+              !canAccess('unlimited_questions') && dailyQuestionsUsed >= 5
                 ? "Upgrade for unlimited AI tutoring..."
                 : "Ask me anything about your studies..."
             }
@@ -335,7 +332,7 @@ export function StudyBuddyChat({
             onChange={(e) => setInputMessage(e.target.value)}
             onKeyPress={handleKeyPress}
             className="flex-1"
-            disabled={isLoading || (!hasUnlimitedAI && dailyQuestionsUsed >= dailyAILimit)}
+            disabled={isLoading || (!canAccess('unlimited_questions') && dailyQuestionsUsed >= 5)}
             data-testid="chat-input"
           />
           <Button 
@@ -343,7 +340,7 @@ export function StudyBuddyChat({
             disabled={
               isLoading || 
               !inputMessage.trim() || 
-              (!hasUnlimitedAI && dailyQuestionsUsed >= dailyAILimit)
+              (!canAccess('unlimited_questions') && dailyQuestionsUsed >= 5)
             }
             size="icon"
             data-testid="send-message-button"
