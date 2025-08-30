@@ -83,7 +83,7 @@ const CheckoutForm = ({ onSuccess, onCancel }: { onSuccess: () => void; onCancel
           disabled={!stripe || !elements || isProcessing}
           className="flex-1 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
         >
-          {isProcessing ? "Processing..." : "Upgrade Now - $9.99/month"}
+          {isProcessing ? "Processing..." : "Complete Upgrade"}
         </Button>
       </div>
     </form>
@@ -92,12 +92,17 @@ const CheckoutForm = ({ onSuccess, onCancel }: { onSuccess: () => void; onCancel
 
 export function PaywallModal({ isOpen, onClose, feature, onUpgradeSuccess }: PaywallModalProps) {
   const [showPayment, setShowPayment] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState<'young_pro' | 'premium' | 'family'>('premium');
+  const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly');
   const [clientSecret, setClientSecret] = useState<string>("");
   const { toast } = useToast();
 
   const handleUpgrade = async () => {
     try {
-      const response = await apiRequest("POST", "/api/create-subscription");
+      const response = await apiRequest("POST", "/api/create-subscription", {
+        plan: selectedPlan,
+        billingCycle
+      });
       const data = await response.json();
       
       if (data.clientSecret) {
@@ -123,23 +128,43 @@ export function PaywallModal({ isOpen, onClose, feature, onUpgradeSuccess }: Pay
     window.location.reload();
   };
 
-  const premiumFeatures = [
-    "Progress tracking & learning streaks",
-    "3D avatar customization & growth",
-    "AI study buddy chat support",
-    "Family competitions & challenges",
-    "Detailed performance analytics",
-    "Achievement system & badges",
-    "Unlimited AI-generated questions",
-    "Spaced repetition optimization",
-    "Cross-device progress sync"
-  ];
+  const planFeatures = {
+    free: [
+      "5 quizzes per day",
+      "3 flashcard sets",
+      "Basic progress tracking",
+      "All subjects (K-8)"
+    ],
+    young_pro: [
+      "Unlimited quizzes & practice",
+      "Full progress tracking & streaks",
+      "3D avatar customization",
+      "Family competitions & challenges", 
+      "Achievement system & badges",
+      "Spaced repetition optimization",
+      "Cross-device progress sync"
+    ],
+    premium: [
+      "Everything in Young Pro",
+      "AI study buddy chat support", 
+      "Unlimited AI-generated questions",
+      "Advanced performance analytics",
+      "Priority support"
+    ],
+    family: [
+      "Everything in Premium",
+      "Up to 4 children accounts",
+      "Family dashboard for parents",
+      "Cross-child progress comparison",
+      "Enhanced sibling competitions"
+    ]
+  };
 
-  const guestFeatures = [
-    "Basic flash cards",
-    "Interactive quizzes",
-    "All subjects (K-8)"
-  ];
+  const planPricing = {
+    young_pro: { monthly: 4.99, yearly: 49.99 },
+    premium: { monthly: 9.99, yearly: 99.99 },
+    family: { monthly: 13.99, yearly: 139.99 }
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -160,65 +185,147 @@ export function PaywallModal({ isOpen, onClose, feature, onUpgradeSuccess }: Pay
 
         {!showPayment ? (
           <div className="space-y-6">
-            {/* Premium vs Guest Comparison */}
-            <div className="grid md:grid-cols-2 gap-4">
-              {/* Guest Mode */}
-              <div className="p-4 border rounded-lg bg-gray-50">
-                <div className="flex items-center mb-3">
-                  <Badge variant="secondary" className="bg-gray-200 text-gray-700">
-                    Current: Guest Mode
-                  </Badge>
-                </div>
-                <h3 className="font-bold text-lg mb-3">Free Features</h3>
-                <ul className="space-y-2">
-                  {guestFeatures.map((feature, index) => (
-                    <li key={index} className="flex items-start">
-                      <CheckIcon className="h-4 w-4 text-green-500 mt-0.5 mr-2 flex-shrink-0" />
-                      <span className="text-sm">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-                <div className="mt-4 text-center">
-                  <div className="text-2xl font-bold text-gray-600">Free</div>
-                  <div className="text-sm text-gray-500">Always free</div>
-                </div>
-              </div>
-
-              {/* Premium Mode */}
-              <div className="p-4 border-2 border-purple-200 rounded-lg bg-gradient-to-br from-purple-50 to-blue-50 relative">
-                <div className="absolute -top-2 left-1/2 transform -translate-x-1/2">
-                  <Badge className="bg-gradient-to-r from-purple-600 to-blue-600 text-white">
-                    <CrownIcon className="h-3 w-3 mr-1" />
-                    RECOMMENDED
-                  </Badge>
-                </div>
-                <div className="flex items-center mb-3 mt-2">
-                  <StarIcon className="h-5 w-5 text-yellow-500 mr-2" />
-                  <h3 className="font-bold text-lg">Premium Features</h3>
-                </div>
-                <ul className="space-y-2 mb-4">
-                  {premiumFeatures.map((feature, index) => (
-                    <li key={index} className="flex items-start">
-                      <CheckIcon className="h-4 w-4 text-green-500 mt-0.5 mr-2 flex-shrink-0" />
-                      <span className="text-sm">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-purple-600">$9.99</div>
-                  <div className="text-sm text-gray-600">per month</div>
-                </div>
+            {/* Billing Toggle */}
+            <div className="flex justify-center">
+              <div className="bg-gray-100 p-1 rounded-lg flex">
+                <button
+                  onClick={() => setBillingCycle('monthly')}
+                  className={`px-4 py-2 rounded text-sm font-medium transition-colors ${
+                    billingCycle === 'monthly' 
+                      ? 'bg-white text-gray-900 shadow-sm' 
+                      : 'text-gray-600 hover:text-gray-900'
+                  }`}
+                >
+                  Monthly
+                </button>
+                <button
+                  onClick={() => setBillingCycle('yearly')}
+                  className={`px-4 py-2 rounded text-sm font-medium transition-colors ${
+                    billingCycle === 'yearly' 
+                      ? 'bg-white text-gray-900 shadow-sm' 
+                      : 'text-gray-600 hover:text-gray-900'
+                  }`}
+                >
+                  Yearly
+                  <Badge className="ml-2 bg-green-500 text-white text-xs">Save 17%</Badge>
+                </button>
               </div>
             </div>
 
-            {/* Why Upgrade */}
-            <div className="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-400">
-              <h4 className="font-bold text-blue-900 mb-2">Why upgrade to Premium?</h4>
-              <p className="text-blue-800 text-sm">
-                Premium unlocks the full FlashTastic experience with personalized learning paths, 
-                family competitions, and AI-powered study assistance. Track progress, celebrate 
-                achievements, and turn studying into a fun family activity!
-              </p>
+            {/* Pricing Plans */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {/* Young Pro Plan */}
+              <div 
+                className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
+                  selectedPlan === 'young_pro' 
+                    ? 'border-blue-500 bg-blue-50' 
+                    : 'border-gray-200 hover:border-gray-300'
+                }`}
+                onClick={() => setSelectedPlan('young_pro')}
+              >
+                <div className="text-center mb-4">
+                  <h3 className="font-bold text-lg">Young Pro</h3>
+                  <div className="text-2xl font-bold text-blue-600">
+                    ${billingCycle === 'monthly' ? '4.99' : '49.99'}
+                  </div>
+                  <div className="text-sm text-gray-600">
+                    per {billingCycle === 'monthly' ? 'month' : 'year'}
+                  </div>
+                  {billingCycle === 'yearly' && (
+                    <div className="text-xs text-green-600 font-medium">$4.17/month</div>
+                  )}
+                </div>
+                <ul className="space-y-2">
+                  {planFeatures.young_pro.map((feature, index) => (
+                    <li key={index} className="flex items-start">
+                      <CheckIcon className="h-4 w-4 text-green-500 mt-0.5 mr-2 flex-shrink-0" />
+                      <span className="text-sm">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Premium Plan */}
+              <div 
+                className={`p-4 border-2 rounded-lg cursor-pointer transition-all relative ${
+                  selectedPlan === 'premium' 
+                    ? 'border-purple-500 bg-gradient-to-br from-purple-50 to-blue-50' 
+                    : 'border-gray-200 hover:border-gray-300'
+                }`}
+                onClick={() => setSelectedPlan('premium')}
+              >
+                <div className="absolute -top-2 left-1/2 transform -translate-x-1/2">
+                  <Badge className="bg-gradient-to-r from-purple-600 to-blue-600 text-white">
+                    <CrownIcon className="h-3 w-3 mr-1" />
+                    POPULAR
+                  </Badge>
+                </div>
+                <div className="text-center mb-4 mt-2">
+                  <h3 className="font-bold text-lg">Premium</h3>
+                  <div className="text-2xl font-bold text-purple-600">
+                    ${billingCycle === 'monthly' ? '9.99' : '99.99'}
+                  </div>
+                  <div className="text-sm text-gray-600">
+                    per {billingCycle === 'monthly' ? 'month' : 'year'}
+                  </div>
+                  {billingCycle === 'yearly' && (
+                    <div className="text-xs text-green-600 font-medium">$8.33/month</div>
+                  )}
+                </div>
+                <ul className="space-y-2">
+                  {planFeatures.premium.map((feature, index) => (
+                    <li key={index} className="flex items-start">
+                      <CheckIcon className="h-4 w-4 text-green-500 mt-0.5 mr-2 flex-shrink-0" />
+                      <span className="text-sm">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Family Plan */}
+              <div 
+                className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
+                  selectedPlan === 'family' 
+                    ? 'border-orange-500 bg-orange-50' 
+                    : 'border-gray-200 hover:border-gray-300'
+                }`}
+                onClick={() => setSelectedPlan('family')}
+              >
+                <div className="text-center mb-4">
+                  <h3 className="font-bold text-lg">Family</h3>
+                  <div className="text-2xl font-bold text-orange-600">
+                    ${billingCycle === 'monthly' ? '13.99' : '139.99'}
+                  </div>
+                  <div className="text-sm text-gray-600">
+                    per {billingCycle === 'monthly' ? 'month' : 'year'}
+                  </div>
+                  <div className="text-xs text-blue-600 font-medium">Up to 4 kids</div>
+                  {billingCycle === 'yearly' && (
+                    <div className="text-xs text-green-600 font-medium">$11.67/month</div>
+                  )}
+                </div>
+                <ul className="space-y-2">
+                  {planFeatures.family.map((feature, index) => (
+                    <li key={index} className="flex items-start">
+                      <CheckIcon className="h-4 w-4 text-green-500 mt-0.5 mr-2 flex-shrink-0" />
+                      <span className="text-sm">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            {/* Free Plan Comparison */}
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <h4 className="font-bold text-gray-700 mb-2">Free Plan (Current)</h4>
+              <ul className="grid grid-cols-2 gap-2">
+                {planFeatures.free.map((feature, index) => (
+                  <li key={index} className="flex items-start text-sm text-gray-600">
+                    <CheckIcon className="h-4 w-4 text-gray-400 mt-0.5 mr-2 flex-shrink-0" />
+                    {feature}
+                  </li>
+                ))}
+              </ul>
             </div>
 
             {/* Action Buttons */}
@@ -228,14 +335,14 @@ export function PaywallModal({ isOpen, onClose, feature, onUpgradeSuccess }: Pay
                 onClick={onClose}
                 className="flex-1"
               >
-                Continue with Guest Mode
+                Continue with Free
               </Button>
               <Button 
                 onClick={handleUpgrade}
                 className="flex-1 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
               >
                 <CrownIcon className="h-4 w-4 mr-2" />
-                Upgrade to Premium
+                Upgrade to {selectedPlan === 'young_pro' ? 'Young Pro' : selectedPlan === 'premium' ? 'Premium' : 'Family'}
               </Button>
             </div>
           </div>

@@ -9,11 +9,24 @@ interface PremiumGateProps {
   children: ReactNode;
   fallback?: ReactNode;
   inline?: boolean;
+  requiredTier?: 'young_pro' | 'premium' | 'family';
 }
 
-export function PremiumGate({ feature, children, fallback, inline = false }: PremiumGateProps) {
+export function PremiumGate({ feature, children, fallback, inline = false, requiredTier = 'premium' }: PremiumGateProps) {
   const { canAccess } = useSubscription();
   const [showPaywall, setShowPaywall] = useState(false);
+
+  // Feature-to-tier mapping
+  const featureTiers = {
+    progress_tracking: 'young_pro',
+    avatar_customization: 'young_pro', 
+    family_competitions: 'young_pro',
+    achievements: 'young_pro',
+    spaced_repetition: 'young_pro',
+    ai_study_buddy: 'premium',
+    unlimited_questions: 'premium',
+    detailed_analytics: 'premium'
+  } as const;
 
   const featureNames = {
     progress_tracking: "Progress Tracking",
@@ -26,7 +39,9 @@ export function PremiumGate({ feature, children, fallback, inline = false }: Pre
     unlimited_questions: "Unlimited AI Questions"
   };
 
-  if (canAccess(feature)) {
+  const tierRequired = featureTiers[feature] || requiredTier;
+  
+  if (canAccess(feature, tierRequired)) {
     return <>{children}</>;
   }
 

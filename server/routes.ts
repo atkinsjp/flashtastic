@@ -696,10 +696,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Subscription and payment routes
   app.get("/api/subscription-status", async (req, res) => {
     try {
-      // For now, return guest mode for all users
+      // For now, return free mode for all users  
       // In a real implementation, you'd check user's subscription in database
       res.json({
-        tier: 'guest',
+        tier: 'free',
         status: 'inactive'
       });
     } catch (error) {
@@ -709,22 +709,41 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post("/api/create-subscription", async (req, res) => {
     try {
-      // Create a subscription with Stripe
+      const { plan, billingCycle } = req.body;
+
+      // Plan pricing mapping 
+      const planPricing = {
+        young_pro: { monthly: 499, yearly: 4999 }, // $4.99, $49.99
+        premium: { monthly: 999, yearly: 9999 },   // $9.99, $99.99  
+        family: { monthly: 1399, yearly: 13999 }   // $13.99, $139.99
+      };
+
+      const amount = planPricing[plan]?.[billingCycle];
+      if (!amount) {
+        return res.status(400).json({ message: "Invalid plan or billing cycle" });
+      }
+
+      // Create a payment intent for the subscription
       const paymentIntent = await stripe.paymentIntents.create({
-        amount: 999, // $9.99 in cents
+        amount,
         currency: "usd",
         automatic_payment_methods: {
           enabled: true,
         },
         metadata: {
           type: 'subscription',
-          plan: 'premium'
+          plan,
+          billingCycle,
+          userId: req.user?.id || 'guest'
         }
       });
 
       res.json({ 
         clientSecret: paymentIntent.client_secret,
-        subscriptionId: paymentIntent.id
+        subscriptionId: paymentIntent.id,
+        plan,
+        billingCycle,
+        amount
       });
     } catch (error: any) {
       res.status(500).json({ 
