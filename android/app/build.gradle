@@ -42,6 +42,7 @@ android {
         targetCompatibility JavaVersion.VERSION_17
     }
 }
+}
 
 repositories {
     flatDir{
@@ -61,7 +62,18 @@ dependencies {
     implementation project(':capacitor-cordova-android-plugins')
 }
 
-apply from: 'capacitor.build.gradle'
+// Temporarily comment out capacitor.build.gradle due to Java 21 conflict
+// apply from: 'capacitor.build.gradle'
+
+// Manual Capacitor dependencies to avoid Java 21 requirement
+dependencies {
+    implementation project(':capacitor-app')
+    implementation project(':capacitor-haptics') 
+    implementation project(':capacitor-keyboard')
+    implementation project(':capacitor-preferences')
+    implementation project(':capacitor-splash-screen')
+    implementation project(':capacitor-status-bar')
+}
 
 try {
     def servicesJSON = file('google-services.json')
