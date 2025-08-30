@@ -1,0 +1,60 @@
+PS C:\Users\jimat\FlashTastic\android> ./gradlew clean assembleRelease
+
+> Configure project :app
+WARNING: Using flatDir should be avoided because it doesn't support any meta-data formats.
+
+> Configure project :capacitor-cordova-android-plugins
+WARNING: Using flatDir should be avoided because it doesn't support any meta-data formats.
+
+> Task :capacitor-android:compileReleaseJavaWithJavac FAILED
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':capacitor-android:compileReleaseJavaWithJavac'.
+> error: invalid source release: 21
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 4s
+41 actionable tasks: 40 executed, 1 up-to-date
+PS C:\Users\jimat\FlashTastic\android> cd C:\Users\jimat\FlashTastic\android
+PS C:\Users\jimat\FlashTastic\android> $env:JAVA_HOME = "C:\Program Files\Eclipse Adoptium\jdk-17.0.16.8-hotspot"
+PS C:\Users\jimat\FlashTastic\android> $env:PATH = "$env:JAVA_HOME\bin;$env:PATH"
+PS C:\Users\jimat\FlashTastic\android> $env:ANDROID_HOME = "C:\Users\jimat\AppData\Local\Android\Sdk"
+PS C:\Users\jimat\FlashTastic\android> ./gradlew --stop
+Stopping Daemon(s)
+2 Daemons stopped
+PS C:\Users\jimat\FlashTastic\android> Remove-Item -Recurse -Force .gradle -ErrorAction SilentlyContinue
+PS C:\Users\jimat\FlashTastic\android> Remove-Item -Recurse -Force build -ErrorAction SilentlyContinue
+PS C:\Users\jimat\FlashTastic\android> Remove-Item -Recurse -Force app/build -ErrorAction SilentlyContinue
+PS C:\Users\jimat\FlashTastic\android> ./gradlew assembleRelease
+Starting a Gradle Daemon, 2 stopped Daemons could not be reused, use --status for details
+
+> Configure project :app
+WARNING: Using flatDir should be avoided because it doesn't support any meta-data formats.
+
+> Configure project :capacitor-cordova-android-plugins
+WARNING: Using flatDir should be avoided because it doesn't support any meta-data formats.
+
+> Task :capacitor-android:compileReleaseJavaWithJavac FAILED
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':capacitor-android:compileReleaseJavaWithJavac'.
+> error: invalid source release: 21
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 41s
+42 actionable tasks: 42 executed
+PS C:\Users\jimat\FlashTastic\android>
