@@ -4,7 +4,7 @@
 FlashTastic is a comprehensive K-8 educational flash card Progressive Web App (PWA) designed to provide an engaging learning experience. It incorporates gamification features, 3D custom avatars, sibling competitions, and multi-subject content. The platform offers features like spaced repetition, achievements, progress tracking, and interactive quizzes, aiming to foster family-based competitive learning. Key capabilities include a Guest Mode for basic flashcards and quizzes, a Member Mode with full feature access and progress saving, seamless dual authentication, and full PWA support for offline functionality. The application also features an evolving 3D avatar system that grows with student progress.
 
 ## Project Status
-**GOOGLE PLAY DEVICE COMPATIBILITY FIXED** (August 2025) - Successfully resolved Google Play device compatibility issue where app showed "not available for any devices". Fixed AndroidManifest.xml by adding explicit hardware feature declarations (all marked as not required), screen size support, and lowered minimum SDK to API 21. Updated app version to 4.0.0.0. Ready for Google Play resubmission with improved device compatibility across all Android devices.
+**GOOGLE PLAY UPDATE SUBMITTED** (August 2025) - Successfully fixed Google Play device compatibility issue and submitted version 4.0.0.0 for review. Fixed AndroidManifest.xml with explicit hardware feature declarations (all marked as not required) and screen size support. Built using PWABuilder to avoid local Android build complexities. App now supports broad range of Android devices and awaits Google Play approval.
 
 ## User Preferences
 Preferred communication style: Simple, everyday language.
