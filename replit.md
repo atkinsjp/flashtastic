@@ -39,7 +39,7 @@ Preferred communication style: Simple, everyday language.
 - **Authentication**: Utilizes React Context API for seamless state management and local storage for user preferences.
 - **AI Integration**: Gemini 2.5 API is used for an AI-powered study buddy chatbot, providing personalized tutoring with age-appropriate responses, and for unlimited AI-powered question generation across subjects and grades.
 - **Gamification**: Includes a comprehensive sibling competition system with 4 challenge types (Speed Round, Accuracy Battle, Streak Challenge, Subject Mastery), family leaderboards, collaborative goal tracking, and an achievement system with unlockable badges.
-- **Pricing Strategy**: Three-tier model with Free (limited usage), Young Pro ($4.99/month), Premium ($9.99/month with AI features), and Family Plan ($13.99/month for up to 4 children).
+- **Pricing Strategy**: Three-tier model with Free (limited usage), Young Pro ($4.99/month or $49.99/year), Premium ($9.99/month or $99.99/year with AI features), and Family Plan ($13.99/month or $139.99/year for up to 4 children). All annual plans offer 17% savings.
 - **Mobile Conversion**: The PWA is convertible to native iOS and Android applications using Capacitor, including platform-specific features like splash screens and app state management.
 
 ## External Dependencies

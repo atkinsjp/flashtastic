@@ -17,7 +17,7 @@
 - Spaced repetition learning
 - **Target**: Individual students wanting full core features
 
-### **Premium Plan** - $9.99/month
+### **Premium Plan** - $9.99/month or $99.99/year
 - Everything in Young Pro
 - AI Study Buddy (Gemini-powered tutor)
 - Unlimited AI-generated questions
@@ -25,7 +25,7 @@
 - Priority support
 - **Target**: Students wanting AI-enhanced learning
 
-### **Family Plan** - $13.99/month (up to 4 kids)
+### **Family Plan** - $13.99/month or $139.99/year (up to 4 kids)
 - Everything in Premium for all family members
 - Family dashboard for parents
 - Cross-child progress comparison
@@ -87,9 +87,14 @@ Your pricing sits perfectly in the market:
 - Highlight AI study buddy benefits for Premium
 - Emphasize family bonding for Family plan
 
-### **Annual Discounts:**
-- Young Pro: $49.99/year (17% discount)
-- Premium: $99.99/year (17% discount) 
-- Family: $139.99/year (17% discount)
+### **Annual Discounts (17% savings):**
+- Young Pro: $49.99/year (saves $10 vs monthly)
+- Premium: $99.99/year (saves $20 vs monthly) 
+- Family: $139.99/year (saves $28 vs monthly)
+
+### **Value Proposition:**
+- All annual plans offer 2 months free (17% discount)
+- Premium annual = $8.33/month effective rate
+- Family annual = $11.67/month effective rate for 4 children
 
 This pricing structure positions FlashTastic as the "premium-but-affordable" option with best-in-class AI features and family-focused design.
