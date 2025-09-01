@@ -94,7 +94,7 @@ export function SubscriptionModal({ open, onClose, reason = 'general' }: Subscri
     if (product) return product.price;
     
     // Fallback to display prices
-    return PRODUCT_DETAILS[productId]?.displayPrice || '$7.99';
+    return PRODUCT_DETAILS[productId]?.displayPrice || '$9.99';
   };
 
   const getReasonTitle = () => {
@@ -174,7 +174,7 @@ export function SubscriptionModal({ open, onClose, reason = 'general' }: Subscri
                     <CardTitle className="text-xl">Family Premium</CardTitle>
                   </div>
                   <div className="text-3xl font-bold">
-                    {billingPeriod === 'monthly' ? '$7.99' : '$79.99'}
+                    {billingPeriod === 'monthly' ? '$9.99' : '$99.99'}
                     <span className="text-sm font-normal text-muted-foreground">
                       /{billingPeriod === 'monthly' ? 'month' : 'year'}
                     </span>
@@ -232,7 +232,7 @@ export function SubscriptionModal({ open, onClose, reason = 'general' }: Subscri
                     <CardTitle className="text-xl">Family Plus</CardTitle>
                   </div>
                   <div className="text-3xl font-bold">
-                    {billingPeriod === 'monthly' ? '$12.99' : '$129.99'}
+                    {billingPeriod === 'monthly' ? '$13.99' : '$139.99'}
                     <span className="text-sm font-normal text-muted-foreground">
                       /{billingPeriod === 'monthly' ? 'month' : 'year'}
                     </span>

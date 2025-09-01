@@ -37,7 +37,7 @@ export const PRODUCT_DETAILS: Record<string, ProductDetail> = {
   [SUBSCRIPTION_PRODUCTS.FAMILY_PREMIUM_MONTHLY]: {
     title: 'FlashTastic Family Premium',
     description: 'Unlimited AI Study Buddy, advanced avatars, up to 4 child profiles',
-    displayPrice: '$7.99/month',
+    displayPrice: '$9.99/month',
     features: [
       'Unlimited AI Study Buddy',
       'Advanced avatar customization',
@@ -50,7 +50,7 @@ export const PRODUCT_DETAILS: Record<string, ProductDetail> = {
   [SUBSCRIPTION_PRODUCTS.FAMILY_PLUS_MONTHLY]: {
     title: 'FlashTastic Family Plus',
     description: 'Everything in Premium plus AI homework help and advanced analytics',
-    displayPrice: '$12.99/month',
+    displayPrice: '$13.99/month',
     features: [
       'Everything in Family Premium',
       'AI homework help',
@@ -64,7 +64,7 @@ export const PRODUCT_DETAILS: Record<string, ProductDetail> = {
   [SUBSCRIPTION_PRODUCTS.FAMILY_PREMIUM_YEARLY]: {
     title: 'FlashTastic Family Premium (Yearly)',
     description: 'Save 17% with annual billing',
-    displayPrice: '$79.99/year',
+    displayPrice: '$99.99/year',
     savings: '17% off monthly price',
     features: [
       'Unlimited AI Study Buddy',
@@ -78,7 +78,7 @@ export const PRODUCT_DETAILS: Record<string, ProductDetail> = {
   [SUBSCRIPTION_PRODUCTS.FAMILY_PLUS_YEARLY]: {
     title: 'FlashTastic Family Plus (Yearly)',
     description: 'Save 17% with annual billing',
-    displayPrice: '$129.99/year',
+    displayPrice: '$139.99/year',
     savings: '17% off monthly price',
     features: [
       'Everything in Family Premium',
@@ -110,8 +110,8 @@ class BillingService {
         id: productId,
         title: PRODUCT_DETAILS[productId]?.title || 'FlashTastic Premium',
         description: PRODUCT_DETAILS[productId]?.description || 'Premium subscription',
-        price: PRODUCT_DETAILS[productId]?.displayPrice || '$7.99',
-        priceValue: productId.includes('7.99') ? 7.99 : productId.includes('12.99') ? 12.99 : productId.includes('79.99') ? 79.99 : 129.99,
+        price: PRODUCT_DETAILS[productId]?.displayPrice || '$9.99',
+        priceValue: productId.includes('9.99') ? 9.99 : productId.includes('13.99') ? 13.99 : productId.includes('99.99') ? 99.99 : 139.99,
         currency: 'USD',
         type: 'subscription' as const
       }));
