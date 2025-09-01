@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Primary Meta Tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlashTastic - Educational Flash Cards for K-8 Students | Interactive Learning Games</title>
+    <meta name="description" content="FlashTastic transforms K-8 education with AI-powered interactive flash cards, gamified learning, 3D avatars, and family competitions. Free study mode with premium features for comprehensive progress tracking.">
+    <meta name="keywords" content="educational flash cards, K-8 learning, interactive study games, AI-powered education, homeschool resources, elementary math, reading comprehension, science flashcards, family learning competitions">
+    <meta name="author" content="FlashTastic Education">
+    <link rel="canonical" href="https://flashtastic-jimatkins753.replit.app">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://flashtastic-jimatkins753.replit.app">
+    <meta property="og:title" content="FlashTastic - Interactive Educational Flash Cards for K-8">
+    <meta property="og:description" content="Revolutionary K-8 learning platform with AI-generated questions, 3D avatars, family competitions, and personalized study paths. Try free guest mode or unlock full features with membership.">
+    <meta property="og:image" content="https://flashtastic-jimatkins753.replit.app/feature-graphic.svg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="FlashTastic">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://flashtastic-jimatkins753.replit.app">
+    <meta property="twitter:title" content="FlashTastic - AI-Powered Educational Flash Cards">
+    <meta property="twitter:description" content="Transform learning with interactive flash cards, 3D avatars, and family competitions. Free guest mode available - start learning today!">
+    <meta property="twitter:image" content="https://flashtastic-jimatkins753.replit.app/feature-graphic.svg">
+
+    <!-- Additional SEO Meta Tags -->
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="googlebot" content="index, follow">
+    <meta name="language" content="English">
+    <meta name="rating" content="General">
+    <meta name="distribution" content="Global">
+    <meta name="revisit-after" content="7 days">
+
+    <!-- Favicon and Icons -->
+    <link rel="icon" type="image/x-icon" href="/generated-icon.png">
+    <link rel="apple-touch-icon" href="/generated-icon.png">
+    <link rel="manifest" href="/manifest.json">
+
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "EducationalOrganization",
+        "name": "FlashTastic",
+        "url": "https://flashtastic-jimatkins753.replit.app",
+        "logo": "https://flash-tastic.com/wp-content/uploads/2025/08/FlashTastic-Icon.webp",
+        "description": "Interactive K-8 educational platform with AI-powered flash cards, gamification, and family competitions",
+        "sameAs": [],
+        "offers": {
+            "@type": "Offer",
+            "name": "FlashTastic Educational Platform",
+            "description": "Access to interactive flash cards, AI study buddy, progress tracking, and family competitions",
+            "category": "Educational Software"
+        },
+        "applicationCategory": "EducationalApplication",
+        "operatingSystem": "Web Browser, iOS, Android",
+        "audience": {
+            "@type": "EducationalAudience",
+            "educationalRole": "student",
+            "audienceType": "K-8 Students, Parents, Educators"
+        }
+    }
+    </script>
+
+    <!-- Preconnect for Performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- CSS Framework -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    
+    <style>
+        .hero-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .feature-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        .app-embed {
+            width: 100%;
+            height: 600px;
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+        }
+        @media (max-width: 768px) {
+            .app-embed { height: 80vh; min-height: 500px; }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <img src="https://flash-tastic.com/wp-content/uploads/2025/08/FlashTastic-Icon.webp" alt="FlashTastic Logo" class="h-8 w-8 mr-3">
+                    <h1 class="text-xl font-bold text-gray-900">FlashTastic</h1>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#features" class="text-gray-700 hover:text-blue-600 transition">Features</a>
+                    <a href="#demo" class="text-gray-700 hover:text-blue-600 transition">Try Demo</a>
+                    <a href="#pricing" class="text-gray-700 hover:text-blue-600 transition">Pricing</a>
+                    <a href="#contact" class="text-gray-700 hover:text-blue-600 transition">Contact</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient text-white py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6">
+                Transform Learning with <span class="text-yellow-300">FlashTastic</span>
+            </h1>
+            <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto opacity-90">
+                AI-powered educational flash cards for K-8 students featuring 3D avatars, family competitions, and personalized learning paths that make studying fun and effective.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="https://flashtastic-jimatkins753.replit.app" target="_blank" 
+                   class="bg-yellow-400 hover:bg-yellow-300 text-gray-900 font-bold py-4 px-8 rounded-lg text-lg transition transform hover:scale-105">
+                    🚀 Start Learning Free
+                </a>
+                <a href="#demo" 
+                   class="bg-transparent border-2 border-white hover:bg-white hover:text-gray-900 text-white font-bold py-4 px-8 rounded-lg text-lg transition">
+                    📱 View Demo
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                    Why Parents & Teachers Choose FlashTastic
+                </h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Our comprehensive educational platform combines cutting-edge AI technology with proven learning methodologies to create an engaging, effective study experience.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- AI-Powered Learning -->
+                <div class="feature-card bg-white p-8 rounded-xl shadow-lg">
+                    <div class="text-4xl mb-4">🤖</div>
+                    <h3 class="text-xl font-bold mb-3">AI-Powered Questions</h3>
+                    <p class="text-gray-600">Unlimited AI-generated questions across all K-8 subjects with contextually relevant multiple choice options and personalized difficulty adjustment.</p>
+                </div>
+
+                <!-- 3D Avatars -->
+                <div class="feature-card bg-white p-8 rounded-xl shadow-lg">
+                    <div class="text-4xl mb-4">👾</div>
+                    <h3 class="text-xl font-bold mb-3">Evolving 3D Avatars</h3>
+                    <p class="text-gray-600">Students create and customize detailed 3D avatars that grow and evolve as they progress through their learning journey.</p>
+                </div>
+
+                <!-- Family Competitions -->
+                <div class="feature-card bg-white p-8 rounded-xl shadow-lg">
+                    <div class="text-4xl mb-4">🏆</div>
+                    <h3 class="text-xl font-bold mb-3">Family Competitions</h3>
+                    <p class="text-gray-600">Sibling challenges, family leaderboards, and collaborative goals that make learning a fun, competitive family activity.</p>
+                </div>
+
+                <!-- Progress Tracking -->
+                <div class="feature-card bg-white p-8 rounded-xl shadow-lg">
+                    <div class="text-4xl mb-4">📊</div>
+                    <h3 class="text-xl font-bold mb-3">Smart Progress Tracking</h3>
+                    <p class="text-gray-600">Comprehensive analytics with spaced repetition, learning streaks, and detailed performance insights for parents and teachers.</p>
+                </div>
+
+                <!-- Study Buddy -->
+                <div class="feature-card bg-white p-8 rounded-xl shadow-lg">
+                    <div class="text-4xl mb-4">🎓</div>
+                    <h3 class="text-xl font-bold mb-3">AI Study Buddy</h3>
+                    <p class="text-gray-600">Intelligent tutoring chatbot provides personalized explanations, hints, and encouragement tailored to each student's learning style.</p>
+                </div>
+
+                <!-- Offline Support -->
+                <div class="feature-card bg-white p-8 rounded-xl shadow-lg">
+                    <div class="text-4xl mb-4">📱</div>
+                    <h3 class="text-xl font-bold mb-3">Cross-Platform PWA</h3>
+                    <p class="text-gray-600">Works seamlessly on all devices with offline support, mobile apps, and web access for learning anywhere, anytime.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Demo Section -->
+    <section id="demo" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                    Try FlashTastic Live Demo
+                </h2>
+                <p class="text-xl text-gray-600 mb-8">
+                    Experience the full FlashTastic platform right here. Start with guest mode or create an account for full features.
+                </p>
+            </div>
+
+            <div class="bg-white p-4 rounded-xl shadow-lg">
+                <iframe 
+                    src="https://flashtastic-jimatkins753.replit.app" 
+                    class="app-embed"
+                    title="FlashTastic - Educational Flash Cards Interactive Demo"
+                    loading="lazy"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Subjects & Grades -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                    Complete K-8 Curriculum Coverage
+                </h2>
+                <p class="text-xl text-gray-600">
+                    Comprehensive educational content across all major subjects and grade levels.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="text-center p-6 bg-blue-50 rounded-xl">
+                    <div class="text-3xl mb-3">🧮</div>
+                    <h3 class="font-bold text-lg mb-2">Mathematics</h3>
+                    <p class="text-gray-600 text-sm">Arithmetic, Geometry, Problem Solving, Measurement</p>
+                </div>
+                <div class="text-center p-6 bg-green-50 rounded-xl">
+                    <div class="text-3xl mb-3">📚</div>
+                    <h3 class="font-bold text-lg mb-2">Language Arts</h3>
+                    <p class="text-gray-600 text-sm">Reading, Writing, Grammar, Vocabulary</p>
+                </div>
+                <div class="text-center p-6 bg-purple-50 rounded-xl">
+                    <div class="text-3xl mb-3">🔬</div>
+                    <h3 class="font-bold text-lg mb-2">Science</h3>
+                    <p class="text-gray-600 text-sm">Biology, Chemistry, Physics, Earth Science</p>
+                </div>
+                <div class="text-center p-6 bg-yellow-50 rounded-xl">
+                    <div class="text-3xl mb-3">🌍</div>
+                    <h3 class="font-bold text-lg mb-2">Social Studies</h3>
+                    <p class="text-gray-600 text-sm">History, Geography, Civics, Culture</p>
+                </div>
+            </div>
+
+            <div class="text-center mt-12">
+                <div class="inline-flex items-center bg-gray-100 rounded-full px-6 py-3">
+                    <span class="font-semibold text-gray-700">Grade Levels:</span>
+                    <div class="ml-4 flex space-x-2">
+                        <span class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm">K</span>
+                        <span class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm">1</span>
+                        <span class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm">2</span>
+                        <span class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm">3</span>
+                        <span class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm">4</span>
+                        <span class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm">5</span>
+                        <span class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm">6</span>
+                        <span class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm">7</span>
+                        <span class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm">8</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                    Choose Your Learning Plan
+                </h2>
+                <p class="text-xl text-gray-600">
+                    Start free with guest mode or unlock the full potential with membership features.
+                </p>
+            </div>
+
+            <!-- Billing Toggle -->
+            <div class="flex justify-center mb-8">
+                <div class="bg-gray-100 p-1 rounded-lg flex">
+                    <button class="px-4 py-2 rounded text-sm font-medium bg-white text-gray-900 shadow-sm">
+                        Monthly
+                    </button>
+                    <button class="px-4 py-2 rounded text-sm font-medium text-gray-600">
+                        Yearly <span class="ml-1 bg-green-500 text-white text-xs px-2 py-1 rounded">Save 17%</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-4 gap-6 max-w-6xl mx-auto">
+                <!-- Free Plan -->
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h3 class="text-xl font-bold mb-2">Free</h3>
+                    <div class="text-3xl font-bold text-green-600 mb-4">$0</div>
+                    <p class="text-gray-600 text-sm mb-4">Perfect for trying out FlashTastic</p>
+                    <ul class="space-y-2 mb-6 text-sm">
+                        <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>5 quizzes per day</li>
+                        <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>3 flashcard sets</li>
+                        <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>All subjects (K-8)</li>
+                        <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>Basic progress tracking</li>
+                    </ul>
+                    <button class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition text-sm">
+                        Start Free
+                    </button>
+                </div>
+
+                <!-- Young Pro Plan -->
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h3 class="text-xl font-bold mb-2">Young Pro</h3>
+                    <div class="text-3xl font-bold text-blue-600 mb-1">$4.99</div>
+                    <div class="text-sm text-gray-500 mb-3">per month</div>
+                    <p class="text-gray-600 text-sm mb-4">Unlock unlimited learning potential</p>
+                    <ul class="space-y-2 mb-6 text-sm">
+                        <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>Unlimited quizzes & practice</li>
+                        <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>Full progress tracking</li>
+                        <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>3D avatar customization</li>
+                        <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>Family competitions</li>
+                        <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>Achievement system</li>
+                    </ul>
+                    <button class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition text-sm">
+                        Choose Young Pro
+                    </button>
+                </div>
+
+                <!-- Premium Plan -->
+                <div class="bg-white p-6 rounded-xl shadow-lg border-2 border-purple-500 relative">
+                    <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-purple-500 text-white px-3 py-1 rounded-full text-xs font-bold">
+                        POPULAR
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Premium</h3>
+                    <div class="text-3xl font-bold text-purple-600 mb-1">$9.99</div>
+                    <div class="text-sm text-gray-500 mb-3">per month</div>
+                    <p class="text-gray-600 text-sm mb-4">Everything + AI-powered features</p>
+                    <ul class="space-y-2 mb-6 text-sm">
+                        <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>Everything in Young Pro</li>
+                        <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>AI study buddy chat</li>
+                        <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>Unlimited AI questions</li>
+                        <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>Advanced analytics</li>
+                        <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>Priority support</li>
+                    </ul>
+                    <button class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-lg transition text-sm">
+                        Choose Premium
+                    </button>
+                </div>
+
+                <!-- Family Plan -->
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h3 class="text-xl font-bold mb-2">Family</h3>
+                    <div class="text-3xl font-bold text-orange-600 mb-1">$13.99</div>
+                    <div class="text-sm text-gray-500 mb-3">per month</div>
+                    <p class="text-gray-600 text-sm mb-4">Perfect for families with multiple kids</p>
+                    <ul class="space-y-2 mb-6 text-sm">
+                        <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>Everything in Premium</li>
+                        <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>Up to 4 children accounts</li>
+                        <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>Family dashboard</li>
+                        <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>Enhanced competitions</li>
+                        <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>Parent analytics</li>
+                    </ul>
+                    <button class="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded-lg transition text-sm">
+                        Choose Family
+                    </button>
+                </div>
+            </div>
+
+            <!-- Annual Savings Note -->
+            <div class="text-center mt-8">
+                <p class="text-gray-600">
+                    💰 Save 17% with annual billing - that's 2 months free! 
+                    <span class="font-semibold">Young Pro: $49.99/year, Premium: $99.99/year, Family: $139.99/year</span>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact/Support Section -->
+    <section id="contact" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                    Ready to Transform Learning?
+                </h2>
+                <p class="text-xl text-gray-600 mb-8">
+                    Join thousands of families already using FlashTastic to make learning fun and effective.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="https://flashtastic-jimatkins753.replit.app" target="_blank" 
+                       class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-lg text-lg transition transform hover:scale-105">
+                        🚀 Start Your Free Trial
+                    </a>
+                    <a href="mailto:support@flashtastic.app" 
+                       class="bg-gray-200 hover:bg-gray-300 text-gray-900 font-bold py-4 px-8 rounded-lg text-lg transition">
+                        📧 Contact Support
+                    </a>
+                </div>
+            </div>
+
+            <!-- FAQ -->
+            <div class="max-w-3xl mx-auto">
+                <h3 class="text-2xl font-bold text-center mb-8">Frequently Asked Questions</h3>
+                <div class="space-y-6">
+                    <details class="bg-gray-50 p-6 rounded-lg">
+                        <summary class="font-bold cursor-pointer">Is FlashTastic suitable for homeschooling?</summary>
+                        <p class="mt-3 text-gray-600">Absolutely! FlashTastic is perfect for homeschool families with comprehensive K-8 curriculum coverage, progress tracking, and family competition features that make learning engaging for the whole family.</p>
+                    </details>
+                    <details class="bg-gray-50 p-6 rounded-lg">
+                        <summary class="font-bold cursor-pointer">How does the AI study buddy work?</summary>
+                        <p class="mt-3 text-gray-600">Our AI study buddy provides personalized tutoring through chat, offering explanations, hints, and encouragement tailored to each student's learning style and grade level. All AI interactions include content reporting features for safety.</p>
+                    </details>
+                    <details class="bg-gray-50 p-6 rounded-lg">
+                        <summary class="font-bold cursor-pointer">Can multiple children use one account?</summary>
+                        <p class="mt-3 text-gray-600">Yes! FlashTastic supports family accounts with individual progress tracking for each child, sibling competitions, and collaborative learning goals that bring families together.</p>
+                    </details>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <img src="/generated-icon.png" alt="FlashTastic" class="h-8 w-8 mr-3">
+                        <span class="text-xl font-bold">FlashTastic</span>
+                    </div>
+                    <p class="text-gray-400">Making K-8 education fun, interactive, and effective through AI-powered learning technology.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Features</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li>AI-Powered Questions</li>
+                        <li>3D Avatars</li>
+                        <li>Family Competitions</li>
+                        <li>Progress Tracking</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Subjects</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li>Mathematics</li>
+                        <li>Language Arts</li>
+                        <li>Science</li>
+                        <li>Social Studies</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Support</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="mailto:support@flashtastic.app" class="hover:text-white">Contact Us</a></li>
+                        <li><a href="#" class="hover:text-white">Help Center</a></li>
+                        <li><a href="#" class="hover:text-white">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-white">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 FlashTastic. All rights reserved. Made with ❤️ for educators and families.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Analytics placeholder -->
+    <script>
+        // Add your analytics tracking code here
+        // Google Analytics, Facebook Pixel, etc.
+    </script>
+</body>
+</html>
