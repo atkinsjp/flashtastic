@@ -16,6 +16,7 @@ import ParentDashboard from "@/pages/parent-dashboard";
 import Competitions from "@/pages/competitions";
 import { StudyBuddyPage } from "@/pages/study-buddy";
 import MilestoneTest from "@/pages/milestone-test";
+import Subscribe from "@/pages/subscribe";
 import BottomNav from "@/components/bottom-nav";
 import { usePWA } from "@/hooks/use-pwa";
 
@@ -32,6 +33,7 @@ function Router() {
         <Route path="/profile" component={Profile} />
         <Route path="/study-buddy" component={StudyBuddyPage} />
         <Route path="/milestone-test" component={MilestoneTest} />
+        <Route path="/subscribe" component={Subscribe} />
         <Route component={NotFound} />
       </Switch>
       <BottomNav />
