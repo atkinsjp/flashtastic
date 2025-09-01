@@ -8,14 +8,20 @@ export default function Subscribe() {
   const [, setLocation] = useLocation();
   const [showPaywall, setShowPaywall] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<'young_pro' | 'premium' | 'family'>('premium');
+  const [billing, setBilling] = useState<'monthly' | 'yearly'>('monthly');
 
   useEffect(() => {
-    // Get plan from URL parameters
+    // Get plan and billing from URL parameters
     const urlParams = new URLSearchParams(window.location.search);
     const plan = urlParams.get('plan') as 'young_pro' | 'premium' | 'family';
+    const billingParam = urlParams.get('billing') as 'monthly' | 'yearly';
     
     if (plan && ['young_pro', 'premium', 'family'].includes(plan)) {
       setSelectedPlan(plan);
+    }
+    
+    if (billingParam && ['monthly', 'yearly'].includes(billingParam)) {
+      setBilling(billingParam);
     }
     
     // Show paywall modal after a short delay to ensure page loads
@@ -41,9 +47,16 @@ export default function Subscribe() {
   };
 
   const planPrices = {
-    'young_pro': '$4.99',
-    'premium': '$9.99',
-    'family': '$13.99'
+    monthly: {
+      'young_pro': '$4.99',
+      'premium': '$9.99',
+      'family': '$13.99'
+    },
+    yearly: {
+      'young_pro': '$49.99',
+      'premium': '$99.99',
+      'family': '$139.99'
+    }
   };
 
   return (
@@ -56,8 +69,13 @@ export default function Subscribe() {
         </CardHeader>
         <CardContent className="text-center space-y-4">
           <div className="text-4xl font-bold text-blue-600">
-            {planPrices[selectedPlan]}<span className="text-sm text-gray-500">/month</span>
+            {planPrices[billing][selectedPlan]}<span className="text-sm text-gray-500">/{billing === 'monthly' ? 'month' : 'year'}</span>
           </div>
+          {billing === 'yearly' && (
+            <p className="text-green-600 font-semibold text-sm">
+              💰 Save 17% with yearly billing - that's 2 months free!
+            </p>
+          )}
           <p className="text-gray-600">
             You're just one step away from unlocking all the amazing features FlashTastic has to offer!
           </p>

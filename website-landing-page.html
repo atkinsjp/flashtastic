@@ -288,12 +288,12 @@
             <!-- Billing Toggle -->
             <div class="flex justify-center mb-8">
                 <div class="bg-gray-100 p-1 rounded-lg flex">
-                    <span class="px-4 py-2 rounded text-sm font-medium bg-white text-gray-900 shadow-sm">
+                    <button id="monthly-toggle" class="px-4 py-2 rounded text-sm font-medium bg-white text-gray-900 shadow-sm transition" onclick="switchBilling('monthly')">
                         Monthly
-                    </span>
-                    <span class="px-4 py-2 rounded text-sm font-medium text-gray-600">
+                    </button>
+                    <button id="yearly-toggle" class="px-4 py-2 rounded text-sm font-medium text-gray-600 transition" onclick="switchBilling('yearly')">
                         Yearly <span class="ml-1 bg-green-500 text-white text-xs px-2 py-1 rounded">Save 17%</span>
-                    </span>
+                    </button>
                 </div>
             </div>
 
@@ -317,8 +317,8 @@
                 <!-- Young Pro Plan -->
                 <div class="bg-white p-6 rounded-xl shadow-lg">
                     <h3 class="text-xl font-bold mb-2">Young Pro</h3>
-                    <div class="text-3xl font-bold text-blue-600 mb-1">$4.99</div>
-                    <div class="text-sm text-gray-500 mb-3">per month</div>
+                    <div class="text-3xl font-bold text-blue-600 mb-1" id="young-pro-price">$4.99</div>
+                    <div class="text-sm text-gray-500 mb-3" id="young-pro-period">per month</div>
                     <p class="text-gray-600 text-sm mb-4">Unlock unlimited learning potential</p>
                     <ul class="space-y-2 mb-6 text-sm">
                         <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>Unlimited quizzes & practice</li>
@@ -327,7 +327,7 @@
                         <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>Family competitions</li>
                         <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>Achievement system</li>
                     </ul>
-                    <a href="https://flashtastic-jimatkins753.replit.app/subscribe?plan=young_pro" target="_blank" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition text-sm text-center block no-underline">
+                    <a id="young-pro-button" href="https://flashtastic-jimatkins753.replit.app/subscribe?plan=young_pro&billing=monthly" target="_blank" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition text-sm text-center block no-underline">
                         Choose Young Pro
                     </a>
                 </div>
@@ -338,8 +338,8 @@
                         POPULAR
                     </div>
                     <h3 class="text-xl font-bold mb-2">Premium</h3>
-                    <div class="text-3xl font-bold text-purple-600 mb-1">$9.99</div>
-                    <div class="text-sm text-gray-500 mb-3">per month</div>
+                    <div class="text-3xl font-bold text-purple-600 mb-1" id="premium-price">$9.99</div>
+                    <div class="text-sm text-gray-500 mb-3" id="premium-period">per month</div>
                     <p class="text-gray-600 text-sm mb-4">Everything + AI-powered features</p>
                     <ul class="space-y-2 mb-6 text-sm">
                         <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>Everything in Young Pro</li>
@@ -348,7 +348,7 @@
                         <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>Advanced analytics</li>
                         <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>Priority support</li>
                     </ul>
-                    <a href="https://flashtastic-jimatkins753.replit.app/subscribe?plan=premium" target="_blank" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-4 rounded-lg transition text-sm text-center block no-underline">
+                    <a id="premium-button" href="https://flashtastic-jimatkins753.replit.app/subscribe?plan=premium&billing=monthly" target="_blank" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-4 rounded-lg transition text-sm text-center block no-underline">
                         Choose Premium
                     </a>
                 </div>
@@ -356,8 +356,8 @@
                 <!-- Family Plan -->
                 <div class="bg-white p-6 rounded-xl shadow-lg">
                     <h3 class="text-xl font-bold mb-2">Family</h3>
-                    <div class="text-3xl font-bold text-orange-600 mb-1">$13.99</div>
-                    <div class="text-sm text-gray-500 mb-3">per month</div>
+                    <div class="text-3xl font-bold text-orange-600 mb-1" id="family-price">$13.99</div>
+                    <div class="text-sm text-gray-500 mb-3" id="family-period">per month</div>
                     <p class="text-gray-600 text-sm mb-4">Perfect for families with multiple kids</p>
                     <ul class="space-y-2 mb-6 text-sm">
                         <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>Everything in Premium</li>
@@ -366,7 +366,7 @@
                         <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>Enhanced competitions</li>
                         <li class="flex items-center"><span class="text-green-500 mr-2">✓</span>Parent analytics</li>
                     </ul>
-                    <a href="https://flashtastic-jimatkins753.replit.app/subscribe?plan=family" target="_blank" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-4 rounded-lg transition text-sm text-center block no-underline">
+                    <a id="family-button" href="https://flashtastic-jimatkins753.replit.app/subscribe?plan=family&billing=monthly" target="_blank" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-4 rounded-lg transition text-sm text-center block no-underline">
                         Choose Family
                     </a>
                 </div>
@@ -470,6 +470,59 @@
         </div>
     </footer>
 
+    <!-- Pricing Toggle Script -->
+    <script>
+        let currentBilling = 'monthly';
+        
+        const pricing = {
+            monthly: {
+                young_pro: { price: '$4.99', period: 'per month' },
+                premium: { price: '$9.99', period: 'per month' },
+                family: { price: '$13.99', period: 'per month' }
+            },
+            yearly: {
+                young_pro: { price: '$49.99', period: 'per year' },
+                premium: { price: '$99.99', period: 'per year' },
+                family: { price: '$139.99', period: 'per year' }
+            }
+        };
+        
+        function switchBilling(billing) {
+            currentBilling = billing;
+            
+            // Update toggle buttons
+            const monthlyBtn = document.getElementById('monthly-toggle');
+            const yearlyBtn = document.getElementById('yearly-toggle');
+            
+            if (billing === 'monthly') {
+                monthlyBtn.className = 'px-4 py-2 rounded text-sm font-medium bg-white text-gray-900 shadow-sm transition';
+                yearlyBtn.className = 'px-4 py-2 rounded text-sm font-medium text-gray-600 transition';
+            } else {
+                monthlyBtn.className = 'px-4 py-2 rounded text-sm font-medium text-gray-600 transition';
+                yearlyBtn.className = 'px-4 py-2 rounded text-sm font-medium bg-white text-gray-900 shadow-sm transition';
+            }
+            
+            // Update pricing for each plan
+            const plans = ['young_pro', 'premium', 'family'];
+            plans.forEach(plan => {
+                const priceEl = document.getElementById(plan.replace('_', '-') + '-price');
+                const periodEl = document.getElementById(plan.replace('_', '-') + '-period');
+                const buttonEl = document.getElementById(plan.replace('_', '-') + '-button');
+                
+                if (priceEl) priceEl.textContent = pricing[billing][plan].price;
+                if (periodEl) periodEl.textContent = pricing[billing][plan].period;
+                if (buttonEl) {
+                    buttonEl.href = `https://flashtastic-jimatkins753.replit.app/subscribe?plan=${plan}&billing=${billing}`;
+                }
+            });
+        }
+        
+        // Initialize with monthly pricing
+        document.addEventListener('DOMContentLoaded', function() {
+            switchBilling('monthly');
+        });
+    </script>
+    
     <!-- Analytics placeholder -->
     <script>
         // Add your analytics tracking code here
