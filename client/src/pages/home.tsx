@@ -118,17 +118,6 @@ export default function Home() {
                 </Badge>
               )}
               
-              {/* AI Study Buddy Quick Access */}
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setLocation("/study-buddy")}
-                className="flex items-center gap-2 text-purple-600 hover:text-purple-700 hover:bg-purple-50"
-                data-testid="button-study-buddy-quick-access"
-              >
-                <Brain className="h-4 w-4" />
-                <span className="hidden sm:inline">AI Buddy</span>
-              </Button>
 
               {/* User Avatar */}
               <div 
