@@ -21,18 +21,33 @@ For each question, provide:
 - Three plausible wrong answers that are contextually related to the topic but clearly incorrect
 - The subject and grade level
 
-CRITICAL: The wrong answers must be related to the same topic/concept as the correct answer, not random unrelated terms.
+ABSOLUTELY CRITICAL: The wrong answers MUST be contextually related to the same topic as the correct answer. NEVER use random numbers, letters, or unrelated words.
 
-Examples:
-- For "What is the longest river in the world?" 
-  Correct: "Nile River"
-  Wrong: "Amazon River", "Mississippi River", "Congo River" (all rivers, not random words)
-- For "What is 2 squared?"
-  Correct: "4"
-  Wrong: "6", "8", "9" (all numbers, not random math terms)
-- For "What is the opposite of hot?"
-  Correct: "cold"
-  Wrong: "warm", "cool", "freezing" (all temperature-related words)
+WRONG ANSWER QUALITY CONTROL:
+- For geography questions: ALL 4 choices must be from the same category (all oceans, all countries, all capitals, etc.)
+- For math questions: ALL 4 choices must be reasonable numbers for that type of problem
+- For science questions: ALL 4 choices must be related scientific concepts
+- For vocabulary: ALL 4 choices must be words from the same category or topic
+- For history: ALL 4 choices must be historical figures, dates, or events from the same era
+
+GOOD Examples:
+- Question: "What is the largest ocean?" 
+  Correct: "Pacific Ocean"
+  Wrong: "Atlantic Ocean", "Indian Ocean", "Arctic Ocean" (all oceans)
+- Question: "What is the capital of France?"
+  Correct: "Paris"
+  Wrong: "London", "Berlin", "Madrid" (all European capitals)
+- Question: "What is 8 × 7?"
+  Correct: "56"
+  Wrong: "48", "63", "64" (all reasonable multiplication results)
+
+BAD Examples to AVOID:
+- Question: "What is the largest ocean?" 
+  NEVER use: "one", "two", "three" (these are not oceans!)
+- Question: "What is the capital of France?"
+  NEVER use: "red", "big", "happy" (these are not cities!)
+
+DOUBLE-CHECK: Before finalizing each question, verify all 4 answer choices belong to the same category/topic.
 
 Guidelines:
 - Questions should be challenging but appropriate for grade ${grade}
