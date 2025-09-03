@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import type { User } from '@shared/schema';
+import { apiRequest } from '@/lib/queryClient';
 
 export type UserMode = 'guest' | 'member';
 
@@ -7,10 +8,13 @@ interface AuthContextType {
   user: User | null;
   userMode: UserMode;
   isGuest: boolean;
+  isAuthenticated: boolean;
+  isLoading: boolean;
   setUserMode: (mode: UserMode) => void;
   login: (user: User) => void;
-  logout: () => void;
+  logout: () => Promise<void>;
   continueAsGuest: () => void;
+  checkAuthStatus: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -22,22 +26,39 @@ interface AuthProviderProps {
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>(null);
   const [userMode, setUserMode] = useState<UserMode>('guest');
+  const [isLoading, setIsLoading] = useState(true);
+
+  const checkAuthStatus = async () => {
+    try {
+      setIsLoading(true);
+      const response = await apiRequest('GET', '/api/auth/user');
+      const userData = await response.json();
+      
+      if (response.ok && userData) {
+        setUser(userData);
+        setUserMode('member');
+        localStorage.setItem('flashtastic-user', JSON.stringify(userData));
+        localStorage.setItem('flashtastic-mode', 'member');
+      } else {
+        // Check for saved guest mode
+        const savedMode = localStorage.getItem('flashtastic-mode') as UserMode;
+        if (savedMode === 'guest') {
+          setUserMode('guest');
+        }
+      }
+    } catch (error) {
+      // If not authenticated, check for guest mode
+      const savedMode = localStorage.getItem('flashtastic-mode') as UserMode;
+      if (savedMode === 'guest') {
+        setUserMode('guest');
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    // Check for saved user data on app start
-    const savedUser = localStorage.getItem('flashtastic-user');
-    const savedMode = localStorage.getItem('flashtastic-mode') as UserMode;
-    
-    if (savedUser && savedMode === 'member') {
-      try {
-        setUser(JSON.parse(savedUser));
-        setUserMode('member');
-      } catch (error) {
-        console.error('Failed to parse saved user data:', error);
-        localStorage.removeItem('flashtastic-user');
-        localStorage.removeItem('flashtastic-mode');
-      }
-    }
+    checkAuthStatus();
   }, []);
 
   const login = (userData: User) => {
@@ -47,11 +68,17 @@ export function AuthProvider({ children }: AuthProviderProps) {
     localStorage.setItem('flashtastic-mode', 'member');
   };
 
-  const logout = () => {
-    setUser(null);
-    setUserMode('guest');
-    localStorage.removeItem('flashtastic-user');
-    localStorage.removeItem('flashtastic-mode');
+  const logout = async () => {
+    try {
+      await apiRequest('POST', '/auth/logout');
+    } catch (error) {
+      console.error('Logout error:', error);
+    } finally {
+      setUser(null);
+      setUserMode('guest');
+      localStorage.removeItem('flashtastic-user');
+      localStorage.removeItem('flashtastic-mode');
+    }
   };
 
   const continueAsGuest = () => {
@@ -64,10 +91,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
     user,
     userMode,
     isGuest: userMode === 'guest',
+    isAuthenticated: !!user && userMode === 'member',
+    isLoading,
     setUserMode,
     login,
     logout,
-    continueAsGuest
+    continueAsGuest,
+    checkAuthStatus
   };
 
   return (

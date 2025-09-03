@@ -7,6 +7,10 @@ export const users = pgTable("users", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   username: text("username").notNull().unique(),
   name: text("name").notNull(),
+  email: text("email").unique(),
+  passwordHash: text("password_hash"),
+  googleId: text("google_id").unique(),
+  authProvider: varchar("auth_provider", { length: 20 }).default("local"), // local, google
   grade: varchar("grade", { length: 2 }).notNull(),
   avatar: text("avatar").default("1"),
   points: integer("points").default(0),
@@ -30,6 +34,13 @@ export const users = pgTable("users", {
   subscriptionStatus: varchar("subscription_status", { length: 20 }).default("inactive"), // active, inactive, cancelled, past_due
   subscriptionEndDate: timestamp("subscription_end_date"),
   createdAt: timestamp("created_at").default(sql`now()`),
+});
+
+// Session storage table for authentication
+export const sessions = pgTable("sessions", {
+  sid: varchar("sid").primaryKey(),
+  sess: jsonb("sess").notNull(),
+  expire: timestamp("expire").notNull(),
 });
 
 export const parentStudentLinks = pgTable("parent_student_links", {
@@ -211,6 +222,22 @@ export const competitiveAchievements = pgTable("competitive_achievements", {
 export const insertUserSchema = createInsertSchema(users).omit({
   id: true,
   createdAt: true,
+}).extend({
+  password: z.string().min(6).optional(), // For registration form
+});
+
+export const loginUserSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(1),
+});
+
+export const registerUserSchema = insertUserSchema.extend({
+  email: z.string().email(),
+  password: z.string().min(6),
+}).omit({
+  passwordHash: true,
+  googleId: true,
+  authProvider: true,
 });
 
 export const insertFlashCardSchema = createInsertSchema(flashCards).omit({
@@ -263,6 +290,8 @@ export const insertCompetitiveAchievementSchema = createInsertSchema(competitive
 // Types
 export type User = typeof users.$inferSelect;
 export type InsertUser = z.infer<typeof insertUserSchema>;
+export type LoginUser = z.infer<typeof loginUserSchema>;
+export type RegisterUser = z.infer<typeof registerUserSchema>;
 export type FlashCard = typeof flashCards.$inferSelect;
 export type InsertFlashCard = z.infer<typeof insertFlashCardSchema>;
 export type UserProgress = typeof userProgress.$inferSelect;

@@ -1,7 +1,10 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import Stripe from "stripe";
+import passport from 'passport';
+import bcrypt from 'bcryptjs';
 import { storage } from "./storage";
+import { setupAuth, requireAuth, optionalAuth } from "./auth";
 import { generateQuestions } from "./ai-generator";
 import { generateStudyBuddyResponse, generateStudyTips } from "./study-buddy";
 import { 
@@ -10,7 +13,9 @@ import {
   insertUserProgressSchema,
   insertStudySessionSchema,
   insertQuizSchema,
-  insertContentReportSchema
+  insertContentReportSchema,
+  loginUserSchema,
+  registerUserSchema
 } from "@shared/schema";
 import { z } from "zod";
 
@@ -23,6 +28,113 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
 });
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Setup authentication
+  setupAuth(app);
+
+  // Authentication routes
+  app.post('/auth/register', async (req, res) => {
+    try {
+      const userData = registerUserSchema.parse(req.body);
+      
+      // Check if user already exists
+      const existingUser = await storage.getUserByEmail(userData.email);
+      if (existingUser) {
+        return res.status(400).json({ message: 'User already exists with this email' });
+      }
+
+      // Hash password
+      const passwordHash = await bcrypt.hash(userData.password, 10);
+      
+      // Create user with unique username if needed
+      let username = userData.username || userData.email.split('@')[0];
+      let usernameExists = await storage.getUserByUsername(username);
+      let counter = 1;
+      while (usernameExists) {
+        username = `${userData.email.split('@')[0]}_${counter}`;
+        usernameExists = await storage.getUserByUsername(username);
+        counter++;
+      }
+
+      const user = await storage.createUser({
+        ...userData,
+        username,
+        passwordHash,
+        authProvider: 'local',
+      });
+
+      req.login(user, (err) => {
+        if (err) {
+          return res.status(500).json({ message: 'Login failed after registration' });
+        }
+        res.status(201).json({ 
+          message: 'Registration successful', 
+          user: { ...user, passwordHash: undefined }
+        });
+      });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ message: 'Invalid registration data', errors: error.errors });
+      }
+      console.error('Registration error:', error);
+      res.status(500).json({ message: 'Registration failed' });
+    }
+  });
+
+  app.post('/auth/login', passport.authenticate('local', {
+    successRedirect: '/api/auth/user',
+    failureRedirect: '/auth/login-failed'
+  }));
+
+  app.get('/auth/login-failed', (req, res) => {
+    res.status(401).json({ message: 'Invalid email or password' });
+  });
+
+  // Google OAuth routes - only if credentials are available
+  if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
+    app.get('/auth/google', passport.authenticate('google', {
+      scope: ['profile', 'email']
+    }));
+
+    app.get('/auth/google/callback', 
+      passport.authenticate('google', { failureRedirect: '/auth/failed' }),
+      (req, res) => {
+        // Successful authentication, redirect to frontend
+        res.redirect('/');
+      }
+    );
+  } else {
+    // Fallback route if Google OAuth is not configured
+    app.get('/auth/google', (req, res) => {
+      res.status(503).json({ message: 'Google OAuth not configured' });
+    });
+
+    app.get('/auth/google/callback', (req, res) => {
+      res.status(503).json({ message: 'Google OAuth not configured' });
+    });
+  }
+
+  app.get('/auth/failed', (req, res) => {
+    res.status(401).json({ message: 'Authentication failed' });
+  });
+
+  app.post('/auth/logout', (req, res) => {
+    req.logout((err) => {
+      if (err) {
+        return res.status(500).json({ message: 'Logout failed' });
+      }
+      res.json({ message: 'Logout successful' });
+    });
+  });
+
+  app.get('/api/auth/user', optionalAuth, (req: any, res) => {
+    if (req.user) {
+      const user = { ...req.user, passwordHash: undefined };
+      res.json(user);
+    } else {
+      res.status(401).json({ message: 'Not authenticated' });
+    }
+  });
+
   // User routes
   app.get("/api/users/:id", async (req, res) => {
     try {
