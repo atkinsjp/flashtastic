@@ -72,11 +72,11 @@ export function FloatingStudyBuddy({ currentSubject = "general", currentGrade = 
   const sendMessage = async (message: string) => {
     if (!message.trim() || isLoading) return;
 
-    // Check AI question limit for free users
-    if (!canAccess('unlimited_questions') && dailyQuestionsUsed >= 5) {
+    // Check AI question limit for free users - give 1 free sample then show paywall
+    if (!canAccess('unlimited_questions') && dailyQuestionsUsed >= 1) {
       const limitMessage: ChatMessage = {
         id: `limit-${Date.now()}`,
-        content: "You've reached the daily limit for AI questions. Upgrade to Premium for unlimited access! 🚀",
+        content: "🎉 You've tried your free AI question! Ready for unlimited AI help with your studies? Upgrade to Premium for unlimited AI questions, personalized study tips, and more! 🚀",
         sender: "buddy",
         timestamp: new Date(),
         type: "text"
@@ -213,7 +213,7 @@ export function FloatingStudyBuddy({ currentSubject = "general", currentGrade = 
               <h3 className="font-semibold text-sm">AI Study Buddy</h3>
               {!canAccess('unlimited_questions') && (
                 <p className="text-xs opacity-90">
-                  {dailyQuestionsUsed}/5 questions today
+                  {dailyQuestionsUsed}/1 free question
                 </p>
               )}
             </div>
@@ -306,7 +306,7 @@ export function FloatingStudyBuddy({ currentSubject = "general", currentGrade = 
                         size="sm"
                         className="text-xs h-6 px-2"
                         onClick={() => sendMessage(suggestion)}
-                        disabled={!canAccess('unlimited_questions') && dailyQuestionsUsed >= 5}
+                        disabled={!canAccess('unlimited_questions') && dailyQuestionsUsed >= 1}
                         data-testid={`button-suggestion-${suggestion.toLowerCase().replace(/\s+/g, '-')}`}
                       >
                         {suggestion}
@@ -325,13 +325,13 @@ export function FloatingStudyBuddy({ currentSubject = "general", currentGrade = 
                     onChange={(e) => setInputMessage(e.target.value)}
                     onKeyPress={handleKeyPress}
                     placeholder="Ask me anything..."
-                    disabled={isLoading || (!canAccess('unlimited_questions') && dailyQuestionsUsed >= 5)}
+                    disabled={isLoading || (!canAccess('unlimited_questions') && dailyQuestionsUsed >= 1)}
                     className="text-sm"
                     data-testid="input-study-buddy-message"
                   />
                   <Button
                     onClick={() => sendMessage(inputMessage)}
-                    disabled={isLoading || !inputMessage.trim() || (!canAccess('unlimited_questions') && dailyQuestionsUsed >= 5)}
+                    disabled={isLoading || !inputMessage.trim() || (!canAccess('unlimited_questions') && dailyQuestionsUsed >= 1)}
                     size="sm"
                     className="bg-gradient-to-r from-purple-500 to-pink-500"
                     data-testid="button-send-study-buddy-message"
@@ -339,9 +339,9 @@ export function FloatingStudyBuddy({ currentSubject = "general", currentGrade = 
                     <Send className="h-4 w-4" />
                   </Button>
                 </div>
-                {!canAccess('unlimited_questions') && dailyQuestionsUsed >= 5 && (
+                {!canAccess('unlimited_questions') && dailyQuestionsUsed >= 1 && (
                   <p className="text-xs text-orange-600 mt-2 text-center">
-                    Daily limit reached. <span className="font-semibold cursor-pointer hover:underline">Upgrade to Premium</span> for unlimited access!
+                    Free question used! <span className="font-semibold cursor-pointer hover:underline">Upgrade to Premium</span> for unlimited access!
                   </p>
                 )}
               </div>
