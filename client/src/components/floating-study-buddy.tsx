@@ -170,11 +170,15 @@ export function FloatingStudyBuddy({ currentSubject = "general", currentGrade = 
       <motion.div
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        className="fixed bottom-6 right-6 z-50"
+        className="fixed bottom-6 right-6 z-[100]"
         data-testid="floating-study-buddy-button"
       >
         <Button
-          onClick={() => setIsOpen(true)}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setIsOpen(true);
+          }}
           className="h-14 w-14 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 shadow-lg hover:shadow-xl transition-all duration-200 relative"
           data-testid="button-open-study-buddy"
         >
@@ -197,7 +201,7 @@ export function FloatingStudyBuddy({ currentSubject = "general", currentGrade = 
         y: 0,
         height: isMinimized ? "60px" : "500px"
       }}
-      className="fixed bottom-6 right-6 z-50 w-80"
+      className="fixed bottom-6 right-6 z-[100] w-80"
       data-testid="floating-study-buddy-chat"
     >
       <Card className="h-full flex flex-col shadow-2xl border-2">
