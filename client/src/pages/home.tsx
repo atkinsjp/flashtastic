@@ -8,6 +8,7 @@ import AchievementPopup from "@/components/achievement-popup";
 import QuizModal from "@/components/quiz-modal";
 import AuthGate from "@/components/auth-gate";
 import LearningAvatar from "@/components/learning-avatar";
+import { FloatingStudyBuddy } from "@/components/floating-study-buddy";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useAuth, createGuestUser } from "@/contexts/auth-context";
@@ -117,6 +118,18 @@ export default function Home() {
                 </Badge>
               )}
               
+              {/* AI Study Buddy Quick Access */}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setLocation("/study-buddy")}
+                className="flex items-center gap-2 text-purple-600 hover:text-purple-700 hover:bg-purple-50"
+                data-testid="button-study-buddy-quick-access"
+              >
+                <Brain className="h-4 w-4" />
+                <span className="hidden sm:inline">AI Buddy</span>
+              </Button>
+
               {/* User Avatar */}
               <div 
                 className="relative cursor-pointer"
@@ -374,6 +387,12 @@ export default function Home() {
           }}
         />
       )}
+
+      {/* Floating AI Study Buddy */}
+      <FloatingStudyBuddy 
+        currentSubject="general"
+        currentGrade={selectedGrade}
+      />
     </div>
   );
 }

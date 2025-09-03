@@ -11,6 +11,13 @@ interface ChatRequest {
     content: string;
     sender: "user" | "buddy";
   }>;
+  userProgress?: {
+    points?: number;
+    level?: number;
+    streak?: number;
+    recentSubjects?: string[];
+    strugglingAreas?: string[];
+  };
 }
 
 interface ChatResponse {
@@ -23,7 +30,8 @@ export async function generateStudyBuddyResponse({
   subject = "general studies", 
   grade = "elementary", 
   recentTopics = [],
-  conversationHistory = []
+  conversationHistory = [],
+  userProgress = {}
 }: ChatRequest): Promise<ChatResponse> {
   try {
     // Build conversation context
@@ -31,6 +39,15 @@ export async function generateStudyBuddyResponse({
       .slice(-4) // Last 4 messages for context
       .map(msg => `${msg.sender === "user" ? "Student" : "Study Buddy"}: ${msg.content}`)
       .join("\n");
+
+    // Build user progress context
+    const progressContext = userProgress.points ? 
+      `User Progress Context:
+      - Level: ${userProgress.level || 1} (${userProgress.points || 0} points)
+      - Current streak: ${userProgress.streak || 0} days
+      - Recent subjects: ${userProgress.recentSubjects?.join(", ") || "None"}
+      - Areas that need work: ${userProgress.strugglingAreas?.join(", ") || "None"}
+      ` : "";
 
     const systemPrompt = `You are an enthusiastic, encouraging AI study buddy for grade ${grade} students learning ${subject}. 
 
@@ -59,6 +76,7 @@ Guidelines:
 - For reading: suggest fun ways to remember vocabulary
 - For science: use simple experiments or analogies
 - Always end with a question or encouragement to keep learning
+- If the student has progress data, acknowledge their achievements and tailor suggestions
 
 IMPORTANT FORMATTING RULES:
 - NEVER use LaTeX notation like $\frac{2}{5}$ or $\frac{a}{b}$
@@ -67,6 +85,8 @@ IMPORTANT FORMATTING RULES:
 - Use ** for bold text when emphasizing important points
 - Keep all math notation in simple, readable text format
 
+${progressContext}
+
 Recent topics we've covered: ${recentTopics.join(", ") || "None yet"}
 
 Conversation context:
@@ -74,7 +94,7 @@ ${contextMessages}
 
 Student's current message: ${message}
 
-Respond as their encouraging study buddy. If they're asking for help with a concept, explain it clearly with examples. If they seem stuck, offer encouragement and different approaches.`;
+Respond as their encouraging study buddy. If they're asking for help with a concept, explain it clearly with examples. If they seem stuck, offer encouragement and different approaches. Use their progress information to personalize your response when appropriate.`;
 
     const response = await ai.models.generateContent({
       model: "gemini-2.5-flash",

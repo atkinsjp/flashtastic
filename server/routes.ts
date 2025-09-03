@@ -709,7 +709,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Study Buddy AI Chat routes
   app.post("/api/study-buddy/chat", async (req, res) => {
     try {
-      const { message, subject, grade, recentTopics, conversationHistory } = req.body;
+      const { message, subject, grade, recentTopics, conversationHistory, userProgress } = req.body;
       
       if (!message || typeof message !== "string") {
         return res.status(400).json({ message: "Message is required" });
@@ -720,7 +720,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         subject,
         grade,
         recentTopics: recentTopics || [],
-        conversationHistory: conversationHistory || []
+        conversationHistory: conversationHistory || [],
+        userProgress: userProgress || {}
       });
 
       res.json(response);
