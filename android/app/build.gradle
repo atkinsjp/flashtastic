@@ -12,7 +12,7 @@ android {
     }
     defaultConfig {
         applicationId "com.flashkademy.app"
-        minSdkVersion 24
+        minSdkVersion 22
         targetSdkVersion 33
         versionCode 4
         versionName "4.0.0.0"
