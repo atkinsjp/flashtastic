@@ -158,6 +158,20 @@ export default function Home() {
       <main className="container mx-auto px-4 py-6">
         {/* Welcome Section */}
         <section className="mb-8">
+          {/* Hero Image Section - Family Photo */}
+          <div className="relative mb-8 rounded-2xl overflow-hidden shadow-2xl">
+            <div className="h-64 md:h-80 bg-gradient-to-r from-purple-600 to-blue-600 flex items-center justify-center">
+              {/* Placeholder for family photo - replace with actual image */}
+              <div className="text-center text-white p-8">
+                <div className="text-6xl mb-4">👨‍👩‍👧‍👦</div>
+                <h3 className="text-2xl font-bold mb-2">Learning Together as a Family</h3>
+                <p className="text-lg opacity-90">Add your family photo here - kids using educational apps together!</p>
+              </div>
+            </div>
+            {/* Overlay gradient for text readability */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+          </div>
+          
           <div className="text-center mb-6">
             <h2 className="text-3xl font-bold text-gray-800 mb-2">
               {isGuest ? 'Welcome to FlashTastic! 🎉' : `Welcome back, ${displayUser.name}! 🎉`}
