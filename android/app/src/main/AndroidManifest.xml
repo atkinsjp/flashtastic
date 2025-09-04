@@ -3,8 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools">
     
 
-    <!-- Override Cordova minSdk requirement -->
-    <uses-sdk tools:overrideLibrary="org.apache.cordova" />
+    <!-- Override Cordova minSdk requirement and set explicit minSdk -->
+    <uses-sdk 
+        android:minSdkVersion="24" 
+        android:targetSdkVersion="33"
+        tools:overrideLibrary="org.apache.cordova" />
     
     <application
         android:allowBackup="true"
