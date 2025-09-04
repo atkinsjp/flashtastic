@@ -118,12 +118,27 @@ export default function ParentDashboard() {
   return (
     <div className="min-h-screen p-4 pb-20">
       <div className="container mx-auto max-w-7xl">
-        {/* Header */}
+        {/* Header with Family Photo */}
         <div className="mb-6">
+          {/* Family Learning Hero Section */}
+          <div className="relative mb-6 rounded-xl overflow-hidden shadow-lg">
+            <img 
+              src="/attached_assets/Father_Kids_Studying_1757029276280.png"
+              alt="Father helping children with educational app"
+              className="w-full h-48 md:h-56 object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent flex items-center">
+              <div className="text-white p-6 md:p-8">
+                <h1 className="text-3xl md:text-4xl font-bold mb-2">Parent Dashboard</h1>
+                <p className="text-lg opacity-90">Monitor your children's learning progress and achievements</p>
+              </div>
+            </div>
+          </div>
+          
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h1 className="text-3xl font-bold text-gray-800 mb-2">Parent Dashboard</h1>
-              <p className="text-gray-600">Monitor your children's learning progress and achievements</p>
+              <h2 className="text-xl font-semibold text-gray-800">Learning Analytics & Insights</h2>
+              <p className="text-gray-600 text-sm">Track progress, celebrate achievements, and guide your children's educational journey</p>
             </div>
             
             <div className="flex items-center space-x-3">

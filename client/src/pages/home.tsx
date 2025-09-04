@@ -160,16 +160,18 @@ export default function Home() {
         <section className="mb-8">
           {/* Hero Image Section - Family Photo */}
           <div className="relative mb-8 rounded-2xl overflow-hidden shadow-2xl">
-            <div className="h-64 md:h-80 bg-gradient-to-r from-purple-600 to-blue-600 flex items-center justify-center">
-              {/* Placeholder for family photo - replace with actual image */}
-              <div className="text-center text-white p-8">
-                <div className="text-6xl mb-4">👨‍👩‍👧‍👦</div>
-                <h3 className="text-2xl font-bold mb-2">Learning Together as a Family</h3>
-                <p className="text-lg opacity-90">Add your family photo here - kids using educational apps together!</p>
+            <img 
+              src="/attached_assets/Mother-Father_Kids_Studying_1757029276281.png"
+              alt="Family learning together with educational apps"
+              className="w-full h-64 md:h-80 object-cover"
+            />
+            {/* Overlay with text */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent flex items-end">
+              <div className="text-white p-6 md:p-8">
+                <h3 className="text-2xl md:text-3xl font-bold mb-2">Learning Together as a Family</h3>
+                <p className="text-lg opacity-90">Discover the joy of educational adventures with FlashTastic!</p>
               </div>
             </div>
-            {/* Overlay gradient for text readability */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
           </div>
           
           <div className="text-center mb-6">
