@@ -52,7 +52,11 @@ jobs:
       
     - name: Fix Java version compatibility
       run: |
-        sed -i 's/JavaVersion.VERSION_21/JavaVersion.VERSION_17/g' android/app/capacitor.build.gradle
+        find android -name "*.gradle" -exec sed -i 's/JavaVersion.VERSION_21/JavaVersion.VERSION_17/g' {} \;
+        find android -name "*.gradle" -exec sed -i 's/sourceCompatibility.*21/sourceCompatibility JavaVersion.VERSION_17/g' {} \;
+        find android -name "*.gradle" -exec sed -i 's/targetCompatibility.*21/targetCompatibility JavaVersion.VERSION_17/g' {} \;
+        echo "Fixed Java version in all gradle files"
+        grep -r "VERSION_21\|java.*21" android/ || echo "No Java 21 references found"
       
     - name: Grant execute permission for gradlew
       run: chmod +x android/gradlew
