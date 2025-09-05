@@ -5,7 +5,7 @@
 
     <!-- Override Cordova minSdk requirement and set explicit minSdk -->
     <uses-sdk 
-        android:minSdkVersion="22" 
+        android:minSdkVersion="24" 
         android:targetSdkVersion="33"
         tools:overrideLibrary="org.apache.cordova" />
     
