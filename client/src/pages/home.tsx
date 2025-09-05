@@ -161,7 +161,7 @@ export default function Home() {
           {/* Hero Image Section - Family Photo */}
           <div className="relative mb-8 rounded-2xl overflow-hidden shadow-2xl">
             <img 
-              src="/attached_assets/Mother-Father_Kids_Studying_1757029276281.png"
+              src="/family-homepage.png"
               alt="Family learning together with educational apps"
               className="w-full h-64 md:h-80 object-cover"
             />

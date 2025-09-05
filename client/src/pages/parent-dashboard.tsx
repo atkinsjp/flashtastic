@@ -123,7 +123,7 @@ export default function ParentDashboard() {
           {/* Family Learning Hero Section */}
           <div className="relative mb-6 rounded-xl overflow-hidden shadow-lg">
             <img 
-              src="/attached_assets/Father_Kids_Studying_1757029276280.png"
+              src="/family-dashboard.png"
               alt="Father helping children with educational app"
               className="w-full h-48 md:h-56 object-cover"
             />
