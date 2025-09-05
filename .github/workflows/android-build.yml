@@ -50,6 +50,10 @@ jobs:
     - name: Capacitor sync
       run: npx cap sync android
       
+    - name: Fix Java version compatibility
+      run: |
+        sed -i 's/JavaVersion.VERSION_21/JavaVersion.VERSION_17/g' android/app/capacitor.build.gradle
+      
     - name: Grant execute permission for gradlew
       run: chmod +x android/gradlew
       
