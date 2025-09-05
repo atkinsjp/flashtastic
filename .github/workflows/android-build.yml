@@ -48,18 +48,18 @@ jobs:
     - name: Create keystore file
       run: |
         cd android/app
-        echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > flashtastic-keystore.jks
+        echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > flashtastic-keystore.jks
       env:
-        KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+        ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
         
     - name: Build Android App Bundle
       run: |
         cd android
         ./gradlew bundleRelease
       env:
-        SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
-        SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
-        SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
+        ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+        ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
         
     - name: Upload AAB file
       uses: actions/upload-artifact@v4
