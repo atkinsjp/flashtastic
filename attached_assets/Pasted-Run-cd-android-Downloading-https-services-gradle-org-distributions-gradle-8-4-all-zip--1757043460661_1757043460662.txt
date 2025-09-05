@@ -1,0 +1,250 @@
+Run cd android
+Downloading https://services.gradle.org/distributions/gradle-8.4-all.zip
+....................10%....................20%....................30%.....................40%....................50%....................60%.....................70%....................80%....................90%.....................100%
+
+Welcome to Gradle 8.4!
+
+Here are the highlights of this release:
+ - Compiling and testing with Java 21
+ - Faster Java compilation on Windows
+ - Role focused dependency configurations creation
+
+For more details see https://docs.gradle.org/8.4/release-notes.html
+
+Starting a Gradle Daemon (subsequent builds will be faster)
+
+> Configure project :app
+WARNING:Using flatDir should be avoided because it doesn't support any meta-data formats.
+
+> Configure project :capacitor-cordova-android-plugins
+WARNING:Using flatDir should be avoided because it doesn't support any meta-data formats.
+Warning: SDK processing. This version only understands SDK XML versions up to 3 but an SDK XML file of version 4 was encountered. This can happen if you use versions of Android Studio and the command-line tools that were released at different times.
+
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:mergeDebugNativeDebugMetadata NO-SOURCE
+> Task :capacitor-android:preBuild UP-TO-DATE
+> Task :capacitor-android:preDebugBuild UP-TO-DATE
+> Task :capacitor-android:compileDebugAidl NO-SOURCE
+> Task :capacitor-app:preBuild UP-TO-DATE
+> Task :capacitor-app:preDebugBuild UP-TO-DATE
+> Task :capacitor-app:compileDebugAidl NO-SOURCE
+> Task :capacitor-cordova-android-plugins:preBuild UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:preDebugBuild UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:compileDebugAidl NO-SOURCE
+> Task :capacitor-haptics:preBuild UP-TO-DATE
+> Task :capacitor-haptics:preDebugBuild UP-TO-DATE
+> Task :capacitor-haptics:compileDebugAidl NO-SOURCE
+> Task :capacitor-keyboard:preBuild UP-TO-DATE
+> Task :capacitor-keyboard:preDebugBuild UP-TO-DATE
+> Task :capacitor-keyboard:compileDebugAidl NO-SOURCE
+> Task :capacitor-preferences:preBuild UP-TO-DATE
+> Task :capacitor-preferences:preDebugBuild UP-TO-DATE
+> Task :capacitor-preferences:compileDebugAidl NO-SOURCE
+> Task :capacitor-splash-screen:preBuild UP-TO-DATE
+> Task :capacitor-splash-screen:preDebugBuild UP-TO-DATE
+> Task :capacitor-splash-screen:compileDebugAidl NO-SOURCE
+> Task :capacitor-status-bar:preBuild UP-TO-DATE
+> Task :capacitor-status-bar:preDebugBuild UP-TO-DATE
+> Task :capacitor-status-bar:compileDebugAidl NO-SOURCE
+> Task :app:compileDebugAidl NO-SOURCE
+> Task :capacitor-android:packageDebugRenderscript NO-SOURCE
+> Task :capacitor-app:packageDebugRenderscript NO-SOURCE
+> Task :capacitor-cordova-android-plugins:packageDebugRenderscript NO-SOURCE
+> Task :capacitor-haptics:packageDebugRenderscript NO-SOURCE
+> Task :capacitor-keyboard:packageDebugRenderscript NO-SOURCE
+> Task :capacitor-preferences:packageDebugRenderscript NO-SOURCE
+> Task :capacitor-splash-screen:packageDebugRenderscript NO-SOURCE
+> Task :capacitor-status-bar:packageDebugRenderscript NO-SOURCE
+> Task :app:compileDebugRenderscript NO-SOURCE
+> Task :app:generateDebugBuildConfig
+> Task :app:javaPreCompileDebug
+> Task :capacitor-android:writeDebugAarMetadata
+> Task :capacitor-app:writeDebugAarMetadata
+> Task :capacitor-cordova-android-plugins:writeDebugAarMetadata
+> Task :capacitor-haptics:writeDebugAarMetadata
+> Task :capacitor-keyboard:writeDebugAarMetadata
+> Task :capacitor-preferences:writeDebugAarMetadata
+> Task :capacitor-splash-screen:writeDebugAarMetadata
+> Task :capacitor-status-bar:writeDebugAarMetadata
+> Task :app:generateDebugResValues
+> Task :capacitor-android:compileDebugRenderscript NO-SOURCE
+> Task :capacitor-android:generateDebugResValues
+> Task :capacitor-android:generateDebugResources
+> Task :app:checkDebugAarMetadata FAILED
+> Task :capacitor-android:packageDebugResources
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:checkDebugAarMetadata'.
+> A failure occurred while executing com.android.build.gradle.internal.tasks.CheckAarMetadataWorkAction
+   > 8 issues were found when checking AAR metadata:
+     
+       1.  Dependency 'androidx.appcompat:appcompat-resources:1.7.0' requires libraries and applications that
+           depend on it to compile against version 34 or later of the
+           Android APIs.
+     
+           :app is currently compiled against android-33.
+     
+           Also, the maximum recommended compile SDK version for Android Gradle
+           plugin 7.4.2 is 33.
+     
+           Recommended action: Update this project's version of the Android Gradle
+           plugin to one that supports 34, then update this project to use
+           compileSdkVerion of at least 34.
+     
+           Note that updating a library or application's compileSdkVersion (which
+           allows newer APIs to be used) can be done separately from updating
+           targetSdkVersion (which opts the app in to new runtime behavior) and
+           minSdkVersion (which determines which devices the app can be installed
+           on).
+     
+       2.  Dependency 'androidx.appcompat:appcompat:1.7.0' requires libraries and applications that
+           depend on it to compile against version 34 or later of the
+           Android APIs.
+     
+           :app is currently compiled against android-33.
+     
+           Also, the maximum recommended compile SDK version for Android Gradle
+           plugin 7.4.2 is 33.
+     
+           Recommended action: Update this project's version of the Android Gradle
+           plugin to one that supports 34, then update this project to use
+           compileSdkVerion of at least 34.
+     
+           Note that updating a library or application's compileSdkVersion (which
+           allows newer APIs to be used) can be done separately from updating
+           targetSdkVersion (which opts the app in to new runtime behavior) and
+           minSdkVersion (which determines which devices the app can be installed
+           on).
+     
+       3.  Dependency 'androidx.fragment:fragment:1.8.4' requires libraries and applications that
+           depend on it to compile against version 34 or later of the
+           Android APIs.
+     
+           :app is currently compiled against android-33.
+     
+           Also, the maximum recommended compile SDK version for Android Gradle
+           plugin 7.4.2 is 33.
+     
+           Recommended action: Update this project's version of the Android Gradle
+           plugin to one that supports 34, then update this project to use
+           compileSdkVerion of at least 34.
+     
+           Note that updating a library or application's compileSdkVersion (which
+           allows newer APIs to be used) can be done separately from updating
+           targetSdkVersion (which opts the app in to new runtime behavior) and
+           minSdkVersion (which determines which devices the app can be installed
+           on).
+     
+       4.  Dependency 'androidx.activity:activity:1.9.2' requires libraries and applications that
+           depend on it to compile against version 34 or later of the
+           Android APIs.
+     
+           :app is currently compiled against android-33.
+     
+           Also, the maximum recommended compile SDK version for Android Gradle
+           plugin 7.4.2 is 33.
+     
+           Recommended action: Update this project's version of the Android Gradle
+           plugin to one that supports 34, then update this project to use
+           compileSdkVerion of at least 34.
+     
+           Note that updating a library or application's compileSdkVersion (which
+           allows newer APIs to be used) can be done separately from updating
+           targetSdkVersion (which opts the app in to new runtime behavior) and
+           minSdkVersion (which determines which devices the app can be installed
+           on).
+     
+       5.  Dependency 'androidx.core:core-ktx:1.13.1' requires libraries and applications that
+           depend on it to compile against version 34 or later of the
+           Android APIs.
+     
+           :app is currently compiled against android-33.
+     
+           Also, the maximum recommended compile SDK version for Android Gradle
+           plugin 7.4.2 is 33.
+     
+           Recommended action: Update this project's version of the Android Gradle
+           plugin to one that supports 34, then update this project to use
+           compileSdkVerion of at least 34.
+     
+           Note that updating a library or application's compileSdkVersion (which
+           allows newer APIs to be used) can be done separately from updating
+           targetSdkVersion (which opts the app in to new runtime behavior) and
+           minSdkVersion (which determines which devices the app can be installed
+           on).
+
+     
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+       6.  Dependency 'androidx.webkit:webkit:1.12.1' requires libraries and applications that
+
+           depend on it to compile against version 34 or later of the
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+           Android APIs.
+     
+           :app is currently compiled against android-33.
+     
+           Also, the maximum recommended compile SDK version for Android Gradle
+           plugin 7.4.2 is 33.
+     
+           Recommended action: Update this project's version of the Android Gradle
+           plugin to one that supports 34, then update this project to use
+           compileSdkVerion of at least 34.
+     
+           Note that updating a library or application's compileSdkVersion (which
+
+           allows newer APIs to be used) can be done separately from updating
+           targetSdkVersion (which opts the app in to new runtime behavior) and
+           minSdkVersion (which determines which devices the app can be installed
+           on).
+     
+       7.  Dependency 'androidx.core:core:1.13.1' requires libraries and applications that
+           depend on it to compile against version 34 or later of the
+           Android APIs.
+     
+           :app is currently compiled against android-33.
+     
+           Also, the maximum recommended compile SDK version for Android Gradle
+           plugin 7.4.2 is 33.
+     
+           Recommended action: Update this project's version of the Android Gradle
+           plugin to one that supports 34, then update this project to use
+           compileSdkVerion of at least 34.
+     
+           Note that updating a library or application's compileSdkVersion (which
+           allows newer APIs to be used) can be done separately from updating
+           targetSdkVersion (which opts the app in to new runtime behavior) and
+           minSdkVersion (which determines which devices the app can be installed
+           on).
+     
+       8.  Dependency 'androidx.annotation:annotation-experimental:1.4.1' requires libraries and applications that
+           depend on it to compile against version 34 or later of the
+           Android APIs.
+     
+           :app is currently compiled against android-33.
+     
+           Also, the maximum recommended compile SDK version for Android Gradle
+           plugin 7.4.2 is 33.
+     
+           Recommended action: Update this project's version of the Android Gradle
+           plugin to one that supports 34, then update this project to use
+           compileSdkVerion of at least 34.
+     
+           Note that updating a library or application's compileSdkVersion (which
+           allows newer APIs to be used) can be done separately from updating
+           targetSdkVersion (which opts the app in to new runtime behavior) and
+           minSdkVersion (which determines which devices the app can be installed
+           on).
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 50s
+For more on this, please refer to https://docs.gradle.org/8.4/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+14 actionable tasks: 14 executed
+Error: Process completed with exit code 1.

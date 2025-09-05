@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     namespace "com.flashkademy.app"
-    compileSdk 33
+    compileSdk 34
     
     configurations.all {
         resolutionStrategy {
