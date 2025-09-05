@@ -50,11 +50,12 @@ jobs:
     - name: Capacitor sync
       run: npx cap sync android
       
-    - name: Fix Java version compatibility
+    - name: Fix Java version compatibility  
       run: |
         find android -name "*.gradle" -exec sed -i 's/JavaVersion.VERSION_21/JavaVersion.VERSION_17/g' {} \;
         find android -name "*.gradle" -exec sed -i 's/sourceCompatibility.*21/sourceCompatibility JavaVersion.VERSION_17/g' {} \;
         find android -name "*.gradle" -exec sed -i 's/targetCompatibility.*21/targetCompatibility JavaVersion.VERSION_17/g' {} \;
+        echo "org.gradle.java.home=$JAVA_HOME_17_X64" >> android/gradle.properties
         echo "Fixed Java version in all gradle files"
         grep -r "VERSION_21\|java.*21" android/ || echo "No Java 21 references found"
       
@@ -71,7 +72,8 @@ jobs:
     - name: Build Android App Bundle
       run: |
         cd android
-        ./gradlew bundleRelease
+        export JAVA_HOME=$JAVA_HOME_17_X64
+        ./gradlew bundleRelease -Dorg.gradle.java.home=$JAVA_HOME_17_X64
       env:
         ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
         ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
