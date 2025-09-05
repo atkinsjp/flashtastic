@@ -163,7 +163,7 @@ export default function Home() {
             <img 
               src="/family-homepage.png"
               alt="Family learning together with educational apps"
-              className="w-full h-64 md:h-80 object-cover"
+              className="w-full h-64 md:h-80 object-contain bg-gray-50"
             />
             {/* Overlay with text */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent flex items-end">

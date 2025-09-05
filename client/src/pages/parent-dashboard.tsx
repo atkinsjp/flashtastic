@@ -125,7 +125,7 @@ export default function ParentDashboard() {
             <img 
               src="/family-dashboard.png"
               alt="Father helping children with educational app"
-              className="w-full h-48 md:h-56 object-cover"
+              className="w-full h-48 md:h-56 object-contain bg-gray-50"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent flex items-center">
               <div className="text-white p-6 md:p-8">
